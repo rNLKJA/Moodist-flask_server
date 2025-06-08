@@ -16,6 +16,10 @@ def setup_logger(app):
     @app.after_request
     def after_request(response):
         """Log after request with response time."""
-        diff = time.time() - g.start_time
-        app.logger.info(f"Response: {response.status} - {diff:.4f}s")
+        # Safety check for start_time
+        if hasattr(g, 'start_time'):
+            diff = time.time() - g.start_time
+            app.logger.info(f"Response: {response.status} - {diff:.4f}s")
+        else:
+            app.logger.info(f"Response: {response.status}")
         return response 

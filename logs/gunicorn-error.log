@@ -1,0 +1,39 @@
+[2025-06-08 16:09:04 +0930] [27426] [INFO] Starting gunicorn 23.0.0
+[2025-06-08 16:09:04 +0930] [27426] [INFO] Listening at: https://127.0.0.1:8000 (27426)
+[2025-06-08 16:09:04 +0930] [27426] [INFO] Using worker: sync
+[2025-06-08 16:09:04 +0930] [27432] [INFO] Booting worker with pid: 27432
+[2025-06-08 16:09:04 +0930] [27433] [INFO] Booting worker with pid: 27433
+[2025-06-08 16:09:05 +0930] [27434] [INFO] Booting worker with pid: 27434
+[2025-06-08 16:09:05 +0930] [27435] [INFO] Booting worker with pid: 27435
+[2025-06-08 16:09:07 +0930] [27426] [INFO] Handling signal: int
+[2025-06-08 16:09:07 +0930] [27432] [INFO] Worker exiting (pid: 27432)
+[2025-06-08 16:09:07 +0930] [27434] [INFO] Worker exiting (pid: 27434)
+[2025-06-08 16:09:07 +0930] [27433] [INFO] Worker exiting (pid: 27433)
+[2025-06-08 16:09:07 +0930] [27435] [INFO] Worker exiting (pid: 27435)
+[2025-06-08 16:09:07 +0930] [27426] [INFO] Shutting down: Master
+[2025-06-08 16:10:16 +0930] [27717] [INFO] Starting gunicorn 23.0.0
+[2025-06-08 16:10:16 +0930] [27717] [INFO] Listening at: https://127.0.0.1:20001 (27717)
+[2025-06-08 16:10:16 +0930] [27717] [INFO] Using worker: sync
+[2025-06-08 16:10:16 +0930] [27723] [INFO] Booting worker with pid: 27723
+[2025-06-08 16:10:16 +0930] [27724] [INFO] Booting worker with pid: 27724
+[2025-06-08 16:10:16 +0930] [27725] [INFO] Booting worker with pid: 27725
+[2025-06-08 16:10:16 +0930] [27726] [INFO] Booting worker with pid: 27726
+[2025-06-08 16:10:52 +0930] [27717] [INFO] Handling signal: int
+[2025-06-08 16:10:52 +0930] [27725] [INFO] Worker exiting (pid: 27725)
+[2025-06-08 16:10:52 +0930] [27726] [INFO] Worker exiting (pid: 27726)
+[2025-06-08 16:10:52 +0930] [27723] [INFO] Worker exiting (pid: 27723)
+[2025-06-08 16:10:52 +0930] [27724] [INFO] Worker exiting (pid: 27724)
+[2025-06-08 16:10:52 +0930] [27717] [INFO] Shutting down: Master
+[2025-06-08 19:39:40 +0930] [50917] [INFO] Starting gunicorn 23.0.0
+[2025-06-08 19:39:40 +0930] [50917] [INFO] Listening at: https://127.0.0.1:20001 (50917)
+[2025-06-08 19:39:40 +0930] [50917] [INFO] Using worker: sync
+[2025-06-08 19:39:40 +0930] [50923] [INFO] Booting worker with pid: 50923
+[2025-06-08 19:39:40 +0930] [50924] [INFO] Booting worker with pid: 50924
+[2025-06-08 19:39:40 +0930] [50925] [INFO] Booting worker with pid: 50925
+[2025-06-08 19:39:40 +0930] [50926] [INFO] Booting worker with pid: 50926
+[2025-06-08 19:41:09 +0930] [50917] [INFO] Handling signal: int
+[2025-06-08 19:41:09 +0930] [50924] [INFO] Worker exiting (pid: 50924)
+[2025-06-08 19:41:09 +0930] [50923] [INFO] Worker exiting (pid: 50923)
+[2025-06-08 19:41:09 +0930] [50926] [INFO] Worker exiting (pid: 50926)
+[2025-06-08 19:41:09 +0930] [50925] [INFO] Worker exiting (pid: 50925)
+[2025-06-08 19:41:09 +0930] [50917] [INFO] Shutting down: Master
