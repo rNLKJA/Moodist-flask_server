@@ -1,0 +1,7 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+Make sure you always virtual env before any action.
+Simply run source venv/bin/activate

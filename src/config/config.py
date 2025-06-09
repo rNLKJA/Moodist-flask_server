@@ -1,5 +1,12 @@
 import os
 
+def get_env(key, default=None):
+    """Get environment variable and strip inline comments if present."""
+    value = os.environ.get(key, default)
+    if value is not None and isinstance(value, str) and '#' in value:
+        value = value.split('#')[0].strip()
+    return value
+
 class Config:
     """Base configuration."""
     # Application
@@ -7,19 +14,19 @@ class Config:
     APP_DESCRIPTION = "A mood tracking application for psychiatry studies"
     
     # Security
-    SECRET_KEY = os.environ.get('SECRET_KEY', 'dev-key-please-change-in-production')
+    SECRET_KEY = get_env('SECRET_KEY', 'dev-key-please-change-in-production')
     DEBUG = False
     TESTING = False
     
     # SSL/TLS - Use trusted certificates by default
-    SSL_ENABLED = True
+    SSL_ENABLED = get_env('SSL_ENABLED', 'True').lower() in ('true', '1', 't')
     SSL_REDIRECT = False
-    SSL_CERT = os.path.join(os.getcwd(), 'certs/trusted-cert.pem')
-    SSL_KEY = os.path.join(os.getcwd(), 'certs/trusted-key.pem')
+    SSL_CERT = os.path.join(os.getcwd(), get_env('SSL_CERT', 'certs/trusted-cert.pem'))
+    SSL_KEY = os.path.join(os.getcwd(), get_env('SSL_KEY', 'certs/trusted-key.pem'))
     
     # Network
-    HOST = os.environ.get('HOST', '0.0.0.0')  # Network accessible by default
-    PORT = int(os.environ.get('PORT', 20001))
+    HOST = get_env('HOST', '0.0.0.0')  # Network accessible by default
+    PORT = int(get_env('PORT', '20001'))
     
     # CORS settings - permissive for development
     CORS_ORIGINS = ['*']
@@ -30,26 +37,26 @@ class Config:
 class DevelopmentConfig(Config):
     """Development configuration with trusted HTTPS."""
     DEBUG = True
-    SSL_ENABLED = os.environ.get('SSL_ENABLED', 'True').lower() in ('true', '1', 't')
+    SSL_ENABLED = get_env('SSL_ENABLED', 'True').lower() in ('true', '1', 't')
 
 class MobileHTTPSConfig(Config):
     """Mobile HTTPS development configuration - uses trusted certificates."""
     DEBUG = True
     SSL_ENABLED = True
-    PORT = int(os.environ.get('PORT', 20443))  # Different port for mobile HTTPS
+    PORT = int(get_env('PORT', '20443'))  # Different port for mobile HTTPS
 
 class GlobalHTTPSConfig(Config):
     """Global HTTPS configuration - uses globally trusted certificates."""
     DEBUG = True
     SSL_ENABLED = True
-    PORT = int(os.environ.get('PORT', 443))  # Standard HTTPS port
+    PORT = int(get_env('PORT', '443'))  # Standard HTTPS port
     
     # Use global certificates by default
-    SSL_CERT = os.environ.get('SSL_CERT', os.path.join(os.getcwd(), 'certs/global-cert.pem'))
-    SSL_KEY = os.environ.get('SSL_KEY', os.path.join(os.getcwd(), 'certs/global-key.pem'))
+    SSL_CERT = os.path.join(os.getcwd(), get_env('SSL_CERT', 'certs/global-cert.pem'))
+    SSL_KEY = os.path.join(os.getcwd(), get_env('SSL_KEY', 'certs/global-key.pem'))
     
     # More restrictive CORS for global deployment
-    cors_origins = os.environ.get('CORS_ALLOW_ORIGINS', '')
+    cors_origins = get_env('CORS_ALLOW_ORIGINS', '')
     CORS_ORIGINS = cors_origins.split(',') if cors_origins else ['*']
 
 class TestingConfig(Config):
@@ -61,12 +68,12 @@ class TestingConfig(Config):
 class ProductionConfig(Config):
     """Production configuration."""
     # Essential production settings
-    SECRET_KEY = os.environ.get('SECRET_KEY')
+    SECRET_KEY = get_env('SECRET_KEY')
     if not SECRET_KEY:
         raise ValueError("No SECRET_KEY set for production environment")
     
     # Network settings
-    PORT = int(os.environ.get('PORT', 8000))
+    PORT = int(get_env('PORT', '8000'))
     
     # Security settings
     SSL_ENABLED = True
@@ -82,21 +89,21 @@ class ProductionConfig(Config):
     # SSL/TLS settings - can override with environment variables
     # Check for global certificates first, fall back to trusted certificates
     if os.path.exists(os.path.join(os.getcwd(), 'certs/global-cert.pem')):
-        SSL_CERT = os.environ.get('SSL_CERT', os.path.join(os.getcwd(), 'certs/global-cert.pem'))
-        SSL_KEY = os.environ.get('SSL_KEY', os.path.join(os.getcwd(), 'certs/global-key.pem'))
+        SSL_CERT = os.path.join(os.getcwd(), get_env('SSL_CERT', 'certs/global-cert.pem'))
+        SSL_KEY = os.path.join(os.getcwd(), get_env('SSL_KEY', 'certs/global-key.pem'))
     else:
-        SSL_CERT = os.environ.get('SSL_CERT', os.path.join(os.getcwd(), 'certs/trusted-cert.pem'))
-        SSL_KEY = os.environ.get('SSL_KEY', os.path.join(os.getcwd(), 'certs/trusted-key.pem'))
+        SSL_CERT = os.path.join(os.getcwd(), get_env('SSL_CERT', 'certs/trusted-cert.pem'))
+        SSL_KEY = os.path.join(os.getcwd(), get_env('SSL_KEY', 'certs/trusted-key.pem'))
     
     # Restrict CORS in production
-    cors_origins = os.environ.get('CORS_ALLOW_ORIGINS', '')
+    cors_origins = get_env('CORS_ALLOW_ORIGINS', '')
     CORS_ORIGINS = cors_origins.split(',') if cors_origins else ['*']
     
     # Log level
-    LOG_LEVEL = os.environ.get('LOG_LEVEL', 'INFO')
+    LOG_LEVEL = get_env('LOG_LEVEL', 'INFO')
     
     # Server name
-    SERVER_NAME = os.environ.get('SERVER_NAME')
+    SERVER_NAME = get_env('SERVER_NAME')
     
     # Proxy settings
     PREFERRED_URL_SCHEME = 'https'

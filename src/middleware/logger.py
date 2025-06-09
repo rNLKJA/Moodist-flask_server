@@ -19,7 +19,7 @@ def setup_logger(app):
         # Safety check for start_time
         if hasattr(g, 'start_time'):
             diff = time.time() - g.start_time
-            app.logger.info(f"Response: {response.status} - {diff:.4f}s")
+            app.logger.info(f"Response: {response.status_code} - {diff:.4f}s")
         else:
-            app.logger.info(f"Response: {response.status}")
+            app.logger.info(f"Response: {response.status_code}")
         return response 
