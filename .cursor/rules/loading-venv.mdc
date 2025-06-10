@@ -5,3 +5,5 @@ alwaysApply: true
 ---
 Make sure you always virtual env before any action.
 Simply run source venv/bin/activate
+
+You already have a ngrok instance running 24/7. You don't have to launch another backend application. Thanks

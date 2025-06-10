@@ -33,6 +33,17 @@ class Config:
     CORS_ALLOW_HEADERS = ['*']
     CORS_METHODS = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS']
     CORS_SUPPORTS_CREDENTIALS = True
+    
+    # Session configuration
+    SESSION_TYPE = 'filesystem'  # Options: filesystem, redis, memcached, mongodb, sqlalchemy
+    SESSION_PERMANENT = True
+    PERMANENT_SESSION_LIFETIME = 86400  # 24 hours (in seconds)
+    SESSION_USE_SIGNER = True  # Sign the session cookie
+    SESSION_KEY_PREFIX = 'moodist_session:'
+    SESSION_COOKIE_NAME = 'moodist_session'
+    SESSION_COOKIE_SECURE = SSL_ENABLED  # Only send cookies over HTTPS when SSL is enabled
+    SESSION_COOKIE_HTTPONLY = True  # Prevent JavaScript access to session cookie
+    SESSION_COOKIE_SAMESITE = 'Lax'  # Prevent CSRF attacks
 
 class DevelopmentConfig(Config):
     """Development configuration with trusted HTTPS."""
@@ -80,7 +91,7 @@ class ProductionConfig(Config):
     SSL_REDIRECT = True
     SESSION_COOKIE_SECURE = True
     SESSION_COOKIE_HTTPONLY = True
-    PERMANENT_SESSION_LIFETIME = 3600  # 1 hour in seconds
+    PERMANENT_SESSION_LIFETIME = 60 * 60 * 24 * 30  # 30 days in seconds
     
     # CSRF protection
     WTF_CSRF_ENABLED = True

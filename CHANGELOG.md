@@ -2,6 +2,76 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.7.0] - 2024-12-10 - Session Management & User Authentication
+
+### 🔐 **Session Management System**
+- **NEW**: Secure session management with Flask-Session and Flask-Login
+- **ADDED**: Login, logout, and session status endpoints
+- **ENHANCED**: Cross-database user authentication
+- **IMPROVED**: Session security with HTTPS-only cookies and proper expiration
+- **IMPLEMENTED**: Industry best practices for session handling and storage
+
+### 👤 **User Authentication Enhancements**
+- **NEW**: User model with Flask-Login integration
+- **ADDED**: Login history tracking and monitoring
+- **ENHANCED**: Password change functionality with secure verification
+- **IMPROVED**: Cross-database user lookup by email and ID
+- **SECURED**: Protection against timing attacks and brute force attempts
+
+### 🛡️ **Security Improvements**
+- **ADDED**: HttpOnly, Secure, and SameSite cookie attributes
+- **ENHANCED**: Session signing and encryption
+- **IMPLEMENTED**: Strong session protection mode
+- **IMPROVED**: CSRF protection for authenticated routes
+- **ADDED**: Automatic session expiration after 24 hours
+
+### 🔄 **API Enhancements**
+- **NEW**: RESTful authentication endpoints
+- **ADDED**: Session status checking endpoint
+- **ENHANCED**: User type-specific authentication
+- **IMPROVED**: Consistent error handling and status codes
+- **IMPLEMENTED**: Proper HTTP response codes for authentication outcomes
+
+## [1.6.0] - 2024-12-09 - Enhanced Authentication System & Email Styling
+
+### 🔐 **Authentication System Overhaul**
+- **NEW**: 6-character uppercase document IDs for improved user reference
+- **ENHANCED**: Email verification workflow with simplified success page
+- **IMPROVED**: Database routing based on user type (patient/doctor/admin)
+- **MODERNIZED**: Email templates with Moodist brand styling
+- **ADDED**: University of Melbourne branding integration
+
+### 📧 **Email System Improvements**
+- **REDESIGNED**: Modern email template with responsive design
+- **UPDATED**: Clean, professional verification success page
+- **ENHANCED**: Email styling to match mobile app aesthetic
+- **IMPROVED**: Plain text fallback for email clients without HTML support
+- **ADDED**: University of Melbourne logo integration
+
+### 🔄 **CouchDB Integration**
+- **OPTIMIZED**: User document structure with type-specific database routing
+- **ENHANCED**: Unique ID generation with multi-database collision detection
+- **IMPROVED**: Document updating with proper revision handling
+- **ADDED**: Smart duplicate user handling with verification resending
+
+### 🔒 **Security Enhancements**
+- **UPGRADED**: Password hashing with Argon2id (industry best practice)
+- **ENHANCED**: Token expiration and validation
+- **IMPROVED**: Error handling and logging throughout authentication flow
+- **ADDED**: Comprehensive validation of user inputs
+
+### 🎨 **UI/UX Improvements**
+- **MODERNIZED**: User interfaces with consistent branding
+- **SIMPLIFIED**: Verification success messages for better user experience
+- **ENHANCED**: Email templates with gradient backgrounds matching app
+- **IMPROVED**: Responsive design for all screen sizes
+
+### 🧰 **Developer Experience**
+- **ENHANCED**: Code organization with better function documentation
+- **IMPROVED**: Error handling with detailed logging
+- **ADDED**: Type hints and docstrings for better code readability
+- **SIMPLIFIED**: User lookup and database routing
+
 ## [1.5.0] - 2024-12-08 - Ngrok Integration & Development Environment Optimization
 
 ### 🚀 **Major Development Environment Overhaul**
