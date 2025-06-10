@@ -199,7 +199,6 @@ def login():
             'status': True,
             'message': 'Login successful',
             'user': {
-                'id': user.id,
                 'email': user.email,
                 'user_type': user.user_type,
                 'unique_id': user.unique_id
@@ -271,7 +270,6 @@ def check_session():
                 'status': True,
                 'authenticated': True,
                 'user': {
-                    'id': current_user.id,
                     'email': current_user.email,
                     'user_type': current_user.user_type,
                     'unique_id': current_user.unique_id
@@ -367,23 +365,23 @@ def create_user(user_type):
         # Calculate expiration date (7 days from now)
         expires_at = datetime.utcnow() + timedelta(days=7)
 
-        # Generate a unique 6-character ID for the document
-        document_id = None
+        # Generate a unique 6-character ID for the user
+        unique_id = None
         if existing_user:
             # Use existing ID if updating
-            document_id = existing_user.get('_id')
+            unique_id = existing_user.get('_id')
         else:
             # Generate new 6-character ID for new users
-            document_id = generate_unique_id(user_type, client)
-            if not document_id:
+            unique_id = generate_unique_id(user_type, client)
+            if not unique_id:
                 return jsonify({
                     'status': 'error',
-                    'message': 'Failed to generate unique document ID'
+                    'message': 'Failed to generate unique ID'
                 }), 500
 
         # Create user object with 6-character ID
         user_data = {
-            "_id": document_id,  # Use 6-character ID as document _id
+            "_id": unique_id,  # Use 6-character ID as document _id
             'type': user_type,
             'user_type': user_type,
             'email': email,
@@ -393,7 +391,8 @@ def create_user(user_type):
             'created_at': datetime.utcnow().isoformat(),
             'updated_at': datetime.utcnow().isoformat(),
             'verification_token': verification_token,
-            'token_expires_at': expires_at.isoformat()
+            'token_expires_at': expires_at.isoformat(),
+            'unique_id': unique_id  # Also store as a field for consistency
         }
 
         # If updating existing user, preserve document metadata
@@ -584,7 +583,11 @@ def verify_link(token):
         # Update user status
         user['status'] = 'verified'
         user['is_verified'] = True
-        user['unique_id'] = unique_id  # Secondary unique identifier
+        
+        # If unique_id doesn't exist, set it to the document ID
+        if 'unique_id' not in user:
+            user['unique_id'] = user['_id']
+            
         user['verified_at'] = datetime.utcnow().isoformat()
         user['updated_at'] = datetime.utcnow().isoformat()
         
@@ -933,40 +936,48 @@ def resend_verification():
 def request_password_reset():
     """
     Request a password reset code to be sent to the user's email.
-    Input: { "email": "user@example.com" }
+    Input: { 
+        "email": "user@example.com",
+        "user_type": "patient" // Required: "patient", "doctor", or "admin"
+    }
     """
     try:
         data = request.get_json()
         email = data.get('email', '').strip().lower()
+        user_type = data.get('user_type', 'patient')  # Default to patient if not specified
+        
         if not email:
             return jsonify({ 'status': False, 'message': 'Email is required' }), 400
-        # Find user in all DBs
+            
+        if user_type not in ['patient', 'doctor', 'admin']:
+            return jsonify({ 'status': False, 'message': 'Invalid user type' }), 400
+        
+        # Find user in specific database based on user_type
         client = CouchDBClient()
-        user_doc = None
-        db_name = None
-        for user_type, db in [('patient', 'patient'), ('doctor', 'clinician'), ('admin', 'moodist')]:
-            user_doc = find_user_by_email(email, user_type, client)
-            if user_doc:
-                db_name = db
-                break
+        db_name = get_database_name(user_type)
+        user_doc = find_user_by_email(email, user_type, client)
+        
         if not user_doc:
             # Don't reveal if user exists
             return jsonify({ 'status': True, 'message': 'If your email exists, a code has been sent.' }), 200
+            
         # Generate code and expiration
         code = generate_verification_code(6)
         expires_at = datetime.utcnow() + timedelta(minutes=10)
         user_doc['password_reset_code'] = code
         user_doc['password_reset_expires_at'] = expires_at.isoformat()
         user_doc['updated_at'] = datetime.utcnow().isoformat()
+        
         try:
             client.save_document(db_name, user_doc)
         except Exception as e:
             logger.error(f"Failed to save password reset code: {str(e)}")
             return jsonify({ 'status': False, 'message': 'Failed to process request' }), 500
+            
         # Send plain text email
         email_subject = "Your Moodist Password Reset Code"
         email_body = f"""
-You requested a password reset for your Moodist account.
+You requested a password reset for your Moodist {user_type} account.
 
 Your verification code is: {code}
 
@@ -978,6 +989,7 @@ University of Melbourne - Moodist Platform
         email_sent = send_email(email, email_subject, email_body)
         if not email_sent:
             return jsonify({ 'status': False, 'message': 'Failed to send email' }), 500
+            
         return jsonify({ 'status': True, 'message': 'If your email exists, a code has been sent.' }), 200
     except Exception as e:
         logger.error(f"Error in request_password_reset: {str(e)}")
@@ -987,39 +999,47 @@ University of Melbourne - Moodist Platform
 def resend_password_reset_code():
     """
     Resend a new password reset code to the user's email.
-    Input: { "email": "user@example.com" }
+    Input: { 
+        "email": "user@example.com",
+        "user_type": "patient" // Required: "patient", "doctor", or "admin"
+    }
     """
     try:
         data = request.get_json()
         email = data.get('email', '').strip().lower()
+        user_type = data.get('user_type', 'patient')  # Default to patient if not specified
+        
         if not email:
             return jsonify({ 'status': False, 'message': 'Email is required' }), 400
-        # Find user in all DBs
+            
+        if user_type not in ['patient', 'doctor', 'admin']:
+            return jsonify({ 'status': False, 'message': 'Invalid user type' }), 400
+        
+        # Find user in specific database based on user_type
         client = CouchDBClient()
-        user_doc = None
-        db_name = None
-        for user_type, db in [('patient', 'patient'), ('doctor', 'clinician'), ('admin', 'moodist')]:
-            user_doc = find_user_by_email(email, user_type, client)
-            if user_doc:
-                db_name = db
-                break
+        db_name = get_database_name(user_type)
+        user_doc = find_user_by_email(email, user_type, client)
+        
         if not user_doc:
             return jsonify({ 'status': True, 'message': 'If your email exists, a code has been sent.' }), 200
+            
         # Generate new code and expiration
         code = generate_verification_code(6)
         expires_at = datetime.utcnow() + timedelta(minutes=10)
         user_doc['password_reset_code'] = code
         user_doc['password_reset_expires_at'] = expires_at.isoformat()
         user_doc['updated_at'] = datetime.utcnow().isoformat()
+        
         try:
             client.save_document(db_name, user_doc)
         except Exception as e:
             logger.error(f"Failed to save password reset code: {str(e)}")
             return jsonify({ 'status': False, 'message': 'Failed to process request' }), 500
+            
         # Send plain text email
         email_subject = "Your Moodist Password Reset Code"
         email_body = f"""
-You requested a password reset for your Moodist account.
+You requested a password reset for your Moodist {user_type} account.
 
 Your verification code is: {code}
 
@@ -1031,6 +1051,7 @@ University of Melbourne - Moodist Platform
         email_sent = send_email(email, email_subject, email_body)
         if not email_sent:
             return jsonify({ 'status': False, 'message': 'Failed to send email' }), 500
+            
         return jsonify({ 'status': True, 'message': 'If your email exists, a code has been sent.' }), 200
     except Exception as e:
         logger.error(f"Error in resend_password_reset_code: {str(e)}")
@@ -1040,51 +1061,67 @@ University of Melbourne - Moodist Platform
 def reset_password():
     """
     Reset the user's password using the verification code.
-    Input: { "email": "user@example.com", "password": "newPassword123", "code": "123456" }
+    Input: { 
+        "email": "user@example.com", 
+        "password": "newPassword123", 
+        "code": "123456",
+        "user_type": "patient" // Required: "patient", "doctor", or "admin"
+    }
     """
     try:
         data = request.get_json()
         email = data.get('email', '').strip().lower()
         password = data.get('password', '')
         code = data.get('code', '').strip()
+        user_type = data.get('user_type', 'patient')  # Default to patient if not specified
+        
         if not email or not password or not code:
             return jsonify({ 'status': False, 'message': 'Email, password, and code are required' }), 400
-        # Find user in all DBs
+            
+        if user_type not in ['patient', 'doctor', 'admin']:
+            return jsonify({ 'status': False, 'message': 'Invalid user type' }), 400
+        
+        # Find user in specific database based on user_type
         client = CouchDBClient()
-        user_doc = None
-        db_name = None
-        for user_type, db in [('patient', 'patient'), ('doctor', 'clinician'), ('admin', 'moodist')]:
-            user_doc = find_user_by_email(email, user_type, client)
-            if user_doc:
-                db_name = db
-                break
+        db_name = get_database_name(user_type)
+        user_doc = find_user_by_email(email, user_type, client)
+        
         if not user_doc:
             return jsonify({ 'status': False, 'message': 'Invalid email or code' }), 400
+            
         # Check code and expiration
         stored_code = user_doc.get('password_reset_code')
         expires_at = user_doc.get('password_reset_expires_at')
+        
         if not stored_code or not expires_at:
             return jsonify({ 'status': False, 'message': 'No reset code found' }), 400
+            
         try:
             expires_at_dt = datetime.fromisoformat(expires_at)
         except Exception:
             return jsonify({ 'status': False, 'message': 'Invalid expiration format' }), 400
+            
         if code != stored_code or datetime.utcnow() > expires_at_dt:
             return jsonify({ 'status': False, 'message': 'Invalid or expired code' }), 400
+            
         # Update password
         password_hash = hash_password(password)
         if not password_hash:
             return jsonify({ 'status': False, 'message': 'Failed to hash password' }), 500
+            
         user_doc['password'] = password_hash
         user_doc['updated_at'] = datetime.utcnow().isoformat()
+        
         # Remove code
         user_doc.pop('password_reset_code', None)
         user_doc.pop('password_reset_expires_at', None)
+        
         try:
             client.save_document(db_name, user_doc)
         except Exception as e:
             logger.error(f"Failed to update password: {str(e)}")
             return jsonify({ 'status': False, 'message': 'Failed to update password' }), 500
+            
         return jsonify({ 'status': True, 'message': 'Password reset successful' }), 200
     except Exception as e:
         logger.error(f"Error in reset_password: {str(e)}")
