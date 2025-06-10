@@ -23,7 +23,8 @@ class User(UserMixin):
         self.user_type = user_data.get('user_type')
         self.is_verified = user_data.get('is_verified', False)
         self.status = user_data.get('status')
-        self.unique_id = user_data.get('unique_id')
+        # Set unique_id to _id if not explicitly set
+        self.unique_id = user_data.get('unique_id', user_data.get('_id'))
         self.created_at = user_data.get('created_at')
         self.updated_at = user_data.get('updated_at')
         self._user_data = user_data  # Store the full document
