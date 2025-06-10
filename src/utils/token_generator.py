@@ -282,11 +282,6 @@ def verify_link_token(token, max_age_seconds=None):
         logger.error(f"Error verifying link token: {str(e)}")
         return None
 
-# Keep existing functions for backward compatibility
-def generate_verification_code():
-    """Generate a 6-digit verification code."""
-    return ''.join(secrets.choice(string.digits) for _ in range(6))
-
 def generate_password_token(password, user_type='patient', expires_in_days=7):
     """
     Generate a secure token based on user password using Argon2id hashing.
