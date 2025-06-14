@@ -54,7 +54,11 @@ def find_user_by_email(email, user_type, client):
         return None
 
 def generate_unique_id(user_type, client):
-    """Generate a unique 6-character uppercase ID for the user."""
+    """
+    Generate a unique 6-character uppercase ID for the user.
+    Ensures the ID doesn't conflict with any existing _id or unique_id fields
+    across all databases.
+    """
     import string
     import secrets
     
@@ -63,26 +67,30 @@ def generate_unique_id(user_type, client):
         # Generate 6-character uppercase ID
         unique_id = ''.join(secrets.choice(string.ascii_uppercase + string.digits) for _ in range(6))
         
-        # Check if ID exists in any database
+        # Check if ID exists in any database (as _id or unique_id)
         databases_to_check = ['patient', 'clinician', 'moodist']
         id_exists = False
         
         for db in databases_to_check:
             try:
-                # Check if document with this ID exists
+                # Check if document with this ID exists as _id
                 try:
                     doc = client.get_document(db, unique_id)
                     if doc:
+                        logger.info(f"ID {unique_id} already exists as _id in {db} database")
                         id_exists = True
                         break
-                except:
-                    pass
+                except Exception as e:
+                    if "not_found" not in str(e):
+                        logger.warning(f"Error checking _id in {db}: {str(e)}")
                 
-                # Also check if any document has this as unique_id field
+                # Check if any document has this as unique_id field
                 result = client.find_documents(db, {"unique_id": unique_id}, limit=1)
                 if result:
+                    logger.info(f"ID {unique_id} already exists as unique_id in {db} database")
                     id_exists = True
                     break
+                    
             except Exception as e:
                 logger.warning(f"Could not check unique_id in database {db}: {str(e)}")
                 continue
@@ -370,14 +378,19 @@ def create_user(user_type):
         if existing_user:
             # Use existing ID if updating
             unique_id = existing_user['_id']
+            logger.info(f"Using existing ID {unique_id} for user {email}")
         else:
             # Generate new 6-character ID for new users
+            # The improved generate_unique_id function already checks for conflicts
+            # with both _id and unique_id fields across all databases
             unique_id = generate_unique_id(user_type, client)
             if not unique_id:
+                logger.error(f"Failed to generate unique ID for user {email}")
                 return jsonify({
                     'status': 'error',
                     'message': 'Failed to generate unique ID'
                 }), 500
+            logger.info(f"Generated new ID {unique_id} for user {email}")
 
         # Create user object with 6-character ID
         user_data = {
@@ -1689,26 +1702,28 @@ def change_user_id():
             old_unique_id = user_id  # Fall back to document ID
         
         # Generate a new unique 6-character user_id
-        max_attempts = 20
-        for attempt in range(max_attempts):
-            new_user_id = generate_unique_id(current_user.user_type, client)
-            if not new_user_id:
-                logger.error("Failed to generate a unique user ID")
-                return jsonify({
-                    'status': False,
-                    'message': 'Failed to generate a unique user ID',
-                    'error_type': 'generation_failed'
-                }), 500
-            # Ensure it's not the same as the current one
-            if new_user_id != old_unique_id:
-                break
-        else:
-            logger.error("Could not generate a new unique user ID after multiple attempts")
+        # The improved generate_unique_id function already checks for conflicts
+        # with both _id and unique_id fields across all databases
+        new_user_id = generate_unique_id(current_user.user_type, client)
+        if not new_user_id:
+            logger.error("Failed to generate a unique user ID")
             return jsonify({
                 'status': False,
-                'message': 'Could not generate a new unique user ID',
+                'message': 'Failed to generate a unique user ID',
                 'error_type': 'generation_failed'
             }), 500
+            
+        # Ensure it's not the same as the current one
+        if new_user_id == old_unique_id:
+            logger.warning(f"Generated ID {new_user_id} is the same as current ID {old_unique_id}, trying again")
+            new_user_id = generate_unique_id(current_user.user_type, client)
+            if not new_user_id or new_user_id == old_unique_id:
+                logger.error("Could not generate a different unique user ID")
+                return jsonify({
+                    'status': False,
+                    'message': 'Could not generate a new unique user ID',
+                    'error_type': 'generation_failed'
+                }), 500
         
         # Update the user document
         user_data['unique_id'] = new_user_id

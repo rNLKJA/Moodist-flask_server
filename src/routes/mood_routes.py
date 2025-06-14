@@ -20,4 +20,14 @@ def save_mood_scores():
 @mood_bp.route('/logs', methods=['GET'])
 def get_user_logs():
     """Get user mood logs."""
-    return mood_controller.get_user_logs() 
+    return mood_controller.get_user_logs()
+
+@mood_bp.route('/logs/recent', methods=['GET'])
+def get_recent_days_logs():
+    """Get user mood logs for recent days."""
+    return mood_controller.get_recent_days_logs()
+
+@mood_bp.route('/patient/<patient_id>/logs', methods=['GET'])
+def get_patient_logs(patient_id):
+    """Get logs for a specific patient (clinicians only)."""
+    return mood_controller.get_patient_logs(patient_id) 
