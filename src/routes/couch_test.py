@@ -31,7 +31,7 @@ def hello_world():
     couch = get_couchdb()
     
     # Try to find the hello world document by ID
-    hello_doc = couch.get_document('hello_world')
+    hello_doc = couch.get_document('moodist', 'hello_world')
     
     # If it doesn't exist, create it
     if not hello_doc:
@@ -42,7 +42,7 @@ def hello_world():
             'created_at': datetime.utcnow().isoformat()
         })
         if result:
-            hello_doc = couch.get_document('hello_world')
+            hello_doc = couch.get_document('moodist', 'hello_world')
         else:
             return jsonify({
                 'error': 'Failed to create hello world document',
