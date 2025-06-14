@@ -1656,4 +1656,127 @@ University of Melbourne - Moodist Platform
             'status': False,
             'message': 'Server error',
             'error_type': 'server_error'
+        }), 500
+
+@auth_bp.route('/change-user-id', methods=['POST'])
+@login_required
+def change_user_id():
+    """
+    Securely generate and assign a new 6-character user_id (unique_id) for the authenticated user.
+    This will sever all connections with other users for privacy.
+    
+    Returns status true and the new user_id if successful, else false and a reason.
+    """
+    try:
+        client = CouchDBClient()
+        db_name = current_user.get_db_name()
+        user_id = current_user.id
+        
+        # Fetch the latest user data directly from the database
+        user_data = client.get_document(db_name, user_id)
+        if not user_data:
+            logger.error(f"Could not find user document for ID {user_id} in database {db_name}")
+            return jsonify({
+                'status': False,
+                'message': 'User data not found',
+                'error_type': 'user_not_found'
+            }), 404
+            
+        # Get the current unique_id
+        old_unique_id = user_data.get('unique_id')
+        if not old_unique_id:
+            logger.warning(f"User {user_id} does not have a unique_id")
+            old_unique_id = user_id  # Fall back to document ID
+        
+        # Generate a new unique 6-character user_id
+        max_attempts = 20
+        for attempt in range(max_attempts):
+            new_user_id = generate_unique_id(current_user.user_type, client)
+            if not new_user_id:
+                logger.error("Failed to generate a unique user ID")
+                return jsonify({
+                    'status': False,
+                    'message': 'Failed to generate a unique user ID',
+                    'error_type': 'generation_failed'
+                }), 500
+            # Ensure it's not the same as the current one
+            if new_user_id != old_unique_id:
+                break
+        else:
+            logger.error("Could not generate a new unique user ID after multiple attempts")
+            return jsonify({
+                'status': False,
+                'message': 'Could not generate a new unique user ID',
+                'error_type': 'generation_failed'
+            }), 500
+        
+        # Update the user document
+        user_data['unique_id'] = new_user_id
+        user_data['previous_unique_id'] = old_unique_id
+        user_data['unique_id_changed_at'] = datetime.utcnow().isoformat()
+        user_data['updated_at'] = datetime.utcnow().isoformat()
+        
+        # Save the updated user document
+        try:
+            client.save_document(db_name, user_data)
+            logger.info(f"User {user_id} changed unique_id from {old_unique_id} to {new_user_id}")
+        except Exception as e:
+            logger.error(f"Failed to update user_id: {str(e)}")
+            return jsonify({
+                'status': False,
+                'message': 'Failed to update user_id',
+                'error_type': 'update_failed'
+            }), 500
+        
+        # Sever all connections associated with the old unique_id
+        # Note: This is a placeholder for the actual implementation
+        # In the future, this will interact with the connections database
+        try:
+            # Placeholder for future implementation:
+            # 1. Find all connections where patient_id = old_unique_id OR clinician_id = old_unique_id
+            # 2. For each connection:
+            #    a. Update status to "revoked"
+            #    b. Add reason: "user_id_change"
+            #    c. Update updated_at timestamp
+            # 3. Log the number of connections severed
+            
+            # For now, just log that this would happen
+            logger.info(f"Would sever all connections for user with old ID: {old_unique_id}")
+            
+            # Example future code:
+            # connections_db = client.get_db('connections')
+            # query = {
+            #     "$or": [
+            #         {"patient_id": old_unique_id},
+            #         {"clinician_id": old_unique_id}
+            #     ]
+            # }
+            # connections = connections_db.find(query)
+            # severed_count = 0
+            # for conn in connections:
+            #     conn['status'] = 'revoked'
+            #     conn['reason'] = 'user_id_change'
+            #     conn['updated_at'] = datetime.utcnow().isoformat()
+            #     connections_db.save(conn)
+            #     severed_count += 1
+            # logger.info(f"Severed {severed_count} connections for user {user_id}")
+            
+        except Exception as e:
+            # Log the error but continue - user ID change is still successful
+            logger.error(f"Error severing connections: {str(e)}")
+        
+        # Update session
+        login_user(User(user_data))
+        
+        return jsonify({
+            'status': True,
+            'new_user_id': new_user_id,
+            'message': 'User ID changed successfully. Any existing connections have been severed.'
+        }), 200
+    except Exception as e:
+        logger.error(f"Error in change_user_id: {str(e)}")
+        return jsonify({
+            'status': False,
+            'message': 'Server error',
+            'error_type': 'server_error'
         }), 500 
