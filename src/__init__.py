@@ -63,13 +63,14 @@ def create_app(config_name='default'):
     setup_logger(app)
     
     # Register blueprints
-    from src.routes import api, index, system, couch_test, connection_test, auth_bp
+    from src.routes import api, index, system, couch_test, connection_test, auth_bp, mood_bp
     app.register_blueprint(api)
     app.register_blueprint(index)
     app.register_blueprint(system)
     app.register_blueprint(couch_test)
     app.register_blueprint(connection_test)
     app.register_blueprint(auth_bp)
+    app.register_blueprint(mood_bp)
     
     # Log application startup
     app.logger.info(f"Application {app.config.get('APP_NAME')} started in {config_name} mode")
