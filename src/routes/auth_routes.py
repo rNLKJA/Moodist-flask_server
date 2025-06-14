@@ -369,7 +369,7 @@ def create_user(user_type):
         unique_id = None
         if existing_user:
             # Use existing ID if updating
-            unique_id = existing_user.get('_id')
+            unique_id = existing_user['_id']
         else:
             # Generate new 6-character ID for new users
             unique_id = generate_unique_id(user_type, client)
@@ -1125,4 +1125,535 @@ def reset_password():
         return jsonify({ 'status': True, 'message': 'Password reset successful' }), 200
     except Exception as e:
         logger.error(f"Error in reset_password: {str(e)}")
-        return jsonify({ 'status': False, 'message': 'Server error' }), 500 
+        return jsonify({ 'status': False, 'message': 'Server error' }), 500
+
+@auth_bp.route('/support', methods=['POST'])
+def send_support_message():
+    """
+    Send an IT support message to the system maintainer.
+    Can be used by both authenticated and non-authenticated users.
+    
+    Request body:
+    {
+        "message": "Detailed description of the issue",
+        "user_type": "patient" (optional, only needed if not authenticated),
+        "email": "user@example.com" (optional, only needed if not authenticated)
+    }
+    
+    Returns:
+        JSON: Status of the support request
+    """
+    try:
+        data = request.get_json()
+        if not data:
+            return jsonify({
+                'status': False,
+                'message': 'No JSON data provided',
+                'error_type': 'missing_data'
+            }), 400
+        
+        message = data.get('message', '').strip()
+        if not message:
+            return jsonify({
+                'status': False,
+                'message': 'Support message is required',
+                'error_type': 'missing_message'
+            }), 400
+        
+        # Get user details - either from session or from request body
+        if current_user.is_authenticated:
+            # User is logged in, get details from session
+            user_type = current_user.user_type
+            user_email = current_user.email
+        else:
+            # User is not logged in, get details from request body
+            user_type = data.get('user_type', 'patient').lower()  # Default to patient
+            user_email = data.get('email')
+            
+            # Email is required if not authenticated
+            if not user_email:
+                return jsonify({
+                    'status': False,
+                    'message': 'Email is required for support requests',
+                    'error_type': 'missing_email'
+                }), 400
+        
+        # Prepare email subject with user info for easy clustering
+        email_subject = f"[Moodist Support] {user_type.capitalize()} - Support Request"
+        
+        # Prepare email body
+        email_body = f"""
+Support Request from Moodist User
+
+User Type: {user_type}
+User Email: {user_email}
+Timestamp: {datetime.utcnow().isoformat()}
+
+Message:
+{message}
+
+---
+This is an automated message from the Moodist Platform.
+"""
+        
+        # Send email to maintainer
+        maintainer_email = os.getenv('SUPPORT_EMAIL', 'rinh@unimelb.edu.au')
+        email_sent = send_email(maintainer_email, email_subject, email_body)
+        
+        if not email_sent:
+            logger.error(f"Failed to send support email from user {user_email}")
+            return jsonify({
+                'status': False,
+                'message': 'Failed to send support message',
+                'error_type': 'email_failure'
+            }), 500
+        
+        logger.info(f"Support message sent from user {user_email}")
+        return jsonify({
+            'status': True,
+            'message': 'Support message sent successfully'
+        }), 200
+        
+    except Exception as e:
+        logger.error(f"Error sending support message: {str(e)}")
+        return jsonify({
+            'status': False,
+            'message': 'An error occurred while processing your support request',
+            'error_type': 'server_error'
+        }), 500
+
+@auth_bp.route('/request-email-change', methods=['POST'])
+@login_required
+def request_email_change():
+    """
+    Request an email change by sending a verification code to the new email address.
+    Requires authentication.
+    
+    Request body:
+    {
+        "new_email": "new_email@example.com"
+    }
+    
+    Returns:
+        JSON: Status of the request
+    """
+    try:
+        # Log the request for debugging
+        logger.info(f"Email change request received for user ID: {current_user.id}")
+        
+        data = request.get_json()
+        if not data:
+            logger.error("No JSON data provided in request body")
+            return jsonify({
+                'status': False,
+                'message': 'No JSON data provided',
+                'error_type': 'missing_data'
+            }), 400
+        
+        # Log the received data
+        logger.info(f"Email change request data: {data}")
+        
+        new_email = data.get('new_email', '').strip().lower()
+        if not new_email:
+            logger.error("New email is missing in request")
+            return jsonify({
+                'status': False,
+                'message': 'New email is required',
+                'error_type': 'missing_email'
+            }), 400
+            
+        # Validate email format
+        import re
+        email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+        if not re.match(email_regex, new_email):
+            logger.error(f"Invalid email format: {new_email}")
+            return jsonify({
+                'status': False,
+                'message': 'Invalid email format',
+                'error_type': 'invalid_email'
+            }), 400
+            
+        # Get user data from the session
+        client = CouchDBClient()
+        db_name = current_user.get_db_name()
+        user_id = current_user.id
+        
+        logger.info(f"Fetching user data from database: {db_name}, user ID: {user_id}")
+        
+        # Fetch the latest user data directly from the database
+        try:
+            user_data = client.get_document(db_name, user_id)
+            if not user_data:
+                logger.error(f"Could not find user document for ID {user_id} in database {db_name}")
+                return jsonify({
+                    'status': False,
+                    'message': 'User data not found',
+                    'error_type': 'user_not_found'
+                }), 404
+        except Exception as e:
+            logger.error(f"Error fetching user data: {str(e)}")
+            return jsonify({
+                'status': False,
+                'message': 'Error retrieving user data',
+                'error_type': 'database_error'
+            }), 500
+            
+        logger.info(f"User data retrieved successfully. Current email: {user_data.get('email')}")
+            
+        # Check if new email is different from current email
+        current_email = user_data.get('email')
+        if new_email == current_email:
+            logger.error(f"New email {new_email} is the same as current email")
+            return jsonify({
+                'status': False,
+                'message': 'New email must be different from current email',
+                'error_type': 'same_email'
+            }), 400
+            
+        # Check if the new email already exists in any database
+        user_with_email = User.get_by_email(new_email)
+        if user_with_email:
+            logger.error(f"Email {new_email} is already in use by another account")
+            return jsonify({
+                'status': False,
+                'message': 'Email already in use by another account',
+                'error_type': 'email_exists'
+            }), 400
+              
+        # Generate verification code
+        code = generate_verification_code(6)
+        expires_at = datetime.utcnow() + timedelta(minutes=10)
+        
+        logger.info(f"Generated verification code for email change. Expires at: {expires_at.isoformat()}")
+        
+        # Store verification code and new email in user document
+        user_data['email_change_code'] = code
+        user_data['email_change_expires_at'] = expires_at.isoformat()
+        user_data['new_email'] = new_email
+        user_data['updated_at'] = datetime.utcnow().isoformat()
+        
+        # Reset failed attempts if there were any
+        user_data.pop('email_change_failed_attempts', None)
+        user_data.pop('email_change_lockout_until', None)
+        
+        # Log the user data keys for debugging
+        logger.info(f"User document keys after update: {list(user_data.keys())}")
+        
+        # Save updated user data
+        try:
+            client.save_document(db_name, user_data)
+            logger.info(f"Email change requested for user {user_id} to new email {new_email}")
+        except Exception as e:
+            logger.error(f"Failed to save email change code: {str(e)}")
+            return jsonify({
+                'status': False,
+                'message': 'Failed to process request',
+                'error_type': 'server_error'
+            }), 500
+            
+        # Send verification code to the new email
+        email_subject = "Your Moodist Email Change Verification Code"
+        email_body = f"""
+You have requested to change your email address for your Moodist account.
+
+Your verification code is: {code}
+
+This code will expire in 10 minutes.
+If you did not request this change, please ignore this email or contact support.
+
+University of Melbourne - Moodist Platform
+"""
+        logger.info(f"Sending verification code to new email: {new_email}")
+        email_sent = send_email(new_email, email_subject, email_body)
+        if not email_sent:
+            logger.error(f"Failed to send verification email to {new_email}")
+            return jsonify({
+                'status': False,
+                'message': 'Failed to send verification code',
+                'error_type': 'email_failure'
+            }), 500
+            
+        logger.info(f"Verification code sent successfully to {new_email}")
+        return jsonify({
+            'status': True,
+            'message': 'Verification code sent to new email address'
+        }), 200
+        
+    except Exception as e:
+        logger.error(f"Error in request_email_change: {str(e)}")
+        return jsonify({
+            'status': False,
+            'message': 'Server error',
+            'error_type': 'server_error'
+        }), 500
+
+@auth_bp.route('/verify-email-change', methods=['POST'])
+@login_required
+def verify_email_change():
+    """
+    Verify the email change code and update the user's email.
+    Requires authentication.
+    
+    Request body:
+    {
+        "code": "123456",
+        "password": "current_password" // For security verification
+    }
+    
+    Returns:
+        JSON: Status of the email change
+    """
+    try:
+        # Log the request for debugging
+        logger.info(f"Email change verification request received for user ID: {current_user.id}")
+        
+        data = request.get_json()
+        if not data:
+            logger.error("No JSON data provided in request body")
+            return jsonify({
+                'status': False,
+                'message': 'No JSON data provided',
+                'error_type': 'missing_data'
+            }), 400
+            
+        # Log the received data (excluding password)
+        safe_data = {k: v for k, v in data.items() if k != 'password'}
+        logger.info(f"Email change verification data: {safe_data}")
+        
+        code = data.get('code', '').strip()
+        password = data.get('password', '')
+        
+        if not code or not password:
+            missing_fields = []
+            if not code: missing_fields.append('code')
+            if not password: missing_fields.append('password')
+            logger.error(f"Missing required fields: {', '.join(missing_fields)}")
+            return jsonify({
+                'status': False,
+                'message': 'Verification code and password are required',
+                'error_type': 'missing_fields',
+                'missing': missing_fields
+            }), 400
+            
+        # Get user data from the session
+        client = CouchDBClient()
+        db_name = current_user.get_db_name()
+        user_id = current_user.id
+        
+        logger.info(f"Fetching user data from database: {db_name}, user ID: {user_id}")
+        
+        # Fetch the latest user data directly from the database
+        try:
+            user_data = client.get_document(db_name, user_id)
+            if not user_data:
+                logger.error(f"Could not find user document for ID {user_id} in database {db_name}")
+                return jsonify({
+                    'status': False,
+                    'message': 'User data not found',
+                    'error_type': 'user_not_found'
+                }), 404
+        except Exception as e:
+            logger.error(f"Error fetching user data: {str(e)}")
+            return jsonify({
+                'status': False,
+                'message': 'Error retrieving user data',
+                'error_type': 'database_error'
+            }), 500
+            
+        logger.info(f"User data retrieved successfully. Email: {user_data.get('email')}")
+        
+        # Check for too many attempts
+        failed_attempts = user_data.get('email_change_failed_attempts', 0)
+        if failed_attempts >= 5:  # Limit to 5 attempts
+            # Check if we're in lockout period
+            lockout_until = user_data.get('email_change_lockout_until')
+            if lockout_until:
+                try:
+                    lockout_until_dt = datetime.fromisoformat(lockout_until)
+                    if datetime.utcnow() < lockout_until_dt:
+                        remaining_seconds = int((lockout_until_dt - datetime.utcnow()).total_seconds())
+                        logger.warning(f"User {user_id} is locked out for {remaining_seconds} more seconds")
+                        return jsonify({
+                            'status': False,
+                            'message': f'Too many failed attempts. Try again in {remaining_seconds} seconds.',
+                            'error_type': 'too_many_attempts',
+                            'lockout_seconds': remaining_seconds
+                        }), 429
+                except Exception as e:
+                    logger.warning(f"Error parsing lockout time: {str(e)}")
+                    # If there's an error parsing the lockout time, reset it
+                    pass
+        
+        # Verify password using the same method as in authentication
+        stored_hash = user_data.get('password')
+        if not stored_hash:
+            logger.error(f"No password hash found for user {user_id}")
+            return jsonify({
+                'status': False,
+                'message': 'Password verification failed',
+                'error_type': 'invalid_password'
+            }), 401
+            
+        # Use the verify_password function from token_generator
+        if not verify_password(stored_hash, password):
+            # Log the error for debugging
+            logger.warning(f"Password verification failed for user {user_id} during email change")
+            
+            # Increment failed attempts
+            user_data['email_change_failed_attempts'] = failed_attempts + 1
+            
+            # If reached threshold, set lockout
+            if user_data['email_change_failed_attempts'] >= 5:
+                lockout_until = datetime.utcnow() + timedelta(minutes=15)  # 15 minute lockout
+                user_data['email_change_lockout_until'] = lockout_until.isoformat()
+                
+            # Save updated attempt count
+            try:
+                client.save_document(db_name, user_data)
+            except Exception as e:
+                logger.warning(f"Failed to update failed attempts: {str(e)}")
+                
+            return jsonify({
+                'status': False,
+                'message': 'Incorrect password',
+                'error_type': 'invalid_password',
+                'attempts_remaining': max(0, 5 - user_data['email_change_failed_attempts'])
+            }), 401
+            
+        # Check verification code
+        stored_code = user_data.get('email_change_code')
+        expires_at = user_data.get('email_change_expires_at')
+        new_email = user_data.get('new_email')
+        
+        # Log verification code check
+        logger.info(f"Checking verification code. Stored code exists: {stored_code is not None}, " +
+                   f"Expiration exists: {expires_at is not None}, " +
+                   f"New email exists: {new_email is not None}")
+        
+        if not stored_code or not expires_at or not new_email:
+            missing = []
+            if not stored_code: missing.append('email_change_code')
+            if not expires_at: missing.append('email_change_expires_at')
+            if not new_email: missing.append('new_email')
+            logger.error(f"Missing email change data: {', '.join(missing)}. Did you request an email change first?")
+            return jsonify({
+                'status': False,
+                'message': 'No email change request found. Please request an email change first.',
+                'error_type': 'no_request',
+                'missing_fields': missing
+            }), 400
+            
+        try:
+            expires_at_dt = datetime.fromisoformat(expires_at)
+        except Exception as e:
+            logger.error(f"Invalid expiration format: {expires_at}, Error: {str(e)}")
+            return jsonify({
+                'status': False,
+                'message': 'Invalid expiration format',
+                'error_type': 'server_error'
+            }), 400
+            
+        if code != stored_code:
+            # Log the error for debugging
+            logger.warning(f"Invalid verification code for user {user_id} during email change. Expected: {stored_code}, Got: {code}")
+            
+            # Increment failed attempts
+            user_data['email_change_failed_attempts'] = failed_attempts + 1
+            
+            # If reached threshold, set lockout
+            if user_data['email_change_failed_attempts'] >= 5:
+                lockout_until = datetime.utcnow() + timedelta(minutes=15)  # 15 minute lockout
+                user_data['email_change_lockout_until'] = lockout_until.isoformat()
+                
+            # Save updated attempt count
+            try:
+                client.save_document(db_name, user_data)
+            except Exception as e:
+                logger.warning(f"Failed to update failed attempts: {str(e)}")
+                
+            return jsonify({
+                'status': False,
+                'message': 'Invalid verification code',
+                'error_type': 'invalid_code',
+                'attempts_remaining': max(0, 5 - user_data['email_change_failed_attempts'])
+            }), 400
+            
+        if datetime.utcnow() > expires_at_dt:
+            logger.warning(f"Verification code expired. Expired at: {expires_at}, Current time: {datetime.utcnow().isoformat()}")
+            return jsonify({
+                'status': False,
+                'message': 'Verification code has expired',
+                'error_type': 'expired_code'
+            }), 400
+            
+        # Update email
+        old_email = user_data.get('email')
+        user_data['email'] = new_email
+        user_data['email_changed_at'] = datetime.utcnow().isoformat()
+        user_data['previous_email'] = old_email
+        user_data['updated_at'] = datetime.utcnow().isoformat()
+        
+        logger.info(f"Updating email from {old_email} to {new_email} for user {user_id}")
+        
+        # Remove email change fields
+        user_data.pop('email_change_code', None)
+        user_data.pop('email_change_expires_at', None)
+        user_data.pop('new_email', None)
+        user_data.pop('email_change_failed_attempts', None)
+        user_data.pop('email_change_lockout_until', None)
+        
+        # Save updated user data
+        try:
+            client.save_document(db_name, user_data)
+            logger.info(f"Successfully changed email for user {user_id} from {old_email} to {new_email}")
+        except Exception as e:
+            logger.error(f"Failed to update email: {str(e)}")
+            return jsonify({
+                'status': False,
+                'message': 'Failed to update email',
+                'error_type': 'server_error'
+            }), 500
+            
+        # Send confirmation emails
+        # 1. To new email
+        new_email_subject = "Your Moodist Email Has Been Changed"
+        new_email_body = f"""
+Your email address for your Moodist account has been successfully changed to this email address.
+
+If you did not make this change, please contact support immediately.
+
+University of Melbourne - Moodist Platform
+"""
+        send_email(new_email, new_email_subject, new_email_body)
+        
+        # 2. To old email
+        old_email_subject = "Your Moodist Email Has Been Changed"
+        old_email_body = f"""
+Your email address for your Moodist account has been changed to {new_email}.
+
+If you did not make this change, please contact support immediately.
+
+University of Melbourne - Moodist Platform
+"""
+        send_email(old_email, old_email_subject, old_email_body)
+        
+        # Update the session with the new email
+        # The user model is already updated in the database
+        # Force a reload of the user in the session
+        login_user(User(user_data))
+        
+        logger.info(f"Email change complete. Session updated for user {user_id}")
+        
+        return jsonify({
+            'status': True,
+            'message': 'Email successfully changed',
+            'email': new_email
+        }), 200
+        
+    except Exception as e:
+        logger.error(f"Error in verify_email_change: {str(e)}")
+        return jsonify({
+            'status': False,
+            'message': 'Server error',
+            'error_type': 'server_error'
+        }), 500 

@@ -149,12 +149,29 @@ class CouchDBClient:
                 logger.error(f"Failed to create document: {e}")
         return None
     
-    def get_document(self, doc_id, db_name="moodist"):
-        """Get a document from the specified database."""
+    def get_document(self, db_name, doc_id):
+        """
+        Get a document from the specified database.
+        
+        Args:
+            db_name (str): Database name
+            doc_id (str): Document ID
+            
+        Returns:
+            dict or None: Document if found, None otherwise
+        """
         db = self.get_db(db_name)
-        if db and doc_id in db:
-            return db[doc_id]
-        return None
+        if not db:
+            return None
+            
+        try:
+            if doc_id in db:
+                return db[doc_id]
+            return None
+        except Exception as e:
+            if "not_found" not in str(e):  # Only log actual errors
+                logger.error(f"Error getting document {doc_id} from {db_name}: {str(e)}")
+            return None
     
     def update_document(self, doc_id, updates, db_name="moodist"):
         """Update a document in the specified database."""

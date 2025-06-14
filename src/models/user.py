@@ -82,7 +82,10 @@ class User(UserMixin):
                     user_doc = client.get_document(db_name, user_id)
                     if user_doc:
                         return cls(user_doc)
-                except Exception:
+                except Exception as e:
+                    # Only log actual errors, not "document not found"
+                    if "not_found" not in str(e) and "illegal_database_name" not in str(e):
+                        logger.warning(f"Error checking for user in {db_name}: {str(e)}")
                     continue
             
             return None

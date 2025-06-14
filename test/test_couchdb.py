@@ -49,7 +49,7 @@ def test_connection():
                 
                 # Retrieve the document
                 print("\nRetrieving document...")
-                doc = couch.get_document(doc_id)
+                doc = couch.get_document("moodist", doc_id)
                 if doc:
                     print(f"✓ Document retrieved: {json.dumps(dict(doc), indent=2)}")
                 else:
