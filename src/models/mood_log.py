@@ -125,7 +125,7 @@ class MoodLog:
             limit (int, optional): Maximum number of logs to return
             
         Returns:
-            list: List of mood logs
+            list: List of mood logs sorted by date (most recent first)
         """
         try:
             client = CouchDBClient()
@@ -136,8 +136,9 @@ class MoodLog:
             
             logs = client.find_documents(cls.DB_NAME, selector, limit=limit)
             
-            # Sort logs by date (most recent first)
-            logs.sort(key=lambda x: x.get('timestamp', ''), reverse=True)
+            # Sort logs by log_date in descending order (most recent first)
+            # Using log_date for consistent sorting across all methods
+            logs.sort(key=lambda x: x.get('log_date', ''), reverse=True)
             
             return logs
             
@@ -155,7 +156,7 @@ class MoodLog:
             days (int): Number of days to look back (default: 7)
             
         Returns:
-            dict: Dictionary with dates as keys and log data as values
+            dict: Dictionary with dates as keys and log data as values, sorted by date descending
         """
         try:
             # Get Melbourne timezone
@@ -165,6 +166,7 @@ class MoodLog:
             now = datetime.now(melbourne_tz)
             
             # Calculate the date range (past N days including today)
+            # Store dates in descending order (most recent first)
             date_range = []
             for i in range(days):
                 day = now - timedelta(days=i)
@@ -183,9 +185,12 @@ class MoodLog:
             filtered_logs = [log for log in all_logs if log.get('log_date') in date_range]
             
             # Create a dictionary with dates as keys and logs as values
-            result = {}
+            # Using OrderedDict to maintain the order of dates
+            from collections import OrderedDict
+            result = OrderedDict()
             
             # Initialize with all dates in range having None value
+            # Dates are already in descending order from the loop above
             for date in date_range:
                 result[date] = None
             
@@ -195,7 +200,7 @@ class MoodLog:
                 if log_date in result:
                     result[log_date] = log
             
-            return result
+            return dict(result)  # Convert back to regular dict
             
         except Exception as e:
             logger.error(f"Error getting recent logs for user {user_id}: {str(e)}")
@@ -212,7 +217,7 @@ class MoodLog:
             limit (int, optional): Maximum number of logs to return
             
         Returns:
-            list: List of mood logs
+            list: List of mood logs sorted by date (most recent first)
         """
         try:
             client = CouchDBClient()
@@ -234,8 +239,8 @@ class MoodLog:
                         if start_date <= log.get('log_date', '') <= end_date
                     ]
                     
-                    # Sort logs by date (most recent first)
-                    filtered_logs.sort(key=lambda x: x.get('timestamp', ''), reverse=True)
+                    # Sort logs by log_date in descending order (most recent first)
+                    filtered_logs.sort(key=lambda x: x.get('log_date', ''), reverse=True)
                     
                     # Apply limit if specified
                     if limit and len(filtered_logs) > limit:
@@ -245,8 +250,8 @@ class MoodLog:
             # If no date range or invalid date range, get all logs
             logs = client.find_documents(cls.DB_NAME, selector, limit=limit)
             
-            # Sort logs by date (most recent first)
-            logs.sort(key=lambda x: x.get('timestamp', ''), reverse=True)
+            # Sort logs by log_date in descending order (most recent first)
+            logs.sort(key=lambda x: x.get('log_date', ''), reverse=True)
             
             return logs
             

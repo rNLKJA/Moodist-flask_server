@@ -514,7 +514,7 @@ def create_user(user_type):
 def verify_link(token):
     """
     Verify user account via email link and activate the account.
-    Generates 6-character unique_id as secondary identifier.
+    Ensures the unique_id is properly set and doesn't conflict with other IDs.
     """
     try:
         # Verify the token
@@ -565,28 +565,75 @@ def verify_link(token):
                             text-align: center;
                             padding: 2rem;
                             background-color: white;
-                            border-radius: 8px;
-                            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-                            max-width: 600px;
+                            border-radius: 10px;
+                            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                            max-width: 500px;
                             width: 90%;
                         }
-                        h1 { color: #2c3e50; margin-bottom: 1.5rem; }
-                        p { color: #34495e; font-size: 18px; margin: 1rem 0; }
-                        .footer { color: #7f8c8d; margin-top: 2rem; }
+                        h1 {
+                            color: #4CAF50;
+                            margin-bottom: 1rem;
+                        }
+                        p {
+                            font-size: 18px;
+                            line-height: 1.6;
+                            color: #333;
+                        }
+                        .button {
+                            display: inline-block;
+                            background-color: #4CAF50;
+                            color: white;
+                            padding: 12px 24px;
+                            text-decoration: none;
+                            border-radius: 4px;
+                            font-weight: bold;
+                            margin-top: 1rem;
+                            transition: background-color 0.3s;
+                        }
+                        .button:hover {
+                            background-color: #45a049;
+                        }
                     </style>
                 </head>
                 <body>
                     <div class="container">
-                        <h1>Email Already Verified</h1>
-                        <p>Your account has already been verified.</p>
-                        <p class="footer">University of Melbourne @ Moodist Team - 2025</p>
+                        <h1>Account Already Verified</h1>
+                        <p>Your account has already been verified. You can now log in to the application.</p>
+                        <a href="/login" class="button">Go to Login</a>
                     </div>
                 </body>
             </html>
             """
-
-        # Generate unique 6-character ID (secondary identifier)
-        unique_id = generate_unique_id(user_type, client)
+        
+        # Verify that the token matches the stored token
+        stored_token = user.get('verification_token')
+        if stored_token != token:
+            return jsonify({
+                'status': 'error',
+                'message': 'Verification token mismatch'
+            }), 400
+        
+        # Check if token is expired
+        token_expires_at = user.get('token_expires_at')
+        if token_expires_at:
+            try:
+                expires_at = datetime.fromisoformat(token_expires_at)
+                if datetime.utcnow() > expires_at:
+                    return jsonify({
+                        'status': 'error',
+                        'message': 'Verification link has expired'
+                    }), 400
+            except Exception as e:
+                logger.error(f"Error parsing token expiration: {str(e)}")
+        
+        # Generate a unique ID if one doesn't exist
+        unique_id = user.get('unique_id')
+        if not unique_id:
+            # The improved generate_unique_id function already checks for conflicts
+            # with both _id and unique_id fields across all databases
+            unique_id = generate_unique_id(user_type, client)
+            logger.info(f"Generated new unique_id {unique_id} for user {email} during verification")
+        
         if not unique_id:
             return jsonify({
                 'status': 'error',
@@ -600,6 +647,7 @@ def verify_link(token):
         # If unique_id doesn't exist, set it to the document ID
         if 'unique_id' not in user:
             user['unique_id'] = user['_id']
+            logger.info(f"Set unique_id to document _id {user['_id']} for user {email}")
             
         user['verified_at'] = datetime.utcnow().isoformat()
         user['updated_at'] = datetime.utcnow().isoformat()
@@ -633,15 +681,38 @@ def verify_link(token):
                             text-align: center;
                             padding: 2rem;
                             background-color: white;
-                            border-radius: 8px;
-                            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-                            max-width: 600px;
+                            border-radius: 10px;
+                            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                            max-width: 500px;
                             width: 90%;
                         }
-                        h1 { color: #2c3e50; margin-bottom: 1.5rem; }
-                        p { color: #34495e; font-size: 18px; margin: 1rem 0; }
-                        .success { color: #27ae60; font-size: 16px; }
-                        .footer { color: #7f8c8d; margin-top: 2rem; }
+                        h1 {
+                            color: #4CAF50;
+                            margin-bottom: 1rem;
+                        }
+                        p {
+                            font-size: 18px;
+                            line-height: 1.6;
+                            color: #333;
+                        }
+                        .success {
+                            color: #4CAF50;
+                            font-weight: bold;
+                        }
+                        .button {
+                            display: inline-block;
+                            background-color: #4CAF50;
+                            color: white;
+                            padding: 12px 24px;
+                            text-decoration: none;
+                            border-radius: 4px;
+                            font-weight: bold;
+                            margin-top: 1rem;
+                            transition: background-color 0.3s;
+                        }
+                        .button:hover {
+                            background-color: #45a049;
+                        }
                     </style>
                 </head>
                 <body>
@@ -649,17 +720,17 @@ def verify_link(token):
                         <h1>Email Successfully Verified!</h1>
                         <p>Thank you for verifying your email address.</p>
                         <p class="success">Your account is now active.</p>
-                        <p class="footer">University of Melbourne @ Moodist Team - 2025</p>
+                        <a href="/login" class="button">Go to Login</a>
                     </div>
                 </body>
             </html>
             """
-
+            
         except Exception as e:
-            logger.error(f"Failed to update user status: {str(e)}")
+            logger.error(f"Failed to update user after verification: {str(e)}")
             return jsonify({
                 'status': 'error',
-                'message': 'Failed to verify account'
+                'message': 'Failed to complete verification'
             }), 500
 
     except Exception as e:
