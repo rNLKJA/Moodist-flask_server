@@ -62,14 +62,14 @@ def validate_unique_id(unique_id):
     if not unique_id:
         return False
     
-    # Check if it's the right length and all uppercase letters
+    # Check if it's the right length and all uppercase alphanumeric
     if len(unique_id) != 6:
         return False
     
     if not unique_id.isupper():
         return False
     
-    if not unique_id.isalpha():
+    if not unique_id.isalnum():  # Allow alphanumeric characters (letters and numbers)
         return False
     
     return True 

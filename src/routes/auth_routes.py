@@ -13,6 +13,8 @@ from src.utils.email_sender import send_email
 from src.models.user import User
 import secrets
 import time
+import jwt
+import uuid
 
 # Configure logger
 logger = logging.getLogger(__name__)
@@ -313,6 +315,8 @@ def create_user(user_type):
                 'message': f'Invalid user type. Must be one of: {", ".join(valid_user_types)}'
             }), 400
 
+            
+
         # Get request data
         data = request.get_json()
         if not data:
@@ -426,7 +430,7 @@ def create_user(user_type):
             }), 500
 
         # Generate verification URL
-        verification_url = f"https://{os.getenv('DOMAIN_NAME')}:20001/auth/verify-link/{verification_token}"
+        verification_url = f"https://445983cd85dc.ngrok-free.app/auth/verify-link/{verification_token}"
         
         # Send verification email
         email_subject = "Verify Your Moodist Account - Action Required (7 Days)"
@@ -930,7 +934,7 @@ def resend_verification():
             }), 500
         
         # Generate verification URL
-        verification_url = f"https://{os.getenv('DOMAIN_NAME')}:20001/auth/verify-link/{verification_token}"
+        verification_url = f"https://445983cd85dc.ngrok-free.app/auth/verify-link/{verification_token}"
         
         # Send verification email
         email_subject = "Verify Your Moodist Account - Action Required (7 Days)"
@@ -980,8 +984,8 @@ def resend_verification():
                     
                     <hr style="border: none; border-top: 1px solid #bdc3c7; margin: 30px 0;">
                     
-                    <p style="font-size: 14px; color: #7f8c8d; text-align: center;">
-                        If you didn't request this verification link, please ignore this email.
+                    <p style="font-size: 14px; text-align: center;">
+                        If you didn't create this account, please ignore this email.
                         <br><br>
                         Best regards,<br>
                         <strong>The Moodist Team</strong>
@@ -1866,3 +1870,498 @@ def change_user_id():
             'message': 'Server error',
             'error_type': 'server_error'
         }), 500 
+
+@auth_bp.route('/create-clinician', methods=['POST'])
+def create_clinician():
+    """
+    Create a clinician account specifically.
+    Simplified endpoint for clinician registration - only requires email and password.
+    """
+    try:
+        # Get request data
+        data = request.get_json()
+        if not data:
+            return jsonify({
+                'status': 'error',
+                'message': 'No JSON data provided'
+            }), 400
+
+        # Extract and validate required fields for clinicians (same as patients)
+        email = data.get('email', '').strip().lower()
+        password = data.get('password', '')
+
+        if not email or not password:
+            return jsonify({
+                'status': 'error',
+                'message': 'Email and password are required'
+            }), 400
+
+        # Initialize CouchDB client
+        client = CouchDBClient()
+        
+        # Check if clinician already exists by email
+        existing_user = find_user_by_email(email, 'doctor', client)
+        
+        # Handle duplicate email registration
+        if existing_user:
+            if existing_user.get('status') in ['verified', 'active'] or existing_user.get('is_verified'):
+                logger.info(f"Clinician {email} already verified, returning status: false")
+                return jsonify({
+                    'status': False,
+                    'message': 'Clinician account already exists. Please use password reset if needed.',
+                    'redirect_to_reset': True
+                }), 200
+            else:
+                logger.info(f"Resending verification link for existing unverified clinician: {email}")
+        else:
+            logger.info(f"Creating new clinician: {email}")
+        
+        # Generate verification link token
+        verification_token = generate_verification_link_token(email, 'doctor', expires_in_days=7)
+        if not verification_token:
+            return jsonify({
+                'status': 'error',
+                'message': 'Failed to generate verification token'
+            }), 500
+
+        # Hash the password
+        password_hash = hash_password(password)
+        if not password_hash:
+            return jsonify({
+                'status': 'error',
+                'message': 'Failed to hash password'
+            }), 500
+
+        # Calculate expiration date (7 days from now)
+        expires_at = datetime.utcnow() + timedelta(days=7)
+
+        # Generate a unique 6-character ID for the clinician
+        unique_id = None
+        if existing_user:
+            unique_id = existing_user['_id']
+            logger.info(f"Using existing ID {unique_id} for clinician {email}")
+        else:
+            unique_id = generate_unique_id('doctor', client)
+            if not unique_id:
+                logger.error(f"Failed to generate unique ID for clinician {email}")
+                return jsonify({
+                    'status': 'error',
+                    'message': 'Failed to generate unique ID'
+                }), 500
+            logger.info(f"Generated new ID {unique_id} for clinician {email}")
+
+        # Create clinician object (simple structure like patients)
+        clinician_data = {
+            "_id": unique_id,
+            'type': 'doctor',
+            'user_type': 'doctor',
+            'email': email,
+            'password': password_hash,
+            'is_verified': False,
+            'status': 'pending_verification',
+            'created_at': datetime.utcnow().isoformat(),
+            'updated_at': datetime.utcnow().isoformat(),
+            'verification_token': verification_token,
+            'token_expires_at': expires_at.isoformat(),
+            'unique_id': unique_id
+        }
+
+        # If updating existing user, preserve document metadata
+        if existing_user and '_rev' in existing_user:
+            clinician_data['_rev'] = existing_user['_rev']
+
+        # Save clinician to the clinician database
+        try:
+            result = client.save_document('clinician', clinician_data)
+            logger.info(f"Successfully saved clinician to clinician database: {result}")
+            
+        except Exception as e:
+            logger.error(f"Failed to save clinician to clinician database: {str(e)}")
+            return jsonify({
+                'status': 'error',
+                'message': 'Failed to create clinician account'
+            }), 500
+
+        # Generate verification URL using DOMAIN_NAME from environment
+        domain_name = os.environ.get('DOMAIN_NAME', 'localhost')
+        verification_url = f"https://{domain_name}/auth/verify-link/{verification_token}"
+        
+        # Send clinician-specific verification email
+        email_subject = "Verify Your Moodist Clinician Account - Action Required (7 Days)"
+        email_template = f"""
+        <html>
+            <body style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+                <div style="padding: 30px;">
+                    <h2 style="text-align: center; margin-bottom: 30px;">
+                        Welcome to Moodist! 
+                    </h2>
+                    
+                    <p style="font-size: 16px; line-height: 1.6;">
+                        Hello,
+                    </p>
+                    
+                    <p style="font-size: 16px; line-height: 1.6;">
+                        Thank you for signing up for Moodist as a clinician. 
+                        To complete your registration and activate your account, please click the verification link below:
+                    </p>
+                    
+                    <div style="text-align: center; margin: 30px 0;">
+                        <a href="{verification_url}" 
+                           style="padding: 15px 30px; text-decoration: none; border: 1px solid #000; 
+                                  display: inline-block; font-size: 16px;">
+                            Verify My Clinician Account
+                        </a>
+                    </div>
+                    
+                    <div style="border: 1px solid #000; padding: 15px; margin: 20px 0;">
+                        <p style="margin: 0; font-weight: bold;">
+                            Important: This verification link expires in 7 days
+                        </p>
+                        <p style="margin: 5px 0 0 0; font-size: 14px;">
+                            If you don't verify your account within 7 days, you'll need to register again.
+                        </p>
+                    </div>
+                    
+                    <p style="font-size: 14px; margin-top: 30px;">
+                        If the button doesn't work, you can copy and paste this link into your browser:
+                        <br>
+                        <span style="word-break: break-all; font-family: monospace; padding: 5px;">
+                            {verification_url}
+                        </span>
+                    </p>
+                    
+                    <hr style="margin: 30px 0;">
+                    
+                    <p style="font-size: 14px; text-align: center;">
+                        If you didn't create this account, please ignore this email.
+                        <br><br>
+                        Best regards,<br>
+                        <strong>The Moodist Team</strong>
+                    </p>
+                </div>
+            </body>
+        </html>
+        """
+
+        email_sent = send_email(email, email_subject, email_template)
+        
+        if not email_sent:
+            return jsonify({
+                'status': 'error',
+                'message': 'Clinician account created but failed to send verification email'
+            }), 500
+
+        logger.info(f"Successfully sent verification email to clinician {email}")
+
+        return jsonify({
+            'status': True,
+            'message': 'Clinician verification link sent to your email',
+            'token': verification_token,
+            'expires_at': expires_at.isoformat(),
+            'expires_in_days': 7
+        }), 201
+
+    except Exception as e:
+        logger.error(f"Error in create_clinician: {str(e)}")
+        return jsonify({
+            'status': 'error',
+            'message': 'Internal server error'
+        }), 500
+
+@auth_bp.route('/clinician/request-password-reset', methods=['POST'])
+def clinician_request_password_reset():
+    """
+    Request a password reset code specifically for clinician accounts.
+    Input: { "email": "doctor@example.com" }
+    """
+    try:
+        data = request.get_json()
+        email = data.get('email', '').strip().lower()
+        
+        if not email:
+            return jsonify({ 'status': False, 'message': 'Email is required' }), 400
+        
+        # Find clinician in clinician database
+        client = CouchDBClient()
+        user_doc = find_user_by_email(email, 'doctor', client)
+        
+        if not user_doc:
+            # Don't reveal if clinician exists for security
+            return jsonify({ 
+                'status': True, 
+                'message': 'If your clinician email exists, a reset code has been sent.' 
+            }), 200
+            
+        # Generate code and expiration
+        code = generate_verification_code(6)
+        expires_at = datetime.utcnow() + timedelta(minutes=15)  # 15 minutes for clinicians
+        user_doc['password_reset_code'] = code
+        user_doc['password_reset_expires_at'] = expires_at.isoformat()
+        user_doc['updated_at'] = datetime.utcnow().isoformat()
+        
+        try:
+            client.save_document('clinician', user_doc)
+        except Exception as e:
+            logger.error(f"Failed to save clinician password reset code: {str(e)}")
+            return jsonify({ 'status': False, 'message': 'Failed to process request' }), 500
+            
+        # Send clinician-specific email
+        email_subject = "Your Moodist Clinician Password Reset Code"
+        email_body = f"""
+You requested a password reset for your Moodist clinician account.
+
+Your verification code is: {code}
+
+This code will expire in 15 minutes.
+If you did not request this, you can ignore this email.
+
+University of Melbourne - Moodist Platform
+"""
+        
+        email_sent = send_email(email, email_subject, email_body)
+        if not email_sent:
+            return jsonify({ 'status': False, 'message': 'Failed to send reset email' }), 500
+            
+        logger.info(f"Password reset code sent to clinician: {email}")
+        return jsonify({ 
+            'status': True, 
+            'message': 'If your clinician email exists, a reset code has been sent.',
+            'expires_in_minutes': 15
+        }), 200
+        
+    except Exception as e:
+        logger.error(f"Error in clinician_request_password_reset: {str(e)}")
+        return jsonify({ 'status': False, 'message': 'Server error' }), 500
+
+@auth_bp.route('/clinician/reset-password', methods=['POST'])
+def clinician_reset_password():
+    """
+    Reset password for clinician accounts using verification code.
+    Input: { 
+        "email": "doctor@example.com", 
+        "password": "newPassword123", 
+        "code": "123456"
+    }
+    """
+    try:
+        data = request.get_json()
+        email = data.get('email', '').strip().lower()
+        password = data.get('password', '')
+        code = data.get('code', '').strip()
+        
+        if not email or not password or not code:
+            return jsonify({ 
+                'status': False, 
+                'message': 'Email, new password, and verification code are required' 
+            }), 400
+        
+        # Find clinician in clinician database
+        client = CouchDBClient()
+        user_doc = find_user_by_email(email, 'doctor', client)
+        
+        if not user_doc:
+            return jsonify({ 'status': False, 'message': 'Invalid email or verification code' }), 400
+            
+        # Check code and expiration
+        stored_code = user_doc.get('password_reset_code')
+        expires_at = user_doc.get('password_reset_expires_at')
+        
+        if not stored_code or not expires_at:
+            return jsonify({ 'status': False, 'message': 'No active reset code found' }), 400
+            
+        try:
+            expires_at_dt = datetime.fromisoformat(expires_at)
+        except Exception:
+            return jsonify({ 'status': False, 'message': 'Invalid expiration format' }), 400
+            
+        if code != stored_code or datetime.utcnow() > expires_at_dt:
+            return jsonify({ 'status': False, 'message': 'Invalid or expired verification code' }), 400
+            
+        # Update password
+        password_hash = hash_password(password)
+        if not password_hash:
+            return jsonify({ 'status': False, 'message': 'Failed to hash new password' }), 500
+            
+        user_doc['password'] = password_hash
+        user_doc['updated_at'] = datetime.utcnow().isoformat()
+        user_doc['password_changed_at'] = datetime.utcnow().isoformat()
+        
+        # Remove reset code
+        user_doc.pop('password_reset_code', None)
+        user_doc.pop('password_reset_expires_at', None)
+        
+        try:
+            client.save_document('clinician', user_doc)
+        except Exception as e:
+            logger.error(f"Failed to update clinician password: {str(e)}")
+            return jsonify({ 'status': False, 'message': 'Failed to update password' }), 500
+            
+        # Send confirmation email
+        email_subject = "Moodist Clinician Password Reset Successful"
+        email_body = f"""
+Your Moodist clinician account password has been successfully reset.
+
+You can now log in with your new password.
+
+If you did not make this change, please contact support immediately.
+
+University of Melbourne - Moodist Platform
+"""
+        
+        send_email(email, email_subject, email_body)  # Send confirmation but don't fail if it doesn't send
+        
+        logger.info(f"Password successfully reset for clinician: {email}")
+        return jsonify({ 
+            'status': True, 
+            'message': 'Password reset successful. You can now log in with your new password.'
+        }), 200
+        
+    except Exception as e:
+        logger.error(f"Error in clinician_reset_password: {str(e)}")
+        return jsonify({ 'status': False, 'message': 'Server error' }), 500 
+
+@auth_bp.route('/clinician/login', methods=['POST'])
+def clinician_login():
+    """
+    Clinician login endpoint that returns JWT tokens stored in database.
+    
+    Expected JSON payload:
+    {
+        "email": "clinician@example.com",
+        "password": "password123"
+    }
+    
+    Returns:
+    {
+        "success": true,
+        "message": "Login successful",
+        "data": {
+            "access_token": "jwt_token_here",
+            "refresh_token": "refresh_token_here",
+            "clinician_id": "clinician_id_here",
+            "expires_in": 3600
+        }
+    }
+    """
+    try:
+        # Get request data
+        data = request.get_json()
+        
+        if not data:
+            return jsonify({
+                'success': False,
+                'error': 'INVALID_REQUEST',
+                'message': 'No JSON data provided'
+            }), 400
+        
+        # Validate required fields
+        email = data.get('email', '').strip().lower()
+        password = data.get('password', '')
+        
+        if not email or not password:
+            return jsonify({
+                'success': False,
+                'error': 'MISSING_FIELDS',
+                'message': 'Email and password are required'
+            }), 400
+        
+        # Initialize database client
+        client = CouchDBClient()
+        
+        # Find clinician by email
+        clinician = find_user_by_email(email, 'doctor', client)
+        
+        if not clinician:
+            logger.warning(f"Login attempt with non-existent email: {email}")
+            return jsonify({
+                'success': False,
+                'error': 'INVALID_CREDENTIALS',
+                'message': 'Invalid email or password'
+            }), 401
+        
+        # Verify password
+        if not verify_password(clinician.get('password'), password):
+            logger.warning(f"Failed login attempt for clinician: {email}")
+            return jsonify({
+                'success': False,
+                'error': 'INVALID_CREDENTIALS',
+                'message': 'Invalid email or password'
+            }), 401
+        
+        # Check if clinician is verified
+        if not clinician.get('verified', False):
+            return jsonify({
+                'success': False,
+                'error': 'ACCOUNT_NOT_VERIFIED',
+                'message': 'Please verify your email address before logging in'
+            }), 403
+        
+        # Generate JWT tokens
+        clinician_id = clinician.get('_id')
+        access_token_payload = {
+            'clinician_id': clinician_id,
+            'email': email,
+            'exp': datetime.utcnow() + timedelta(hours=1),
+            'iat': datetime.utcnow(),
+            'type': 'access'
+        }
+        
+        refresh_token_payload = {
+            'clinician_id': clinician_id,
+            'email': email,
+            'exp': datetime.utcnow() + timedelta(days=7),
+            'iat': datetime.utcnow(),
+            'type': 'refresh'
+        }
+        
+        # Use a secret key for JWT
+        secret_key = current_app.config.get('SECRET_KEY', 'your-secret-key')
+        
+        access_token = jwt.encode(access_token_payload, secret_key, algorithm='HS256')
+        refresh_token = jwt.encode(refresh_token_payload, secret_key, algorithm='HS256')
+        
+        # Store tokens in database
+        token_document = {
+            '_id': str(uuid.uuid4()),
+            'token_id': str(uuid.uuid4()),
+            'clinician_id': clinician_id,
+            'access_token': access_token,
+            'refresh_token': refresh_token,
+            'expires_at': (datetime.utcnow() + timedelta(hours=1)).isoformat(),
+            'refresh_expires_at': (datetime.utcnow() + timedelta(days=7)).isoformat(),
+            'created_at': datetime.utcnow().isoformat(),
+            'active': True,
+            'last_used': datetime.utcnow().isoformat()
+        }
+        
+        # Save to auth_tokens database
+        try:
+            client.save_document('auth_tokens', token_document)
+        except Exception as e:
+            logger.error(f"Failed to save auth token: {str(e)}")
+            return jsonify({
+                'success': False,
+                'error': 'DATABASE_ERROR',
+                'message': 'Failed to create authentication session'
+            }), 500
+        
+        logger.info(f"Successful login for clinician: {email}")
+        
+        return jsonify({
+            'success': True,
+            'message': 'Login successful',
+            'data': {
+                'access_token': access_token,
+                'refresh_token': refresh_token,
+                'clinician_id': clinician_id,
+                'expires_in': 3600  # 1 hour in seconds
+            }
+        }), 200
+        
+    except Exception as e:
+        logger.error(f"Error in clinician_login: {str(e)}")
+        return jsonify({
+            'success': False,
+            'error': 'INTERNAL_ERROR',
+            'message': 'An unexpected error occurred'
+        }), 500

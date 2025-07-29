@@ -1,0 +1,1157 @@
+nohup: ignoring input
+[2025-07-13 01:15:52,703] INFO in ngrok: Ngrok skip browser warning header middleware configured
+[2025-07-13 01:15:52,777] INFO in __init__: Application Moodist started in development mode
+Starting Moodist in DEVELOPMENT mode...
+Server: HTTPS://0.0.0.0:20001
+SSL Enabled: True
+Debug Mode: True
+Network accessible: Yes
+ * Serving Flask app 'src'
+ * Debug mode: on
+[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on https://127.0.0.1:20001
+ * Running on https://172.26.9.141:20001
+[33mPress CTRL+C to quit[0m
+ * Restarting with stat
+[2025-07-13 01:15:52,978] INFO in ngrok: Ngrok skip browser warning header middleware configured
+[2025-07-13 01:15:53,054] INFO in __init__: Application Moodist started in development mode
+ * Debugger is active!
+ * Debugger PIN: 251-432-204
+[2025-07-13 01:16:01,298] INFO in logger: Request: POST /auth/create-user/doctor
+[2025-07-13 01:16:01,304] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 01:16:01,311] INFO in couchdb_client: Connected to existing database 'clinician'
+[2025-07-13 01:16:01,323] INFO in couchdb_client: Found 1 documents in clinician matching {'email': 'huang@rin.contact'}
+[2025-07-13 01:16:01,323] INFO in auth_routes: Resending verification link for existing unverified user: huang@rin.contact
+[2025-07-13 01:16:01,323] INFO in token_generator: Generated verification link token for email: huang@rin.contact
+[2025-07-13 01:16:01,416] INFO in auth_routes: Using existing ID BYHC2E for user huang@rin.contact
+[2025-07-13 01:16:01,431] INFO in couchdb_client: Saved document to clinician: BYHC2E
+[2025-07-13 01:16:01,431] INFO in auth_routes: Successfully saved user to clinician database: {'id': 'BYHC2E', 'rev': '5-e4d85f1f13c7837869ed5246fcc347a6', 'ok': True}
+[2025-07-13 01:16:04,657] INFO in email_sender: Verification email sent successfully to huang@rin.contact
+[2025-07-13 01:16:04,657] INFO in auth_routes: Successfully sent verification email to huang@rin.contact
+[2025-07-13 01:16:04,657] INFO in logger: Response: 201 - 3.3592s
+127.0.0.1 - - [13/Jul/2025 01:16:04] "[35m[1mPOST /auth/create-user/doctor HTTP/1.1[0m" 201 -
+[2025-07-13 01:17:32,384] INFO in logger: Request: GET /auth/verify-link/.eJwNykEKwyAQQNG7zLoJo6YNuOohupdBh1RINIwTaCi5e9y-___AG-UVPHwPKstbchljLUpR4QFHYwl67tx7qlGrdIzCpJwCaVeL9jngPBj3QePNy6MZnXWTxX7yb8_CLeQSEp0N_HzdFeEjLg.aHMI0Q.RMgVsXQnd5G2u6FF_dXQwRXZhJM
+[2025-07-13 01:17:32,385] INFO in token_generator: Successfully verified link token for email: huang@rin.contact
+[2025-07-13 01:17:32,388] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 01:17:32,393] INFO in couchdb_client: Connected to existing database 'clinician'
+[2025-07-13 01:17:32,403] INFO in couchdb_client: Found 1 documents in clinician matching {'email': 'huang@rin.contact'}
+[2025-07-13 01:17:32,416] INFO in couchdb_client: Saved document to clinician: BYHC2E
+[2025-07-13 01:17:32,416] INFO in auth_routes: Successfully verified user huang@rin.contact with ID BYHC2E
+[2025-07-13 01:17:32,417] INFO in logger: Response: 200 - 0.0322s
+127.0.0.1 - - [13/Jul/2025 01:17:32] "GET /auth/verify-link/.eJwNykEKwyAQQNG7zLoJo6YNuOohupdBh1RINIwTaCi5e9y-___AG-UVPHwPKstbchljLUpR4QFHYwl67tx7qlGrdIzCpJwCaVeL9jngPBj3QePNy6MZnXWTxX7yb8_CLeQSEp0N_HzdFeEjLg.aHMI0Q.RMgVsXQnd5G2u6FF_dXQwRXZhJM HTTP/1.1" 200 -
+[2025-07-13 01:17:32,575] INFO in logger: Request: GET /favicon.ico
+[2025-07-13 01:17:32,575] INFO in logger: Response: 404 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 01:17:32] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+[2025-07-13 01:17:41,412] INFO in logger: Request: OPTIONS /auth/create-clinician
+[2025-07-13 01:17:41,412] INFO in logger: Response: 200 - 0.0003s
+127.0.0.1 - - [13/Jul/2025 01:17:41] "OPTIONS /auth/create-clinician HTTP/1.1" 200 -
+[2025-07-13 01:17:41,492] INFO in logger: Request: POST /auth/create-clinician
+[2025-07-13 01:17:41,496] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 01:17:41,501] INFO in couchdb_client: Connected to existing database 'clinician'
+[2025-07-13 01:17:41,512] INFO in couchdb_client: Found 1 documents in clinician matching {'email': 'huang@rin.contact'}
+[2025-07-13 01:17:41,512] INFO in auth_routes: Clinician huang@rin.contact already verified, returning status: false
+[2025-07-13 01:17:41,513] INFO in logger: Response: 200 - 0.0206s
+127.0.0.1 - - [13/Jul/2025 01:17:41] "POST /auth/create-clinician HTTP/1.1" 200 -
+[2025-07-13 01:17:44,525] INFO in logger: Request: OPTIONS /auth/session
+[2025-07-13 01:17:44,526] INFO in logger: Response: 200 - 0.0003s
+127.0.0.1 - - [13/Jul/2025 01:17:44] "OPTIONS /auth/session HTTP/1.1" 200 -
+[2025-07-13 01:17:44,529] INFO in logger: Request: OPTIONS /auth/session
+[2025-07-13 01:17:44,529] INFO in logger: Response: 200 - 0.0002s
+127.0.0.1 - - [13/Jul/2025 01:17:44] "OPTIONS /auth/session HTTP/1.1" 200 -
+[2025-07-13 01:17:44,671] INFO in logger: Request: GET /auth/session
+[2025-07-13 01:17:44,671] INFO in logger: Response: 200 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 01:17:44] "GET /auth/session HTTP/1.1" 200 -
+[2025-07-13 01:17:44,742] INFO in logger: Request: GET /auth/session
+[2025-07-13 01:17:44,742] INFO in logger: Response: 200 - 0.0003s
+127.0.0.1 - - [13/Jul/2025 01:17:44] "GET /auth/session HTTP/1.1" 200 -
+[2025-07-13 01:18:06,845] INFO in logger: Request: OPTIONS /auth/create-clinician
+[2025-07-13 01:18:06,845] INFO in logger: Response: 200 - 0.0002s
+127.0.0.1 - - [13/Jul/2025 01:18:06] "OPTIONS /auth/create-clinician HTTP/1.1" 200 -
+[2025-07-13 01:18:06,909] INFO in logger: Request: POST /auth/create-clinician
+[2025-07-13 01:18:06,913] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 01:18:06,919] INFO in couchdb_client: Connected to existing database 'clinician'
+[2025-07-13 01:18:06,931] INFO in couchdb_client: Found 1 documents in clinician matching {'email': 'huang@rin.contact'}
+[2025-07-13 01:18:06,931] INFO in auth_routes: Clinician huang@rin.contact already verified, returning status: false
+[2025-07-13 01:18:06,931] INFO in logger: Response: 200 - 0.0217s
+127.0.0.1 - - [13/Jul/2025 01:18:06] "POST /auth/create-clinician HTTP/1.1" 200 -
+[2025-07-13 01:18:12,112] INFO in logger: Request: OPTIONS /auth/create-clinician
+[2025-07-13 01:18:12,113] INFO in logger: Response: 200 - 0.0003s
+127.0.0.1 - - [13/Jul/2025 01:18:12] "OPTIONS /auth/create-clinician HTTP/1.1" 200 -
+[2025-07-13 01:18:12,202] INFO in logger: Request: POST /auth/create-clinician
+[2025-07-13 01:18:12,205] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 01:18:12,211] INFO in couchdb_client: Connected to existing database 'clinician'
+[2025-07-13 01:18:12,221] INFO in couchdb_client: Found 1 documents in clinician matching {'email': 'huang@rin.contact'}
+[2025-07-13 01:18:12,221] INFO in auth_routes: Clinician huang@rin.contact already verified, returning status: false
+[2025-07-13 01:18:12,221] INFO in logger: Response: 200 - 0.0191s
+127.0.0.1 - - [13/Jul/2025 01:18:12] "POST /auth/create-clinician HTTP/1.1" 200 -
+[2025-07-13 01:18:13,102] INFO in logger: Request: POST /auth/create-clinician
+[2025-07-13 01:18:13,109] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 01:18:13,115] INFO in couchdb_client: Connected to existing database 'clinician'
+[2025-07-13 01:18:13,128] INFO in couchdb_client: Found 1 documents in clinician matching {'email': 'huang@rin.contact'}
+[2025-07-13 01:18:13,128] INFO in auth_routes: Clinician huang@rin.contact already verified, returning status: false
+[2025-07-13 01:18:13,129] INFO in logger: Response: 200 - 0.0264s
+127.0.0.1 - - [13/Jul/2025 01:18:13] "POST /auth/create-clinician HTTP/1.1" 200 -
+[2025-07-13 01:18:13,354] INFO in logger: Request: POST /auth/create-clinician
+[2025-07-13 01:18:13,357] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 01:18:13,363] INFO in couchdb_client: Connected to existing database 'clinician'
+[2025-07-13 01:18:13,372] INFO in couchdb_client: Found 1 documents in clinician matching {'email': 'huang@rin.contact'}
+[2025-07-13 01:18:13,372] INFO in auth_routes: Clinician huang@rin.contact already verified, returning status: false
+[2025-07-13 01:18:13,373] INFO in logger: Response: 200 - 0.0183s
+127.0.0.1 - - [13/Jul/2025 01:18:13] "POST /auth/create-clinician HTTP/1.1" 200 -
+[2025-07-13 01:18:13,662] INFO in logger: Request: POST /auth/create-clinician
+[2025-07-13 01:18:13,702] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 01:18:13,708] INFO in couchdb_client: Connected to existing database 'clinician'
+[2025-07-13 01:18:13,721] INFO in couchdb_client: Found 1 documents in clinician matching {'email': 'huang@rin.contact'}
+[2025-07-13 01:18:13,721] INFO in auth_routes: Clinician huang@rin.contact already verified, returning status: false
+[2025-07-13 01:18:13,722] INFO in logger: Response: 200 - 0.0596s
+127.0.0.1 - - [13/Jul/2025 01:18:13] "POST /auth/create-clinician HTTP/1.1" 200 -
+[2025-07-13 01:18:14,262] INFO in logger: Request: POST /auth/create-clinician
+[2025-07-13 01:18:14,265] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 01:18:14,271] INFO in couchdb_client: Connected to existing database 'clinician'
+[2025-07-13 01:18:14,283] INFO in couchdb_client: Found 1 documents in clinician matching {'email': 'huang@rin.contact'}
+[2025-07-13 01:18:14,283] INFO in auth_routes: Clinician huang@rin.contact already verified, returning status: false
+[2025-07-13 01:18:14,284] INFO in logger: Response: 200 - 0.0214s
+127.0.0.1 - - [13/Jul/2025 01:18:14] "POST /auth/create-clinician HTTP/1.1" 200 -
+[2025-07-13 01:18:14,625] INFO in logger: Request: POST /auth/create-clinician
+[2025-07-13 01:18:14,628] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 01:18:14,634] INFO in couchdb_client: Connected to existing database 'clinician'
+[2025-07-13 01:18:14,645] INFO in couchdb_client: Found 1 documents in clinician matching {'email': 'huang@rin.contact'}
+[2025-07-13 01:18:14,645] INFO in auth_routes: Clinician huang@rin.contact already verified, returning status: false
+[2025-07-13 01:18:14,645] INFO in logger: Response: 200 - 0.0200s
+127.0.0.1 - - [13/Jul/2025 01:18:14] "POST /auth/create-clinician HTTP/1.1" 200 -
+[2025-07-13 01:18:32,632] INFO in logger: Request: OPTIONS /auth/login
+[2025-07-13 01:18:32,632] INFO in logger: Response: 200 - 0.0002s
+127.0.0.1 - - [13/Jul/2025 01:18:32] "OPTIONS /auth/login HTTP/1.1" 200 -
+[2025-07-13 01:18:32,690] INFO in logger: Request: POST /auth/login
+[2025-07-13 01:18:32,694] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 01:18:32,703] INFO in couchdb_client: Connected to existing database 'clinician'
+[2025-07-13 01:18:32,716] INFO in couchdb_client: Found 1 documents in clinician matching {'email': 'huang@rin.contact'}
+[2025-07-13 01:18:32,789] INFO in user: User huang@rin.contact authenticated successfully
+[2025-07-13 01:18:32,793] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 01:18:32,800] INFO in couchdb_client: Connected to existing database 'clinician'
+[2025-07-13 01:18:32,815] INFO in couchdb_client: Saved document to clinician: BYHC2E
+[2025-07-13 01:18:32,815] INFO in logger: Response: 200 - 0.1247s
+127.0.0.1 - - [13/Jul/2025 01:18:32] "POST /auth/login HTTP/1.1" 200 -
+[2025-07-13 01:18:34,421] INFO in logger: Request: POST /auth/login
+[2025-07-13 01:18:34,425] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 01:18:34,430] INFO in couchdb_client: Connected to existing database 'clinician'
+[2025-07-13 01:18:34,440] INFO in couchdb_client: Found 1 documents in clinician matching {'email': 'huang@rin.contact'}
+[2025-07-13 01:18:34,512] INFO in user: User huang@rin.contact authenticated successfully
+[2025-07-13 01:18:34,515] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 01:18:34,521] INFO in couchdb_client: Connected to existing database 'clinician'
+[2025-07-13 01:18:34,534] INFO in couchdb_client: Saved document to clinician: BYHC2E
+[2025-07-13 01:18:34,534] INFO in logger: Response: 200 - 0.1126s
+127.0.0.1 - - [13/Jul/2025 01:18:34] "POST /auth/login HTTP/1.1" 200 -
+[2025-07-13 01:18:35,291] INFO in logger: Request: POST /auth/login
+[2025-07-13 01:18:35,295] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 01:18:35,301] INFO in couchdb_client: Connected to existing database 'clinician'
+[2025-07-13 01:18:35,311] INFO in couchdb_client: Found 1 documents in clinician matching {'email': 'huang@rin.contact'}
+[2025-07-13 01:18:35,400] INFO in user: User huang@rin.contact authenticated successfully
+[2025-07-13 01:18:35,403] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 01:18:35,408] INFO in couchdb_client: Connected to existing database 'clinician'
+[2025-07-13 01:18:35,421] INFO in couchdb_client: Saved document to clinician: BYHC2E
+[2025-07-13 01:18:35,421] INFO in logger: Response: 200 - 0.1299s
+127.0.0.1 - - [13/Jul/2025 01:18:35] "POST /auth/login HTTP/1.1" 200 -
+[2025-07-13 01:18:36,230] INFO in logger: Request: POST /auth/login
+[2025-07-13 01:18:36,233] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 01:18:36,239] INFO in couchdb_client: Connected to existing database 'clinician'
+[2025-07-13 01:18:36,250] INFO in couchdb_client: Found 1 documents in clinician matching {'email': 'huang@rin.contact'}
+[2025-07-13 01:18:36,344] INFO in user: User huang@rin.contact authenticated successfully
+[2025-07-13 01:18:36,348] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 01:18:36,353] INFO in couchdb_client: Connected to existing database 'clinician'
+[2025-07-13 01:18:36,366] INFO in couchdb_client: Saved document to clinician: BYHC2E
+[2025-07-13 01:18:36,367] INFO in logger: Response: 200 - 0.1373s
+127.0.0.1 - - [13/Jul/2025 01:18:36] "POST /auth/login HTTP/1.1" 200 -
+[2025-07-13 01:18:44,843] INFO in logger: Request: GET /auth/create-user/doctor
+[2025-07-13 01:18:44,843] INFO in logger: Response: 405 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 01:18:44] "[31m[1mGET /auth/create-user/doctor HTTP/1.1[0m" 405 -
+[2025-07-13 01:24:17,591] INFO in logger: Request: OPTIONS /auth/login
+[2025-07-13 01:24:17,592] INFO in logger: Response: 200 - 0.0003s
+127.0.0.1 - - [13/Jul/2025 01:24:17] "OPTIONS /auth/login HTTP/1.1" 200 -
+[2025-07-13 01:24:17,771] INFO in logger: Request: POST /auth/login
+[2025-07-13 01:24:17,775] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 01:24:17,782] INFO in couchdb_client: Connected to existing database 'clinician'
+[2025-07-13 01:24:17,794] INFO in couchdb_client: Found 1 documents in clinician matching {'email': 'huang@rin.contact'}
+[2025-07-13 01:24:17,868] INFO in user: User huang@rin.contact authenticated successfully
+[2025-07-13 01:24:17,871] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 01:24:17,880] INFO in couchdb_client: Connected to existing database 'clinician'
+[2025-07-13 01:24:17,896] INFO in couchdb_client: Saved document to clinician: BYHC2E
+[2025-07-13 01:24:17,897] INFO in logger: Response: 200 - 0.1251s
+127.0.0.1 - - [13/Jul/2025 01:24:17] "POST /auth/login HTTP/1.1" 200 -
+[2025-07-13 01:24:21,191] INFO in logger: Request: OPTIONS /clinician/patients/
+[2025-07-13 01:24:21,192] INFO in logger: Response: 404 - 0.0006s
+127.0.0.1 - - [13/Jul/2025 01:24:21] "[33mOPTIONS /clinician/patients/ HTTP/1.1[0m" 404 -
+[2025-07-13 01:24:21,195] INFO in logger: Request: OPTIONS /clinician/patients/
+[2025-07-13 01:24:21,196] INFO in logger: Response: 404 - 0.0006s
+127.0.0.1 - - [13/Jul/2025 01:24:21] "[33mOPTIONS /clinician/patients/ HTTP/1.1[0m" 404 -
+[2025-07-13 01:24:38,561] INFO in logger: Request: OPTIONS /auth/session
+[2025-07-13 01:24:38,562] INFO in logger: Response: 200 - 0.0003s
+127.0.0.1 - - [13/Jul/2025 01:24:38] "OPTIONS /auth/session HTTP/1.1" 200 -
+[2025-07-13 01:24:38,565] INFO in logger: Request: OPTIONS /auth/session
+[2025-07-13 01:24:38,565] INFO in logger: Response: 200 - 0.0002s
+127.0.0.1 - - [13/Jul/2025 01:24:38] "OPTIONS /auth/session HTTP/1.1" 200 -
+[2025-07-13 01:24:38,622] INFO in logger: Request: GET /auth/session
+[2025-07-13 01:24:38,622] INFO in logger: Response: 200 - 0.0003s
+127.0.0.1 - - [13/Jul/2025 01:24:38] "GET /auth/session HTTP/1.1" 200 -
+[2025-07-13 01:24:38,711] INFO in logger: Request: GET /auth/session
+[2025-07-13 01:24:38,711] INFO in logger: Response: 200 - 0.0003s
+127.0.0.1 - - [13/Jul/2025 01:24:38] "GET /auth/session HTTP/1.1" 200 -
+[2025-07-13 01:25:51,946] INFO in logger: Request: OPTIONS /auth/create-user/doctor
+[2025-07-13 01:25:51,946] INFO in logger: Response: 200 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 01:25:51] "OPTIONS /auth/create-user/doctor HTTP/1.1" 200 -
+[2025-07-13 01:25:52,006] INFO in logger: Request: POST /auth/create-user/doctor
+[2025-07-13 01:25:52,009] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 01:25:52,014] INFO in couchdb_client: Connected to existing database 'clinician'
+[2025-07-13 01:25:52,026] INFO in couchdb_client: Found 0 documents in clinician matching {'email': 'huangsunchuangyu@gmail.com'}
+[2025-07-13 01:25:52,026] INFO in auth_routes: Creating new user: huangsunchuangyu@gmail.com of type: doctor
+[2025-07-13 01:25:52,026] INFO in token_generator: Generated verification link token for email: huangsunchuangyu@gmail.com
+[2025-07-13 01:25:52,106] INFO in couchdb_client: Connected to existing database 'patient'
+[2025-07-13 01:25:52,152] INFO in couchdb_client: Found 0 documents in patient matching {'unique_id': 'T7WVMP'}
+[2025-07-13 01:25:52,168] INFO in couchdb_client: Found 0 documents in clinician matching {'unique_id': 'T7WVMP'}
+[2025-07-13 01:25:52,172] INFO in couchdb_client: Connected to existing database 'moodist'
+[2025-07-13 01:25:52,181] INFO in couchdb_client: Found 0 documents in moodist matching {'unique_id': 'T7WVMP'}
+[2025-07-13 01:25:52,181] INFO in auth_routes: Generated unique ID: T7WVMP for user type: doctor
+[2025-07-13 01:25:52,181] INFO in auth_routes: Generated new ID T7WVMP for user huangsunchuangyu@gmail.com
+[2025-07-13 01:25:52,194] INFO in couchdb_client: Saved document to clinician: T7WVMP
+[2025-07-13 01:25:52,194] INFO in auth_routes: Successfully saved user to clinician database: {'id': 'T7WVMP', 'rev': '1-5654612d73db0ffc6d7868762fc48250', 'ok': True}
+[2025-07-13 01:25:55,732] INFO in email_sender: Verification email sent successfully to huangsunchuangyu@gmail.com
+[2025-07-13 01:25:55,732] INFO in auth_routes: Successfully sent verification email to huangsunchuangyu@gmail.com
+[2025-07-13 01:25:55,733] INFO in logger: Response: 201 - 3.7276s
+127.0.0.1 - - [13/Jul/2025 01:25:55] "[35m[1mPOST /auth/create-user/doctor HTTP/1.1[0m" 201 -
+[2025-07-13 01:26:12,162] INFO in logger: Request: OPTIONS /auth/clinician/request-password-reset
+[2025-07-13 01:26:12,162] INFO in logger: Response: 200 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 01:26:12] "OPTIONS /auth/clinician/request-password-reset HTTP/1.1" 200 -
+[2025-07-13 01:26:12,227] INFO in logger: Request: POST /auth/clinician/request-password-reset
+[2025-07-13 01:26:12,229] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 01:26:12,234] INFO in couchdb_client: Connected to existing database 'clinician'
+[2025-07-13 01:26:12,247] INFO in couchdb_client: Found 1 documents in clinician matching {'email': 'huang@rin.contact'}
+[2025-07-13 01:26:12,259] INFO in couchdb_client: Saved document to clinician: BYHC2E
+[2025-07-13 01:26:15,959] INFO in email_sender: Verification email sent successfully to huang@rin.contact
+[2025-07-13 01:26:15,959] INFO in auth_routes: Password reset code sent to clinician: huang@rin.contact
+[2025-07-13 01:26:15,959] INFO in logger: Response: 200 - 3.7326s
+127.0.0.1 - - [13/Jul/2025 01:26:15] "POST /auth/clinician/request-password-reset HTTP/1.1" 200 -
+[2025-07-13 01:26:40,212] INFO in logger: Request: OPTIONS /auth/clinician/reset-password
+[2025-07-13 01:26:40,212] INFO in logger: Response: 200 - 0.0002s
+127.0.0.1 - - [13/Jul/2025 01:26:40] "OPTIONS /auth/clinician/reset-password HTTP/1.1" 200 -
+[2025-07-13 01:26:40,266] INFO in logger: Request: POST /auth/clinician/reset-password
+[2025-07-13 01:26:40,270] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 01:26:40,276] INFO in couchdb_client: Connected to existing database 'clinician'
+[2025-07-13 01:26:40,287] INFO in couchdb_client: Found 1 documents in clinician matching {'email': 'huang@rin.contact'}
+[2025-07-13 01:26:40,381] INFO in couchdb_client: Saved document to clinician: BYHC2E
+[2025-07-13 01:26:43,662] INFO in email_sender: Verification email sent successfully to huang@rin.contact
+[2025-07-13 01:26:43,662] INFO in auth_routes: Password successfully reset for clinician: huang@rin.contact
+[2025-07-13 01:26:43,663] INFO in logger: Response: 200 - 3.3964s
+127.0.0.1 - - [13/Jul/2025 01:26:43] "POST /auth/clinician/reset-password HTTP/1.1" 200 -
+[2025-07-13 01:26:56,861] INFO in logger: Request: OPTIONS /auth/login
+[2025-07-13 01:26:56,861] INFO in logger: Response: 200 - 0.0002s
+127.0.0.1 - - [13/Jul/2025 01:26:56] "OPTIONS /auth/login HTTP/1.1" 200 -
+[2025-07-13 01:26:56,926] INFO in logger: Request: POST /auth/login
+[2025-07-13 01:26:56,929] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 01:26:56,934] INFO in couchdb_client: Connected to existing database 'clinician'
+[2025-07-13 01:26:56,944] INFO in couchdb_client: Found 1 documents in clinician matching {'email': 'huang@rin.contact'}
+[2025-07-13 01:26:57,045] INFO in user: User huang@rin.contact authenticated successfully
+[2025-07-13 01:26:57,048] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 01:26:57,053] INFO in couchdb_client: Connected to existing database 'clinician'
+[2025-07-13 01:26:57,066] INFO in couchdb_client: Saved document to clinician: BYHC2E
+[2025-07-13 01:26:57,067] INFO in logger: Response: 200 - 0.1409s
+127.0.0.1 - - [13/Jul/2025 01:26:57] "POST /auth/login HTTP/1.1" 200 -
+[2025-07-13 01:26:57,401] INFO in logger: Request: OPTIONS /clinician/patients/
+[2025-07-13 01:26:57,402] INFO in logger: Response: 404 - 0.0005s
+127.0.0.1 - - [13/Jul/2025 01:26:57] "[33mOPTIONS /clinician/patients/ HTTP/1.1[0m" 404 -
+[2025-07-13 01:26:57,404] INFO in logger: Request: OPTIONS /clinician/patients/
+[2025-07-13 01:26:57,404] INFO in logger: Response: 404 - 0.0003s
+127.0.0.1 - - [13/Jul/2025 01:26:57] "[33mOPTIONS /clinician/patients/ HTTP/1.1[0m" 404 -
+[2025-07-13 01:27:00,661] INFO in logger: Request: OPTIONS /auth/session
+[2025-07-13 01:27:00,662] INFO in logger: Response: 200 - 0.0003s
+127.0.0.1 - - [13/Jul/2025 01:27:00] "OPTIONS /auth/session HTTP/1.1" 200 -
+[2025-07-13 01:27:00,667] INFO in logger: Request: OPTIONS /auth/session
+[2025-07-13 01:27:00,667] INFO in logger: Response: 200 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 01:27:00] "OPTIONS /auth/session HTTP/1.1" 200 -
+[2025-07-13 01:27:00,784] INFO in logger: Request: GET /auth/session
+[2025-07-13 01:27:00,785] INFO in logger: Response: 200 - 0.0005s
+127.0.0.1 - - [13/Jul/2025 01:27:00] "GET /auth/session HTTP/1.1" 200 -
+[2025-07-13 01:27:00,867] INFO in logger: Request: GET /auth/session
+[2025-07-13 01:27:00,867] INFO in logger: Response: 200 - 0.0003s
+127.0.0.1 - - [13/Jul/2025 01:27:00] "GET /auth/session HTTP/1.1" 200 -
+[2025-07-13 01:32:43,491] INFO in logger: Request: OPTIONS /auth/login
+[2025-07-13 01:32:43,492] INFO in logger: Response: 200 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 01:32:43] "OPTIONS /auth/login HTTP/1.1" 200 -
+[2025-07-13 01:32:43,663] INFO in logger: Request: POST /auth/login
+[2025-07-13 01:32:43,666] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 01:32:43,670] INFO in couchdb_client: Connected to existing database 'clinician'
+[2025-07-13 01:32:43,680] INFO in couchdb_client: Found 1 documents in clinician matching {'email': 'huang@rin.contact'}
+[2025-07-13 01:32:43,760] INFO in user: User huang@rin.contact authenticated successfully
+[2025-07-13 01:32:43,763] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 01:32:43,768] INFO in couchdb_client: Connected to existing database 'clinician'
+[2025-07-13 01:32:43,781] INFO in couchdb_client: Saved document to clinician: BYHC2E
+[2025-07-13 01:32:43,781] INFO in logger: Response: 200 - 0.1185s
+127.0.0.1 - - [13/Jul/2025 01:32:43] "POST /auth/login HTTP/1.1" 200 -
+[2025-07-13 01:32:44,112] INFO in logger: Request: OPTIONS /clinician/patients/
+[2025-07-13 01:32:44,113] INFO in logger: Response: 404 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 01:32:44] "[33mOPTIONS /clinician/patients/ HTTP/1.1[0m" 404 -
+[2025-07-13 01:32:44,115] INFO in logger: Request: OPTIONS /clinician/patients/
+[2025-07-13 01:32:44,115] INFO in logger: Response: 404 - 0.0003s
+127.0.0.1 - - [13/Jul/2025 01:32:44] "[33mOPTIONS /clinician/patients/ HTTP/1.1[0m" 404 -
+[2025-07-13 01:35:59,161] INFO in logger: Request: GET /api/mood/logs/recent
+[2025-07-13 01:35:59,165] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 01:35:59,170] INFO in couchdb_client: Connected to existing database 'patient'
+[2025-07-13 01:35:59,194] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 01:35:59,200] INFO in couchdb_client: Connected to existing database 'mood_logs'
+[2025-07-13 01:35:59,330] INFO in couchdb_client: Found 23 documents in mood_logs matching {'user_id': 'MOKSAY', 'type': 'mood_log'}
+[2025-07-13 01:35:59,330] INFO in logger: Response: 200 - 0.1690s
+127.0.0.1 - - [13/Jul/2025 01:35:59] "GET /api/mood/logs/recent?days=7 HTTP/1.1" 200 -
+[2025-07-13 01:36:00,282] INFO in logger: Request: GET /api/mood/logs/recent
+[2025-07-13 01:36:00,286] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 01:36:00,293] INFO in couchdb_client: Connected to existing database 'patient'
+[2025-07-13 01:36:00,307] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 01:36:00,313] INFO in couchdb_client: Connected to existing database 'mood_logs'
+[2025-07-13 01:36:00,454] INFO in couchdb_client: Found 23 documents in mood_logs matching {'user_id': 'MOKSAY', 'type': 'mood_log'}
+[2025-07-13 01:36:00,454] INFO in logger: Response: 200 - 0.1725s
+127.0.0.1 - - [13/Jul/2025 01:36:00] "GET /api/mood/logs/recent?days=30 HTTP/1.1" 200 -
+[2025-07-13 01:36:01,311] INFO in logger: Request: GET /api/mood/logs/recent
+[2025-07-13 01:36:01,314] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 01:36:01,321] INFO in couchdb_client: Connected to existing database 'patient'
+[2025-07-13 01:36:01,338] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 01:36:01,349] INFO in couchdb_client: Connected to existing database 'mood_logs'
+[2025-07-13 01:36:01,506] INFO in couchdb_client: Found 23 documents in mood_logs matching {'user_id': 'MOKSAY', 'type': 'mood_log'}
+[2025-07-13 01:36:01,506] INFO in logger: Response: 200 - 0.1954s
+127.0.0.1 - - [13/Jul/2025 01:36:01] "GET /api/mood/logs/recent?days=7 HTTP/1.1" 200 -
+[2025-07-13 01:36:02,242] INFO in logger: Request: GET /api/mood/logs/recent
+[2025-07-13 01:36:02,247] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 01:36:02,253] INFO in couchdb_client: Connected to existing database 'patient'
+[2025-07-13 01:36:02,268] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 01:36:02,274] INFO in couchdb_client: Connected to existing database 'mood_logs'
+[2025-07-13 01:36:02,450] INFO in couchdb_client: Found 23 documents in mood_logs matching {'user_id': 'MOKSAY', 'type': 'mood_log'}
+[2025-07-13 01:36:02,451] INFO in logger: Response: 200 - 0.2091s
+127.0.0.1 - - [13/Jul/2025 01:36:02] "GET /api/mood/logs/recent?days=30 HTTP/1.1" 200 -
+[2025-07-13 01:36:03,436] INFO in logger: Request: GET /api/mood/logs
+[2025-07-13 01:36:03,439] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 01:36:03,445] INFO in couchdb_client: Connected to existing database 'patient'
+[2025-07-13 01:36:03,456] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 01:36:03,461] INFO in couchdb_client: Connected to existing database 'mood_logs'
+[2025-07-13 01:36:03,589] INFO in couchdb_client: Found 23 documents in mood_logs matching {'user_id': 'MOKSAY', 'type': 'mood_log'}
+[2025-07-13 01:36:03,589] INFO in logger: Response: 200 - 0.1533s
+127.0.0.1 - - [13/Jul/2025 01:36:03] "GET /api/mood/logs HTTP/1.1" 200 -
+[2025-07-13 01:36:38,231] INFO in logger: Request: OPTIONS /clinician/patients/
+[2025-07-13 01:36:38,232] INFO in logger: Response: 404 - 0.0006s
+127.0.0.1 - - [13/Jul/2025 01:36:38] "[33mOPTIONS /clinician/patients/ HTTP/1.1[0m" 404 -
+[2025-07-13 01:36:38,234] INFO in logger: Request: OPTIONS /clinician/patients/
+[2025-07-13 01:36:38,235] INFO in logger: Response: 404 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 01:36:38] "[33mOPTIONS /clinician/patients/ HTTP/1.1[0m" 404 -
+[2025-07-13 01:41:10,242] INFO in logger: Request: OPTIONS /clinician/patients/
+[2025-07-13 01:41:10,242] INFO in logger: Response: 404 - 0.0005s
+127.0.0.1 - - [13/Jul/2025 01:41:10] "[33mOPTIONS /clinician/patients/ HTTP/1.1[0m" 404 -
+[2025-07-13 01:41:10,245] INFO in logger: Request: OPTIONS /clinician/patients/
+[2025-07-13 01:41:10,246] INFO in logger: Response: 404 - 0.0005s
+127.0.0.1 - - [13/Jul/2025 01:41:10] "[33mOPTIONS /clinician/patients/ HTTP/1.1[0m" 404 -
+[2025-07-13 01:42:00,726] INFO in logger: Request: OPTIONS /auth/session
+[2025-07-13 01:42:00,726] INFO in logger: Response: 200 - 0.0003s
+127.0.0.1 - - [13/Jul/2025 01:42:00] "OPTIONS /auth/session HTTP/1.1" 200 -
+[2025-07-13 01:42:00,729] INFO in logger: Request: OPTIONS /auth/session
+[2025-07-13 01:42:00,730] INFO in logger: Response: 200 - 0.0002s
+127.0.0.1 - - [13/Jul/2025 01:42:00] "OPTIONS /auth/session HTTP/1.1" 200 -
+[2025-07-13 01:42:00,891] INFO in logger: Request: GET /auth/session
+[2025-07-13 01:42:00,892] INFO in logger: Response: 200 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 01:42:00] "GET /auth/session HTTP/1.1" 200 -
+[2025-07-13 01:42:00,974] INFO in logger: Request: GET /auth/session
+[2025-07-13 01:42:00,974] INFO in logger: Response: 200 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 01:42:00] "GET /auth/session HTTP/1.1" 200 -
+[2025-07-13 01:42:09,386] INFO in logger: Request: OPTIONS /auth/login
+[2025-07-13 01:42:09,386] INFO in logger: Response: 200 - 0.0003s
+127.0.0.1 - - [13/Jul/2025 01:42:09] "OPTIONS /auth/login HTTP/1.1" 200 -
+[2025-07-13 01:42:09,471] INFO in logger: Request: POST /auth/login
+[2025-07-13 01:42:09,474] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 01:42:09,480] INFO in couchdb_client: Connected to existing database 'clinician'
+[2025-07-13 01:42:09,492] INFO in couchdb_client: Found 1 documents in clinician matching {'email': 'huang@rin.contact'}
+[2025-07-13 01:42:09,577] INFO in user: User huang@rin.contact authenticated successfully
+[2025-07-13 01:42:09,581] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 01:42:09,589] INFO in couchdb_client: Connected to existing database 'clinician'
+[2025-07-13 01:42:09,604] INFO in couchdb_client: Saved document to clinician: BYHC2E
+[2025-07-13 01:42:09,605] INFO in logger: Response: 200 - 0.1337s
+127.0.0.1 - - [13/Jul/2025 01:42:09] "POST /auth/login HTTP/1.1" 200 -
+[2025-07-13 01:44:44,826] INFO in logger: Request: OPTIONS /auth/session
+[2025-07-13 01:44:44,826] INFO in logger: Response: 200 - 0.0003s
+127.0.0.1 - - [13/Jul/2025 01:44:44] "OPTIONS /auth/session HTTP/1.1" 200 -
+[2025-07-13 01:44:44,829] INFO in logger: Request: OPTIONS /auth/session
+[2025-07-13 01:44:44,830] INFO in logger: Response: 200 - 0.0003s
+127.0.0.1 - - [13/Jul/2025 01:44:44] "OPTIONS /auth/session HTTP/1.1" 200 -
+[2025-07-13 01:44:44,905] INFO in logger: Request: GET /auth/session
+[2025-07-13 01:44:44,906] INFO in logger: Response: 200 - 0.0003s
+127.0.0.1 - - [13/Jul/2025 01:44:44] "GET /auth/session HTTP/1.1" 200 -
+[2025-07-13 01:44:44,960] INFO in logger: Request: GET /auth/session
+[2025-07-13 01:44:44,961] INFO in logger: Response: 200 - 0.0010s
+127.0.0.1 - - [13/Jul/2025 01:44:44] "GET /auth/session HTTP/1.1" 200 -
+[2025-07-13 01:44:53,681] INFO in logger: Request: OPTIONS /auth/login
+[2025-07-13 01:44:53,681] INFO in logger: Response: 200 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 01:44:53] "OPTIONS /auth/login HTTP/1.1" 200 -
+[2025-07-13 01:44:53,745] INFO in logger: Request: POST /auth/login
+[2025-07-13 01:44:53,749] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 01:44:53,754] INFO in couchdb_client: Connected to existing database 'clinician'
+[2025-07-13 01:44:53,765] INFO in couchdb_client: Found 1 documents in clinician matching {'email': 'huang@rin.contact'}
+[2025-07-13 01:44:53,851] INFO in user: User huang@rin.contact authenticated successfully
+[2025-07-13 01:44:53,854] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 01:44:53,859] INFO in couchdb_client: Connected to existing database 'clinician'
+[2025-07-13 01:44:53,873] INFO in couchdb_client: Saved document to clinician: BYHC2E
+[2025-07-13 01:44:53,874] INFO in logger: Response: 200 - 0.1283s
+127.0.0.1 - - [13/Jul/2025 01:44:53] "POST /auth/login HTTP/1.1" 200 -
+[2025-07-13 01:45:08,576] INFO in logger: Request: OPTIONS /auth/login
+[2025-07-13 01:45:08,576] INFO in logger: Response: 200 - 0.0002s
+127.0.0.1 - - [13/Jul/2025 01:45:08] "OPTIONS /auth/login HTTP/1.1" 200 -
+[2025-07-13 01:45:08,645] INFO in logger: Request: POST /auth/login
+[2025-07-13 01:45:08,648] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 01:45:08,654] INFO in couchdb_client: Connected to existing database 'clinician'
+[2025-07-13 01:45:08,666] INFO in couchdb_client: Found 1 documents in clinician matching {'email': 'huang@rin.contact'}
+[2025-07-13 01:45:08,753] INFO in user: User huang@rin.contact authenticated successfully
+[2025-07-13 01:45:08,756] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 01:45:08,761] INFO in couchdb_client: Connected to existing database 'clinician'
+[2025-07-13 01:45:08,775] INFO in couchdb_client: Saved document to clinician: BYHC2E
+[2025-07-13 01:45:08,776] INFO in logger: Response: 200 - 0.1307s
+127.0.0.1 - - [13/Jul/2025 01:45:08] "POST /auth/login HTTP/1.1" 200 -
+[2025-07-13 01:45:20,401] INFO in logger: Request: OPTIONS /clinician/patients/
+[2025-07-13 01:45:20,402] INFO in logger: Response: 404 - 0.0005s
+127.0.0.1 - - [13/Jul/2025 01:45:20] "[33mOPTIONS /clinician/patients/ HTTP/1.1[0m" 404 -
+[2025-07-13 01:45:20,405] INFO in logger: Request: OPTIONS /clinician/patients/
+[2025-07-13 01:45:20,405] INFO in logger: Response: 404 - 0.0003s
+127.0.0.1 - - [13/Jul/2025 01:45:20] "[33mOPTIONS /clinician/patients/ HTTP/1.1[0m" 404 -
+[2025-07-13 01:45:53,070] INFO in logger: Request: OPTIONS /auth/support
+[2025-07-13 01:45:53,070] INFO in logger: Response: 200 - 0.0002s
+127.0.0.1 - - [13/Jul/2025 01:45:53] "OPTIONS /auth/support HTTP/1.1" 200 -
+[2025-07-13 01:45:53,151] INFO in logger: Request: POST /auth/support
+[2025-07-13 01:45:56,179] INFO in email_sender: Verification email sent successfully to rinh@unimelb.edu.au
+[2025-07-13 01:45:56,179] INFO in auth_routes: Support message sent from user huang@rin.contact
+[2025-07-13 01:45:56,179] INFO in logger: Response: 200 - 3.0279s
+127.0.0.1 - - [13/Jul/2025 01:45:56] "POST /auth/support HTTP/1.1" 200 -
+[2025-07-13 01:47:37,106] INFO in logger: Request: OPTIONS /clinician/patients/
+[2025-07-13 01:47:37,107] INFO in logger: Response: 404 - 0.0005s
+127.0.0.1 - - [13/Jul/2025 01:47:37] "[33mOPTIONS /clinician/patients/ HTTP/1.1[0m" 404 -
+[2025-07-13 01:47:37,110] INFO in logger: Request: OPTIONS /clinician/patients/
+[2025-07-13 01:47:37,110] INFO in logger: Response: 404 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 01:47:37] "[33mOPTIONS /clinician/patients/ HTTP/1.1[0m" 404 -
+[2025-07-13 01:48:04,630] INFO in logger: Request: OPTIONS /clinician/patients/
+[2025-07-13 01:48:04,630] INFO in logger: Response: 404 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 01:48:04] "[33mOPTIONS /clinician/patients/ HTTP/1.1[0m" 404 -
+[2025-07-13 01:48:04,633] INFO in logger: Request: OPTIONS /clinician/patients/
+[2025-07-13 01:48:04,634] INFO in logger: Response: 404 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 01:48:04] "[33mOPTIONS /clinician/patients/ HTTP/1.1[0m" 404 -
+[2025-07-13 01:48:11,007] INFO in logger: Request: OPTIONS /clinician/patients/
+[2025-07-13 01:48:11,008] INFO in logger: Response: 404 - 0.0013s
+127.0.0.1 - - [13/Jul/2025 01:48:11] "[33mOPTIONS /clinician/patients/ HTTP/1.1[0m" 404 -
+[2025-07-13 01:48:11,012] INFO in logger: Request: OPTIONS /clinician/patients/
+[2025-07-13 01:48:11,013] INFO in logger: Response: 404 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 01:48:11] "[33mOPTIONS /clinician/patients/ HTTP/1.1[0m" 404 -
+[2025-07-13 02:00:04,840] INFO in logger: Request: GET /
+[2025-07-13 02:00:04,840] INFO in logger: Response: 200 - 0.0004s
+8.221.137.163 - - [13/Jul/2025 02:00:04] "GET / HTTP/1.1" 200 -
+[2025-07-13 02:00:49,746] INFO in logger: Request: GET /
+[2025-07-13 02:00:49,746] INFO in logger: Response: 200 - 0.0003s
+123.160.223.75 - - [13/Jul/2025 02:00:49] "GET / HTTP/1.1" 200 -
+[2025-07-13 02:00:50,291] INFO in logger: Request: GET /
+[2025-07-13 02:00:50,292] INFO in logger: Response: 200 - 0.0018s
+123.160.223.75 - - [13/Jul/2025 02:00:50] "GET / HTTP/1.1" 200 -
+[2025-07-13 02:00:54,855] INFO in logger: Request: GET /favicon.ico
+[2025-07-13 02:00:54,855] INFO in logger: Response: 404 - 0.0004s
+123.160.223.74 - - [13/Jul/2025 02:00:54] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+[2025-07-13 04:05:56,974] INFO in logger: Request: OPTIONS /auth/session
+[2025-07-13 04:05:56,975] INFO in logger: Response: 200 - 0.0005s
+127.0.0.1 - - [13/Jul/2025 04:05:56] "OPTIONS /auth/session HTTP/1.1" 200 -
+[2025-07-13 04:05:56,979] INFO in logger: Request: OPTIONS /auth/session
+[2025-07-13 04:05:56,979] INFO in logger: Response: 200 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 04:05:56] "OPTIONS /auth/session HTTP/1.1" 200 -
+[2025-07-13 04:05:56,983] INFO in logger: Request: OPTIONS /clinician/patients/
+[2025-07-13 04:05:56,983] INFO in logger: Response: 404 - 0.0005s
+127.0.0.1 - - [13/Jul/2025 04:05:56] "[33mOPTIONS /clinician/patients/ HTTP/1.1[0m" 404 -
+[2025-07-13 04:05:56,986] INFO in logger: Request: OPTIONS /clinician/patients/
+[2025-07-13 04:05:56,986] INFO in logger: Response: 404 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 04:05:56] "[33mOPTIONS /clinician/patients/ HTTP/1.1[0m" 404 -
+[2025-07-13 04:05:57,112] INFO in logger: Request: GET /auth/session
+[2025-07-13 04:05:57,113] INFO in logger: Response: 200 - 0.0007s
+127.0.0.1 - - [13/Jul/2025 04:05:57] "GET /auth/session HTTP/1.1" 200 -
+[2025-07-13 04:05:57,192] INFO in logger: Request: GET /auth/session
+[2025-07-13 04:05:57,192] INFO in logger: Response: 200 - 0.0003s
+127.0.0.1 - - [13/Jul/2025 04:05:57] "GET /auth/session HTTP/1.1" 200 -
+[2025-07-13 04:06:06,694] INFO in logger: Request: OPTIONS /auth/login
+[2025-07-13 04:06:06,695] INFO in logger: Response: 200 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 04:06:06] "OPTIONS /auth/login HTTP/1.1" 200 -
+[2025-07-13 04:06:06,765] INFO in logger: Request: POST /auth/login
+[2025-07-13 04:06:07,185] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 04:06:07,190] INFO in couchdb_client: Connected to existing database 'clinician'
+[2025-07-13 04:06:07,201] INFO in couchdb_client: Found 1 documents in clinician matching {'email': 'huang@rin.contact'}
+[2025-07-13 04:06:07,284] INFO in user: User huang@rin.contact authenticated successfully
+[2025-07-13 04:06:07,287] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 04:06:07,292] INFO in couchdb_client: Connected to existing database 'clinician'
+[2025-07-13 04:06:07,309] INFO in couchdb_client: Saved document to clinician: BYHC2E
+[2025-07-13 04:06:07,309] INFO in logger: Response: 200 - 0.5445s
+127.0.0.1 - - [13/Jul/2025 04:06:07] "POST /auth/login HTTP/1.1" 200 -
+[2025-07-13 04:06:07,407] INFO in logger: Request: OPTIONS /clinician/patients/
+[2025-07-13 04:06:07,407] INFO in logger: Response: 404 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 04:06:07] "[33mOPTIONS /clinician/patients/ HTTP/1.1[0m" 404 -
+[2025-07-13 04:06:07,414] INFO in logger: Request: OPTIONS /clinician/patients/
+[2025-07-13 04:06:07,415] INFO in logger: Response: 404 - 0.0006s
+127.0.0.1 - - [13/Jul/2025 04:06:07] "[33mOPTIONS /clinician/patients/ HTTP/1.1[0m" 404 -
+[2025-07-13 04:08:58,727] INFO in logger: Request: OPTIONS /auth/clinician/request-password-reset
+[2025-07-13 04:08:58,727] INFO in logger: Response: 200 - 0.0003s
+127.0.0.1 - - [13/Jul/2025 04:08:58] "OPTIONS /auth/clinician/request-password-reset HTTP/1.1" 200 -
+[2025-07-13 04:08:58,805] INFO in logger: Request: POST /auth/clinician/request-password-reset
+[2025-07-13 04:08:58,808] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 04:08:58,813] INFO in couchdb_client: Connected to existing database 'clinician'
+[2025-07-13 04:08:58,825] INFO in couchdb_client: Found 1 documents in clinician matching {'email': 'huang@rin.contact'}
+[2025-07-13 04:08:58,839] INFO in couchdb_client: Saved document to clinician: BYHC2E
+[2025-07-13 04:09:02,995] INFO in email_sender: Verification email sent successfully to huang@rin.contact
+[2025-07-13 04:09:02,995] INFO in auth_routes: Password reset code sent to clinician: huang@rin.contact
+[2025-07-13 04:09:02,995] INFO in logger: Response: 200 - 4.1904s
+127.0.0.1 - - [13/Jul/2025 04:09:02] "POST /auth/clinician/request-password-reset HTTP/1.1" 200 -
+[2025-07-13 04:31:53,610] INFO in logger: Request: OPTIONS /api/connections/list
+[2025-07-13 04:31:53,611] INFO in logger: Response: 404 - 0.0005s
+127.0.0.1 - - [13/Jul/2025 04:31:53] "[33mOPTIONS /api/connections/list?include_inactive=false HTTP/1.1[0m" 404 -
+[2025-07-13 04:31:53,614] INFO in logger: Request: OPTIONS /auth/session
+[2025-07-13 04:31:53,614] INFO in logger: Response: 200 - 0.0002s
+127.0.0.1 - - [13/Jul/2025 04:31:53] "OPTIONS /auth/session HTTP/1.1" 200 -
+[2025-07-13 04:31:53,617] INFO in logger: Request: OPTIONS /api/connections/list
+[2025-07-13 04:31:53,618] INFO in logger: Response: 404 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 04:31:53] "[33mOPTIONS /api/connections/list?include_inactive=false HTTP/1.1[0m" 404 -
+[2025-07-13 04:31:53,621] INFO in logger: Request: OPTIONS /auth/session
+[2025-07-13 04:31:53,621] INFO in logger: Response: 200 - 0.0002s
+127.0.0.1 - - [13/Jul/2025 04:31:53] "OPTIONS /auth/session HTTP/1.1" 200 -
+[2025-07-13 04:31:53,811] INFO in logger: Request: GET /auth/session
+[2025-07-13 04:31:53,811] INFO in logger: Response: 200 - 0.0003s
+127.0.0.1 - - [13/Jul/2025 04:31:53] "GET /auth/session HTTP/1.1" 200 -
+[2025-07-13 04:31:53,931] INFO in logger: Request: GET /auth/session
+[2025-07-13 04:31:53,931] INFO in logger: Response: 200 - 0.0003s
+127.0.0.1 - - [13/Jul/2025 04:31:53] "GET /auth/session HTTP/1.1" 200 -
+[2025-07-13 04:32:02,180] INFO in logger: Request: OPTIONS /auth/login
+[2025-07-13 04:32:02,180] INFO in logger: Response: 200 - 0.0002s
+127.0.0.1 - - [13/Jul/2025 04:32:02] "OPTIONS /auth/login HTTP/1.1" 200 -
+[2025-07-13 04:32:02,251] INFO in logger: Request: POST /auth/login
+[2025-07-13 04:32:02,718] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 04:32:02,733] INFO in couchdb_client: Connected to existing database 'clinician'
+[2025-07-13 04:32:02,758] INFO in couchdb_client: Found 1 documents in clinician matching {'email': 'huang@rin.contact'}
+[2025-07-13 04:32:02,834] WARNING in user: Authentication failed: Invalid password for user huang@rin.contact
+[2025-07-13 04:32:02,885] INFO in logger: Response: 401 - 0.6344s
+127.0.0.1 - - [13/Jul/2025 04:32:02] "[31m[1mPOST /auth/login HTTP/1.1[0m" 401 -
+[2025-07-13 04:32:09,205] INFO in logger: Request: OPTIONS /auth/login
+[2025-07-13 04:32:09,205] INFO in logger: Response: 200 - 0.0002s
+127.0.0.1 - - [13/Jul/2025 04:32:09] "OPTIONS /auth/login HTTP/1.1" 200 -
+[2025-07-13 04:32:09,271] INFO in logger: Request: POST /auth/login
+[2025-07-13 04:32:09,275] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 04:32:09,283] INFO in couchdb_client: Connected to existing database 'clinician'
+[2025-07-13 04:32:09,297] INFO in couchdb_client: Found 1 documents in clinician matching {'email': 'huang@rin.contact'}
+[2025-07-13 04:32:09,381] INFO in user: User huang@rin.contact authenticated successfully
+[2025-07-13 04:32:09,384] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 04:32:09,389] INFO in couchdb_client: Connected to existing database 'clinician'
+[2025-07-13 04:32:09,404] INFO in couchdb_client: Saved document to clinician: BYHC2E
+[2025-07-13 04:32:09,405] INFO in logger: Response: 200 - 0.1338s
+127.0.0.1 - - [13/Jul/2025 04:32:09] "POST /auth/login HTTP/1.1" 200 -
+[2025-07-13 04:32:09,510] INFO in logger: Request: OPTIONS /api/connections/list
+[2025-07-13 04:32:09,510] INFO in logger: Response: 404 - 0.0005s
+127.0.0.1 - - [13/Jul/2025 04:32:09] "[33mOPTIONS /api/connections/list?include_inactive=false HTTP/1.1[0m" 404 -
+[2025-07-13 04:32:09,513] INFO in logger: Request: OPTIONS /api/connections/list
+[2025-07-13 04:32:09,515] INFO in logger: Response: 404 - 0.0015s
+127.0.0.1 - - [13/Jul/2025 04:32:09] "[33mOPTIONS /api/connections/list?include_inactive=false HTTP/1.1[0m" 404 -
+[2025-07-13 04:36:46,021] INFO in logger: Request: OPTIONS /auth/session
+[2025-07-13 04:36:46,022] INFO in logger: Response: 200 - 0.0003s
+127.0.0.1 - - [13/Jul/2025 04:36:46] "OPTIONS /auth/session HTTP/1.1" 200 -
+[2025-07-13 04:36:46,025] INFO in logger: Request: OPTIONS /auth/session
+[2025-07-13 04:36:46,025] INFO in logger: Response: 200 - 0.0002s
+127.0.0.1 - - [13/Jul/2025 04:36:46] "OPTIONS /auth/session HTTP/1.1" 200 -
+[2025-07-13 04:36:46,102] INFO in logger: Request: GET /auth/session
+[2025-07-13 04:36:46,102] INFO in logger: Response: 200 - 0.0003s
+127.0.0.1 - - [13/Jul/2025 04:36:46] "GET /auth/session HTTP/1.1" 200 -
+[2025-07-13 04:36:46,222] INFO in logger: Request: GET /auth/session
+[2025-07-13 04:36:46,223] INFO in logger: Response: 200 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 04:36:46] "GET /auth/session HTTP/1.1" 200 -
+[2025-07-13 04:36:54,980] INFO in logger: Request: OPTIONS /auth/login
+[2025-07-13 04:36:54,981] INFO in logger: Response: 200 - 0.0003s
+127.0.0.1 - - [13/Jul/2025 04:36:54] "OPTIONS /auth/login HTTP/1.1" 200 -
+[2025-07-13 04:36:55,121] INFO in logger: Request: POST /auth/login
+[2025-07-13 04:36:55,125] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 04:36:55,130] INFO in couchdb_client: Connected to existing database 'clinician'
+[2025-07-13 04:36:55,149] INFO in couchdb_client: Found 1 documents in clinician matching {'email': 'huang@rin.contact'}
+[2025-07-13 04:36:55,226] INFO in user: User huang@rin.contact authenticated successfully
+[2025-07-13 04:36:55,230] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 04:36:55,236] INFO in couchdb_client: Connected to existing database 'clinician'
+[2025-07-13 04:36:55,253] INFO in couchdb_client: Saved document to clinician: BYHC2E
+[2025-07-13 04:36:55,254] INFO in logger: Response: 200 - 0.1324s
+127.0.0.1 - - [13/Jul/2025 04:36:55] "POST /auth/login HTTP/1.1" 200 -
+[2025-07-13 04:40:04,021] INFO in logger: Request: OPTIONS /clinician/patients/
+[2025-07-13 04:40:04,021] INFO in logger: Response: 404 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 04:40:04] "[33mOPTIONS /clinician/patients/ HTTP/1.1[0m" 404 -
+[2025-07-13 04:40:04,125] INFO in logger: Request: OPTIONS /clinician/patients/
+[2025-07-13 04:40:04,125] INFO in logger: Response: 404 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 04:40:04] "[33mOPTIONS /clinician/patients/ HTTP/1.1[0m" 404 -
+[2025-07-13 04:42:54,275] INFO in logger: Request: OPTIONS /auth/session
+[2025-07-13 04:42:54,275] INFO in logger: Response: 200 - 0.0003s
+127.0.0.1 - - [13/Jul/2025 04:42:54] "OPTIONS /auth/session HTTP/1.1" 200 -
+[2025-07-13 04:42:54,279] INFO in logger: Request: OPTIONS /auth/session
+[2025-07-13 04:42:54,280] INFO in logger: Response: 200 - 0.0008s
+127.0.0.1 - - [13/Jul/2025 04:42:54] "OPTIONS /auth/session HTTP/1.1" 200 -
+[2025-07-13 04:42:54,471] INFO in logger: Request: GET /auth/session
+[2025-07-13 04:42:54,471] INFO in logger: Response: 200 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 04:42:54] "GET /auth/session HTTP/1.1" 200 -
+[2025-07-13 04:42:54,506] INFO in logger: Request: OPTIONS /clinician/patients/
+[2025-07-13 04:42:54,506] INFO in logger: Response: 404 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 04:42:54] "[33mOPTIONS /clinician/patients/ HTTP/1.1[0m" 404 -
+[2025-07-13 04:42:54,531] INFO in logger: Request: GET /auth/session
+[2025-07-13 04:42:54,531] INFO in logger: Response: 200 - 0.0003s
+127.0.0.1 - - [13/Jul/2025 04:42:54] "GET /auth/session HTTP/1.1" 200 -
+[2025-07-13 04:42:54,611] INFO in logger: Request: OPTIONS /clinician/patients/
+[2025-07-13 04:42:54,612] INFO in logger: Response: 404 - 0.0005s
+127.0.0.1 - - [13/Jul/2025 04:42:54] "[33mOPTIONS /clinician/patients/ HTTP/1.1[0m" 404 -
+[2025-07-13 04:43:04,492] INFO in logger: Request: OPTIONS /auth/login
+[2025-07-13 04:43:04,493] INFO in logger: Response: 200 - 0.0003s
+127.0.0.1 - - [13/Jul/2025 04:43:04] "OPTIONS /auth/login HTTP/1.1" 200 -
+[2025-07-13 04:43:04,592] INFO in logger: Request: POST /auth/login
+[2025-07-13 04:43:04,594] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 04:43:04,600] INFO in couchdb_client: Connected to existing database 'clinician'
+[2025-07-13 04:43:04,611] INFO in couchdb_client: Found 1 documents in clinician matching {'email': 'huang@rin.contact'}
+[2025-07-13 04:43:04,692] INFO in user: User huang@rin.contact authenticated successfully
+[2025-07-13 04:43:04,696] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 04:43:04,701] INFO in couchdb_client: Connected to existing database 'clinician'
+[2025-07-13 04:43:04,714] INFO in couchdb_client: Saved document to clinician: BYHC2E
+[2025-07-13 04:43:04,714] INFO in logger: Response: 200 - 0.1226s
+127.0.0.1 - - [13/Jul/2025 04:43:04] "POST /auth/login HTTP/1.1" 200 -
+[2025-07-13 04:43:04,910] INFO in logger: Request: OPTIONS /clinician/patients/
+[2025-07-13 04:43:04,910] INFO in logger: Response: 404 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 04:43:04] "[33mOPTIONS /clinician/patients/ HTTP/1.1[0m" 404 -
+[2025-07-13 04:43:05,042] INFO in logger: Request: OPTIONS /clinician/patients/
+[2025-07-13 04:43:05,043] INFO in logger: Response: 404 - 0.0007s
+127.0.0.1 - - [13/Jul/2025 04:43:05] "[33mOPTIONS /clinician/patients/ HTTP/1.1[0m" 404 -
+[2025-07-13 04:46:31,113] INFO in logger: Request: GET /
+[2025-07-13 04:46:31,113] INFO in logger: Response: 200 - 0.0002s
+127.0.0.1 - - [13/Jul/2025 04:46:31] "GET / HTTP/1.1" 200 -
+[2025-07-13 04:47:39,100] INFO in logger: Request: GET /api/connections/list
+[2025-07-13 04:47:39,101] INFO in logger: Response: 404 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 04:47:39] "[33mGET /api/connections/list HTTP/1.1[0m" 404 -
+[2025-07-13 04:50:25,771] INFO in logger: Request: OPTIONS /api/connections/connect
+[2025-07-13 04:50:25,772] INFO in logger: Response: 404 - 0.0006s
+127.0.0.1 - - [13/Jul/2025 04:50:25] "[33mOPTIONS /api/connections/connect HTTP/1.1[0m" 404 -
+[2025-07-13 04:50:25,830] INFO in logger: Request: OPTIONS /clinician/connect/
+[2025-07-13 04:50:25,831] INFO in logger: Response: 404 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 04:50:25] "[33mOPTIONS /clinician/connect/ HTTP/1.1[0m" 404 -
+[2025-07-13 04:50:27,701] INFO in logger: Request: OPTIONS /api/connections/connect
+[2025-07-13 04:50:27,701] INFO in logger: Response: 404 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 04:50:27] "[33mOPTIONS /api/connections/connect HTTP/1.1[0m" 404 -
+[2025-07-13 04:50:27,761] INFO in logger: Request: OPTIONS /clinician/connect/
+[2025-07-13 04:50:27,762] INFO in logger: Response: 404 - 0.0007s
+127.0.0.1 - - [13/Jul/2025 04:50:27] "[33mOPTIONS /clinician/connect/ HTTP/1.1[0m" 404 -
+[2025-07-13 04:50:28,586] INFO in logger: Request: OPTIONS /api/connections/connect
+[2025-07-13 04:50:28,586] INFO in logger: Response: 404 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 04:50:28] "[33mOPTIONS /api/connections/connect HTTP/1.1[0m" 404 -
+[2025-07-13 04:50:28,652] INFO in logger: Request: OPTIONS /clinician/connect/
+[2025-07-13 04:50:28,652] INFO in logger: Response: 404 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 04:50:28] "[33mOPTIONS /clinician/connect/ HTTP/1.1[0m" 404 -
+[2025-07-13 04:52:56,802] INFO in logger: Request: GET /api/connections/list
+[2025-07-13 04:52:56,802] INFO in logger: Response: 404 - 0.0007s
+127.0.0.1 - - [13/Jul/2025 04:52:56] "[33mGET /api/connections/list HTTP/1.1[0m" 404 -
+[2025-07-13 04:53:46,588] INFO in logger: Request: OPTIONS /api/connections/connect
+[2025-07-13 04:53:46,588] INFO in logger: Response: 404 - 0.0006s
+127.0.0.1 - - [13/Jul/2025 04:53:46] "[33mOPTIONS /api/connections/connect HTTP/1.1[0m" 404 -
+[2025-07-13 04:53:46,672] INFO in logger: Request: OPTIONS /clinician/connect/
+[2025-07-13 04:53:46,672] INFO in logger: Response: 404 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 04:53:46] "[33mOPTIONS /clinician/connect/ HTTP/1.1[0m" 404 -
+[2025-07-13 04:53:47,347] INFO in logger: Request: OPTIONS /api/connections/connect
+[2025-07-13 04:53:47,347] INFO in logger: Response: 404 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 04:53:47] "[33mOPTIONS /api/connections/connect HTTP/1.1[0m" 404 -
+[2025-07-13 04:53:47,426] INFO in logger: Request: OPTIONS /clinician/connect/
+[2025-07-13 04:53:47,426] INFO in logger: Response: 404 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 04:53:47] "[33mOPTIONS /clinician/connect/ HTTP/1.1[0m" 404 -
+[2025-07-13 04:53:50,438] INFO in logger: Request: OPTIONS /api/connections/list
+[2025-07-13 04:53:50,438] INFO in logger: Response: 404 - 0.0005s
+127.0.0.1 - - [13/Jul/2025 04:53:50] "[33mOPTIONS /api/connections/list?include_inactive=false HTTP/1.1[0m" 404 -
+[2025-07-13 04:53:50,441] INFO in logger: Request: OPTIONS /auth/session
+[2025-07-13 04:53:50,441] INFO in logger: Response: 200 - 0.0002s
+127.0.0.1 - - [13/Jul/2025 04:53:50] "OPTIONS /auth/session HTTP/1.1" 200 -
+[2025-07-13 04:53:50,445] INFO in logger: Request: OPTIONS /api/connections/list
+[2025-07-13 04:53:50,446] INFO in logger: Response: 404 - 0.0008s
+127.0.0.1 - - [13/Jul/2025 04:53:50] "[33mOPTIONS /api/connections/list?include_inactive=false HTTP/1.1[0m" 404 -
+[2025-07-13 04:53:50,448] INFO in logger: Request: OPTIONS /auth/session
+[2025-07-13 04:53:50,448] INFO in logger: Response: 200 - 0.0002s
+127.0.0.1 - - [13/Jul/2025 04:53:50] "OPTIONS /auth/session HTTP/1.1" 200 -
+[2025-07-13 04:53:50,530] INFO in logger: Request: OPTIONS /clinician/patients/
+[2025-07-13 04:53:50,531] INFO in logger: Response: 404 - 0.0008s
+127.0.0.1 - - [13/Jul/2025 04:53:50] "[33mOPTIONS /clinician/patients/ HTTP/1.1[0m" 404 -
+[2025-07-13 04:53:50,537] INFO in logger: Request: OPTIONS /clinician/patients/
+[2025-07-13 04:53:50,538] INFO in logger: Response: 404 - 0.0006s
+127.0.0.1 - - [13/Jul/2025 04:53:50] "[33mOPTIONS /clinician/patients/ HTTP/1.1[0m" 404 -
+[2025-07-13 04:53:50,621] INFO in logger: Request: GET /auth/session
+[2025-07-13 04:53:50,622] INFO in logger: Response: 200 - 0.0005s
+127.0.0.1 - - [13/Jul/2025 04:53:50] "GET /auth/session HTTP/1.1" 200 -
+[2025-07-13 04:53:50,754] INFO in logger: Request: GET /auth/session
+[2025-07-13 04:53:50,755] INFO in logger: Response: 200 - 0.0003s
+127.0.0.1 - - [13/Jul/2025 04:53:50] "GET /auth/session HTTP/1.1" 200 -
+[2025-07-13 04:54:02,206] INFO in logger: Request: OPTIONS /auth/login
+[2025-07-13 04:54:02,206] INFO in logger: Response: 200 - 0.0003s
+127.0.0.1 - - [13/Jul/2025 04:54:02] "OPTIONS /auth/login HTTP/1.1" 200 -
+[2025-07-13 04:54:02,356] INFO in logger: Request: POST /auth/login
+[2025-07-13 04:54:02,797] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 04:54:02,803] INFO in couchdb_client: Connected to existing database 'clinician'
+[2025-07-13 04:54:02,837] INFO in couchdb_client: Found 1 documents in clinician matching {'email': 'huang@rin.contact'}
+[2025-07-13 04:54:02,921] WARNING in user: Authentication failed: Invalid password for user huang@rin.contact
+[2025-07-13 04:54:02,994] INFO in logger: Response: 401 - 0.6379s
+127.0.0.1 - - [13/Jul/2025 04:54:02] "[31m[1mPOST /auth/login HTTP/1.1[0m" 401 -
+[2025-07-13 04:54:08,332] INFO in logger: Request: OPTIONS /auth/login
+[2025-07-13 04:54:08,333] INFO in logger: Response: 200 - 0.0008s
+127.0.0.1 - - [13/Jul/2025 04:54:08] "OPTIONS /auth/login HTTP/1.1" 200 -
+[2025-07-13 04:54:08,398] INFO in logger: Request: POST /auth/login
+[2025-07-13 04:54:08,401] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 04:54:08,407] INFO in couchdb_client: Connected to existing database 'clinician'
+[2025-07-13 04:54:08,421] INFO in couchdb_client: Found 1 documents in clinician matching {'email': 'huang@rin.contact'}
+[2025-07-13 04:54:08,508] INFO in user: User huang@rin.contact authenticated successfully
+[2025-07-13 04:54:08,511] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 04:54:08,516] INFO in couchdb_client: Connected to existing database 'clinician'
+[2025-07-13 04:54:08,529] INFO in couchdb_client: Saved document to clinician: BYHC2E
+[2025-07-13 04:54:08,530] INFO in logger: Response: 200 - 0.1321s
+127.0.0.1 - - [13/Jul/2025 04:54:08] "POST /auth/login HTTP/1.1" 200 -
+[2025-07-13 04:54:08,627] INFO in logger: Request: OPTIONS /api/connections/list
+[2025-07-13 04:54:08,628] INFO in logger: Response: 404 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 04:54:08] "[33mOPTIONS /api/connections/list?include_inactive=false HTTP/1.1[0m" 404 -
+[2025-07-13 04:54:08,630] INFO in logger: Request: OPTIONS /api/connections/list
+[2025-07-13 04:54:08,631] INFO in logger: Response: 404 - 0.0009s
+127.0.0.1 - - [13/Jul/2025 04:54:08] "[33mOPTIONS /api/connections/list?include_inactive=false HTTP/1.1[0m" 404 -
+[2025-07-13 04:54:08,709] INFO in logger: Request: OPTIONS /clinician/patients/
+[2025-07-13 04:54:08,710] INFO in logger: Response: 404 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 04:54:08] "[33mOPTIONS /clinician/patients/ HTTP/1.1[0m" 404 -
+[2025-07-13 04:54:08,713] INFO in logger: Request: OPTIONS /clinician/patients/
+[2025-07-13 04:54:08,713] INFO in logger: Response: 404 - 0.0003s
+127.0.0.1 - - [13/Jul/2025 04:54:08] "[33mOPTIONS /clinician/patients/ HTTP/1.1[0m" 404 -
+[2025-07-13 04:55:05,987] INFO in logger: Request: GET /
+[2025-07-13 04:55:05,987] INFO in logger: Response: 200 - 0.0002s
+127.0.0.1 - - [13/Jul/2025 04:55:05] "GET / HTTP/1.1" 200 -
+[2025-07-13 04:55:06,517] INFO in logger: Request: GET /favicon.ico
+[2025-07-13 04:55:06,517] INFO in logger: Response: 404 - 0.0003s
+127.0.0.1 - - [13/Jul/2025 04:55:06] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+[2025-07-13 04:57:06,667] INFO in logger: Request: GET /clinician/patients/
+[2025-07-13 04:57:06,667] INFO in logger: Response: 404 - 0.0003s
+127.0.0.1 - - [13/Jul/2025 04:57:06] "[33mGET /clinician/patients/ HTTP/1.1[0m" 404 -
+[2025-07-13 04:57:15,991] INFO in logger: Request: GET /
+[2025-07-13 04:57:15,991] INFO in logger: Response: 200 - 0.0002s
+127.0.0.1 - - [13/Jul/2025 04:57:15] "GET / HTTP/1.1" 200 -
+[2025-07-13 05:06:30,462] INFO in logger: Request: OPTIONS /auth/session
+[2025-07-13 05:06:30,462] INFO in logger: Response: 200 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 05:06:30] "OPTIONS /auth/session HTTP/1.1" 200 -
+[2025-07-13 05:06:30,465] INFO in logger: Request: OPTIONS /auth/session
+[2025-07-13 05:06:30,465] INFO in logger: Response: 200 - 0.0002s
+127.0.0.1 - - [13/Jul/2025 05:06:30] "OPTIONS /auth/session HTTP/1.1" 200 -
+[2025-07-13 05:06:30,663] INFO in logger: Request: GET /auth/session
+[2025-07-13 05:06:30,665] INFO in logger: Response: 200 - 0.0014s
+127.0.0.1 - - [13/Jul/2025 05:06:30] "GET /auth/session HTTP/1.1" 200 -
+[2025-07-13 05:06:30,753] INFO in logger: Request: GET /auth/session
+[2025-07-13 05:06:30,753] INFO in logger: Response: 200 - 0.0003s
+127.0.0.1 - - [13/Jul/2025 05:06:30] "GET /auth/session HTTP/1.1" 200 -
+[2025-07-13 05:06:39,606] INFO in logger: Request: OPTIONS /auth/login
+[2025-07-13 05:06:39,606] INFO in logger: Response: 200 - 0.0003s
+127.0.0.1 - - [13/Jul/2025 05:06:39] "OPTIONS /auth/login HTTP/1.1" 200 -
+[2025-07-13 05:06:39,667] INFO in logger: Request: POST /auth/login
+[2025-07-13 05:06:40,080] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 05:06:40,087] INFO in couchdb_client: Connected to existing database 'clinician'
+[2025-07-13 05:06:40,101] INFO in couchdb_client: Found 1 documents in clinician matching {'email': 'huang@rin.contact'}
+[2025-07-13 05:06:40,191] INFO in user: User huang@rin.contact authenticated successfully
+[2025-07-13 05:06:40,194] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 05:06:40,199] INFO in couchdb_client: Connected to existing database 'clinician'
+[2025-07-13 05:06:40,212] INFO in couchdb_client: Saved document to clinician: BYHC2E
+[2025-07-13 05:06:40,212] INFO in logger: Response: 200 - 0.5457s
+127.0.0.1 - - [13/Jul/2025 05:06:40] "POST /auth/login HTTP/1.1" 200 -
+[2025-07-13 05:11:25,262] INFO in logger: Request: OPTIONS /auth/session
+[2025-07-13 05:11:25,262] INFO in logger: Response: 200 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 05:11:25] "OPTIONS /auth/session HTTP/1.1" 200 -
+[2025-07-13 05:11:25,265] INFO in logger: Request: OPTIONS /auth/session
+[2025-07-13 05:11:25,265] INFO in logger: Response: 200 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 05:11:25] "OPTIONS /auth/session HTTP/1.1" 200 -
+[2025-07-13 05:11:25,322] INFO in logger: Request: GET /auth/session
+[2025-07-13 05:11:25,323] INFO in logger: Response: 200 - 0.0003s
+127.0.0.1 - - [13/Jul/2025 05:11:25] "GET /auth/session HTTP/1.1" 200 -
+[2025-07-13 05:11:25,404] INFO in logger: Request: GET /auth/session
+[2025-07-13 05:11:25,405] INFO in logger: Response: 200 - 0.0005s
+127.0.0.1 - - [13/Jul/2025 05:11:25] "GET /auth/session HTTP/1.1" 200 -
+[2025-07-13 05:11:36,019] INFO in logger: Request: OPTIONS /auth/login
+[2025-07-13 05:11:36,019] INFO in logger: Response: 200 - 0.0003s
+127.0.0.1 - - [13/Jul/2025 05:11:36] "OPTIONS /auth/login HTTP/1.1" 200 -
+[2025-07-13 05:11:36,083] INFO in logger: Request: POST /auth/login
+[2025-07-13 05:11:36,086] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 05:11:36,093] INFO in couchdb_client: Connected to existing database 'clinician'
+[2025-07-13 05:11:36,107] INFO in couchdb_client: Found 1 documents in clinician matching {'email': 'huang@rin.contact'}
+[2025-07-13 05:11:36,194] INFO in user: User huang@rin.contact authenticated successfully
+[2025-07-13 05:11:36,197] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 05:11:36,203] INFO in couchdb_client: Connected to existing database 'clinician'
+[2025-07-13 05:11:36,217] INFO in couchdb_client: Saved document to clinician: BYHC2E
+[2025-07-13 05:11:36,218] INFO in logger: Response: 200 - 0.1347s
+127.0.0.1 - - [13/Jul/2025 05:11:36] "POST /auth/login HTTP/1.1" 200 -
+[2025-07-13 05:15:50,502] INFO in logger: Request: OPTIONS /auth/session
+[2025-07-13 05:15:50,502] INFO in logger: Response: 200 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 05:15:50] "OPTIONS /auth/session HTTP/1.1" 200 -
+[2025-07-13 05:15:50,505] INFO in logger: Request: OPTIONS /auth/session
+[2025-07-13 05:15:50,506] INFO in logger: Response: 200 - 0.0007s
+127.0.0.1 - - [13/Jul/2025 05:15:50] "OPTIONS /auth/session HTTP/1.1" 200 -
+[2025-07-13 05:15:50,615] INFO in logger: Request: GET /auth/session
+[2025-07-13 05:15:50,616] INFO in logger: Response: 200 - 0.0005s
+127.0.0.1 - - [13/Jul/2025 05:15:50] "GET /auth/session HTTP/1.1" 200 -
+[2025-07-13 05:15:50,692] INFO in logger: Request: GET /auth/session
+[2025-07-13 05:15:50,692] INFO in logger: Response: 200 - 0.0003s
+127.0.0.1 - - [13/Jul/2025 05:15:50] "GET /auth/session HTTP/1.1" 200 -
+[2025-07-13 05:15:53,146] INFO in logger: Request: GET /auth/session
+[2025-07-13 05:15:53,146] INFO in logger: Response: 200 - 0.0003s
+127.0.0.1 - - [13/Jul/2025 05:15:53] "GET /auth/session HTTP/1.1" 200 -
+[2025-07-13 05:15:53,201] INFO in logger: Request: GET /auth/session
+[2025-07-13 05:15:53,202] INFO in logger: Response: 200 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 05:15:53] "GET /auth/session HTTP/1.1" 200 -
+[2025-07-13 05:16:03,876] INFO in logger: Request: OPTIONS /auth/login
+[2025-07-13 05:16:03,877] INFO in logger: Response: 200 - 0.0003s
+127.0.0.1 - - [13/Jul/2025 05:16:03] "OPTIONS /auth/login HTTP/1.1" 200 -
+[2025-07-13 05:16:03,946] INFO in logger: Request: POST /auth/login
+[2025-07-13 05:16:03,949] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 05:16:03,954] INFO in couchdb_client: Connected to existing database 'clinician'
+[2025-07-13 05:16:03,966] INFO in couchdb_client: Found 1 documents in clinician matching {'email': 'huang@rin.contact'}
+[2025-07-13 05:16:04,058] INFO in user: User huang@rin.contact authenticated successfully
+[2025-07-13 05:16:04,061] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 05:16:04,067] INFO in couchdb_client: Connected to existing database 'clinician'
+[2025-07-13 05:16:04,081] INFO in couchdb_client: Saved document to clinician: BYHC2E
+[2025-07-13 05:16:04,081] INFO in logger: Response: 200 - 0.1349s
+127.0.0.1 - - [13/Jul/2025 05:16:04] "POST /auth/login HTTP/1.1" 200 -
+[2025-07-13 05:16:37,789] INFO in logger: Request: GET /
+[2025-07-13 05:16:37,789] INFO in logger: Response: 200 - 0.0003s
+127.0.0.1 - - [13/Jul/2025 05:16:37] "GET / HTTP/1.1" 200 -
+[2025-07-13 05:17:40,446] INFO in logger: Request: OPTIONS /api/connections/list
+[2025-07-13 05:17:40,446] INFO in logger: Response: 404 - 0.0006s
+127.0.0.1 - - [13/Jul/2025 05:17:40] "[33mOPTIONS /api/connections/list?include_inactive=false HTTP/1.1[0m" 404 -
+[2025-07-13 05:17:40,448] INFO in logger: Request: OPTIONS /auth/session
+[2025-07-13 05:17:40,448] INFO in logger: Response: 200 - 0.0002s
+127.0.0.1 - - [13/Jul/2025 05:17:40] "OPTIONS /auth/session HTTP/1.1" 200 -
+[2025-07-13 05:17:40,453] INFO in logger: Request: OPTIONS /api/connections/list
+[2025-07-13 05:17:40,454] INFO in logger: Response: 404 - 0.0006s
+127.0.0.1 - - [13/Jul/2025 05:17:40] "[33mOPTIONS /api/connections/list?include_inactive=false HTTP/1.1[0m" 404 -
+[2025-07-13 05:17:40,457] INFO in logger: Request: OPTIONS /auth/session
+[2025-07-13 05:17:40,457] INFO in logger: Response: 200 - 0.0003s
+127.0.0.1 - - [13/Jul/2025 05:17:40] "OPTIONS /auth/session HTTP/1.1" 200 -
+[2025-07-13 05:17:40,562] INFO in logger: Request: GET /auth/session
+[2025-07-13 05:17:40,563] INFO in logger: Response: 200 - 0.0003s
+127.0.0.1 - - [13/Jul/2025 05:17:40] "GET /auth/session HTTP/1.1" 200 -
+[2025-07-13 05:17:40,713] INFO in logger: Request: GET /auth/session
+[2025-07-13 05:17:40,713] INFO in logger: Response: 200 - 0.0003s
+127.0.0.1 - - [13/Jul/2025 05:17:40] "GET /auth/session HTTP/1.1" 200 -
+[2025-07-13 05:17:50,366] INFO in logger: Request: OPTIONS /auth/login
+[2025-07-13 05:17:50,366] INFO in logger: Response: 200 - 0.0002s
+127.0.0.1 - - [13/Jul/2025 05:17:50] "OPTIONS /auth/login HTTP/1.1" 200 -
+[2025-07-13 05:17:50,426] INFO in logger: Request: POST /auth/login
+[2025-07-13 05:17:50,429] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 05:17:50,437] INFO in couchdb_client: Connected to existing database 'clinician'
+[2025-07-13 05:17:50,451] INFO in couchdb_client: Found 1 documents in clinician matching {'email': 'huang@rin.contact'}
+[2025-07-13 05:17:50,545] INFO in user: User huang@rin.contact authenticated successfully
+[2025-07-13 05:17:50,548] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 05:17:50,552] INFO in couchdb_client: Connected to existing database 'clinician'
+[2025-07-13 05:17:50,567] INFO in couchdb_client: Saved document to clinician: BYHC2E
+[2025-07-13 05:17:50,567] INFO in logger: Response: 200 - 0.1411s
+127.0.0.1 - - [13/Jul/2025 05:17:50] "POST /auth/login HTTP/1.1" 200 -
+[2025-07-13 05:17:50,653] INFO in logger: Request: OPTIONS /api/connections/list
+[2025-07-13 05:17:50,654] INFO in logger: Response: 404 - 0.0005s
+127.0.0.1 - - [13/Jul/2025 05:17:50] "[33mOPTIONS /api/connections/list?include_inactive=false HTTP/1.1[0m" 404 -
+[2025-07-13 05:17:50,657] INFO in logger: Request: OPTIONS /api/connections/list
+[2025-07-13 05:17:50,658] INFO in logger: Response: 404 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 05:17:50] "[33mOPTIONS /api/connections/list?include_inactive=false HTTP/1.1[0m" 404 -
+[2025-07-13 05:18:07,156] INFO in logger: Request: OPTIONS /api/connections/connect
+[2025-07-13 05:18:07,157] INFO in logger: Response: 404 - 0.0007s
+127.0.0.1 - - [13/Jul/2025 05:18:07] "[33mOPTIONS /api/connections/connect HTTP/1.1[0m" 404 -
+[2025-07-13 05:18:08,087] INFO in logger: Request: OPTIONS /api/connections/connect
+[2025-07-13 05:18:08,088] INFO in logger: Response: 404 - 0.0005s
+127.0.0.1 - - [13/Jul/2025 05:18:08] "[33mOPTIONS /api/connections/connect HTTP/1.1[0m" 404 -
+[2025-07-13 05:18:08,661] INFO in logger: Request: OPTIONS /api/connections/connect
+[2025-07-13 05:18:08,662] INFO in logger: Response: 404 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 05:18:08] "[33mOPTIONS /api/connections/connect HTTP/1.1[0m" 404 -
+[2025-07-13 05:19:03,703] INFO in logger: Request: OPTIONS /api/connections/connect
+[2025-07-13 05:19:03,703] INFO in logger: Response: 404 - 0.0005s
+127.0.0.1 - - [13/Jul/2025 05:19:03] "[33mOPTIONS /api/connections/connect HTTP/1.1[0m" 404 -
+[2025-07-13 05:19:04,547] INFO in logger: Request: OPTIONS /api/connections/connect
+[2025-07-13 05:19:04,547] INFO in logger: Response: 404 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 05:19:04] "[33mOPTIONS /api/connections/connect HTTP/1.1[0m" 404 -
+[2025-07-13 05:19:05,057] INFO in logger: Request: OPTIONS /api/connections/connect
+[2025-07-13 05:19:05,058] INFO in logger: Response: 404 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 05:19:05] "[33mOPTIONS /api/connections/connect HTTP/1.1[0m" 404 -
+[2025-07-13 05:19:09,772] INFO in logger: Request: OPTIONS /api/connections/connect
+[2025-07-13 05:19:09,772] INFO in logger: Response: 404 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 05:19:09] "[33mOPTIONS /api/connections/connect HTTP/1.1[0m" 404 -
+[2025-07-13 05:19:11,454] INFO in logger: Request: OPTIONS /auth/session
+[2025-07-13 05:19:11,454] INFO in logger: Response: 200 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 05:19:11] "OPTIONS /auth/session HTTP/1.1" 200 -
+[2025-07-13 05:19:11,458] INFO in logger: Request: OPTIONS /api/connections/list
+[2025-07-13 05:19:11,458] INFO in logger: Response: 404 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 05:19:11] "[33mOPTIONS /api/connections/list?include_inactive=false HTTP/1.1[0m" 404 -
+[2025-07-13 05:19:11,465] INFO in logger: Request: OPTIONS /api/connections/list
+[2025-07-13 05:19:11,465] INFO in logger: Response: 404 - 0.0006s
+127.0.0.1 - - [13/Jul/2025 05:19:11] "[33mOPTIONS /api/connections/list?include_inactive=false HTTP/1.1[0m" 404 -
+[2025-07-13 05:19:11,469] INFO in logger: Request: OPTIONS /auth/session
+[2025-07-13 05:19:11,469] INFO in logger: Response: 200 - 0.0003s
+127.0.0.1 - - [13/Jul/2025 05:19:11] "OPTIONS /auth/session HTTP/1.1" 200 -
+[2025-07-13 05:19:11,527] INFO in logger: Request: GET /auth/session
+[2025-07-13 05:19:11,527] INFO in logger: Response: 200 - 0.0005s
+127.0.0.1 - - [13/Jul/2025 05:19:11] "GET /auth/session HTTP/1.1" 200 -
+[2025-07-13 05:19:11,603] INFO in logger: Request: GET /auth/session
+[2025-07-13 05:19:11,604] INFO in logger: Response: 200 - 0.0005s
+127.0.0.1 - - [13/Jul/2025 05:19:11] "GET /auth/session HTTP/1.1" 200 -
+[2025-07-13 05:19:19,564] INFO in logger: Request: OPTIONS /auth/login
+[2025-07-13 05:19:19,564] INFO in logger: Response: 200 - 0.0002s
+127.0.0.1 - - [13/Jul/2025 05:19:19] "OPTIONS /auth/login HTTP/1.1" 200 -
+[2025-07-13 05:19:19,627] INFO in logger: Request: POST /auth/login
+[2025-07-13 05:19:19,630] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 05:19:19,635] INFO in couchdb_client: Connected to existing database 'clinician'
+[2025-07-13 05:19:19,646] INFO in couchdb_client: Found 1 documents in clinician matching {'email': 'huang@rin.contact'}
+[2025-07-13 05:19:19,729] INFO in user: User huang@rin.contact authenticated successfully
+[2025-07-13 05:19:19,733] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 05:19:19,739] INFO in couchdb_client: Connected to existing database 'clinician'
+[2025-07-13 05:19:19,753] INFO in couchdb_client: Saved document to clinician: BYHC2E
+[2025-07-13 05:19:19,753] INFO in logger: Response: 200 - 0.1259s
+127.0.0.1 - - [13/Jul/2025 05:19:19] "POST /auth/login HTTP/1.1" 200 -
+[2025-07-13 05:19:19,833] INFO in logger: Request: OPTIONS /api/connections/list
+[2025-07-13 05:19:19,834] INFO in logger: Response: 404 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 05:19:19] "[33mOPTIONS /api/connections/list?include_inactive=false HTTP/1.1[0m" 404 -
+[2025-07-13 05:19:19,837] INFO in logger: Request: OPTIONS /api/connections/list
+[2025-07-13 05:19:19,837] INFO in logger: Response: 404 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 05:19:19] "[33mOPTIONS /api/connections/list?include_inactive=false HTTP/1.1[0m" 404 -
+[2025-07-13 05:19:55,830] INFO in logger: Request: OPTIONS /api/connections/list
+[2025-07-13 05:19:55,830] INFO in logger: Response: 404 - 0.0005s
+127.0.0.1 - - [13/Jul/2025 05:19:55] "[33mOPTIONS /api/connections/list HTTP/1.1[0m" 404 -
+[2025-07-13 05:19:55,834] INFO in logger: Request: OPTIONS /api/connections/list
+[2025-07-13 05:19:55,836] INFO in logger: Response: 404 - 0.0021s
+127.0.0.1 - - [13/Jul/2025 05:19:55] "[33mOPTIONS /api/connections/list HTTP/1.1[0m" 404 -
+[2025-07-13 05:19:55,839] INFO in logger: Request: OPTIONS /auth/session
+[2025-07-13 05:19:55,839] INFO in logger: Response: 200 - 0.0003s
+127.0.0.1 - - [13/Jul/2025 05:19:55] "OPTIONS /auth/session HTTP/1.1" 200 -
+[2025-07-13 05:19:55,845] INFO in logger: Request: OPTIONS /auth/session
+[2025-07-13 05:19:55,845] INFO in logger: Response: 200 - 0.0003s
+127.0.0.1 - - [13/Jul/2025 05:19:55] "OPTIONS /auth/session HTTP/1.1" 200 -
+[2025-07-13 05:19:55,944] INFO in logger: Request: GET /auth/session
+[2025-07-13 05:19:55,945] INFO in logger: Response: 200 - 0.0003s
+127.0.0.1 - - [13/Jul/2025 05:19:55] "GET /auth/session HTTP/1.1" 200 -
+[2025-07-13 05:19:56,008] INFO in logger: Request: GET /auth/session
+[2025-07-13 05:19:56,009] INFO in logger: Response: 200 - 0.0003s
+127.0.0.1 - - [13/Jul/2025 05:19:56] "GET /auth/session HTTP/1.1" 200 -
+[2025-07-13 05:20:05,982] INFO in logger: Request: OPTIONS /auth/login
+[2025-07-13 05:20:05,982] INFO in logger: Response: 200 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 05:20:05] "OPTIONS /auth/login HTTP/1.1" 200 -
+[2025-07-13 05:20:06,063] INFO in logger: Request: POST /auth/login
+[2025-07-13 05:20:06,067] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 05:20:06,073] INFO in couchdb_client: Connected to existing database 'clinician'
+[2025-07-13 05:20:06,088] INFO in couchdb_client: Found 1 documents in clinician matching {'email': 'huang@rin.contact'}
+[2025-07-13 05:20:06,185] INFO in user: User huang@rin.contact authenticated successfully
+[2025-07-13 05:20:06,188] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 05:20:06,195] INFO in couchdb_client: Connected to existing database 'clinician'
+[2025-07-13 05:20:06,210] INFO in couchdb_client: Saved document to clinician: BYHC2E
+[2025-07-13 05:20:06,211] INFO in logger: Response: 200 - 0.1476s
+127.0.0.1 - - [13/Jul/2025 05:20:06] "POST /auth/login HTTP/1.1" 200 -
+[2025-07-13 05:20:06,370] INFO in logger: Request: OPTIONS /api/connections/list
+[2025-07-13 05:20:06,370] INFO in logger: Response: 404 - 0.0005s
+127.0.0.1 - - [13/Jul/2025 05:20:06] "[33mOPTIONS /api/connections/list HTTP/1.1[0m" 404 -
+[2025-07-13 05:20:06,374] INFO in logger: Request: OPTIONS /api/connections/list
+[2025-07-13 05:20:06,374] INFO in logger: Response: 404 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 05:20:06] "[33mOPTIONS /api/connections/list HTTP/1.1[0m" 404 -
+[2025-07-13 05:23:57,796] INFO in logger: Request: OPTIONS /api/connections/list
+[2025-07-13 05:23:57,797] INFO in logger: Response: 404 - 0.0005s
+127.0.0.1 - - [13/Jul/2025 05:23:57] "[33mOPTIONS /api/connections/list HTTP/1.1[0m" 404 -
+[2025-07-13 05:23:57,800] INFO in logger: Request: OPTIONS /api/connections/list
+[2025-07-13 05:23:57,801] INFO in logger: Response: 404 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 05:23:57] "[33mOPTIONS /api/connections/list HTTP/1.1[0m" 404 -
+[2025-07-13 05:24:06,427] INFO in logger: Request: OPTIONS /api/connections/list
+[2025-07-13 05:24:06,428] INFO in logger: Response: 404 - 0.0006s
+127.0.0.1 - - [13/Jul/2025 05:24:06] "[33mOPTIONS /api/connections/list HTTP/1.1[0m" 404 -
+[2025-07-13 05:24:06,430] INFO in logger: Request: OPTIONS /api/connections/list
+[2025-07-13 05:24:06,430] INFO in logger: Response: 404 - 0.0003s
+127.0.0.1 - - [13/Jul/2025 05:24:06] "[33mOPTIONS /api/connections/list HTTP/1.1[0m" 404 -
+[2025-07-13 05:24:49,946] INFO in logger: Request: OPTIONS /api/connections/list
+[2025-07-13 05:24:49,946] INFO in logger: Response: 404 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 05:24:49] "[33mOPTIONS /api/connections/list HTTP/1.1[0m" 404 -
+[2025-07-13 05:24:49,950] INFO in logger: Request: OPTIONS /api/connections/list
+[2025-07-13 05:24:49,951] INFO in logger: Response: 404 - 0.0006s
+127.0.0.1 - - [13/Jul/2025 05:24:49] "[33mOPTIONS /api/connections/list HTTP/1.1[0m" 404 -
+[2025-07-13 05:25:16,267] INFO in logger: Request: OPTIONS /api/connections/list
+[2025-07-13 05:25:16,268] INFO in logger: Response: 404 - 0.0009s
+127.0.0.1 - - [13/Jul/2025 05:25:16] "[33mOPTIONS /api/connections/list HTTP/1.1[0m" 404 -
+[2025-07-13 05:25:16,272] INFO in logger: Request: OPTIONS /api/connections/list
+[2025-07-13 05:25:16,272] INFO in logger: Response: 404 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 05:25:16] "[33mOPTIONS /api/connections/list HTTP/1.1[0m" 404 -
+[2025-07-13 05:26:49,292] INFO in logger: Request: OPTIONS /auth/session
+[2025-07-13 05:26:49,293] INFO in logger: Response: 200 - 0.0003s
+127.0.0.1 - - [13/Jul/2025 05:26:49] "OPTIONS /auth/session HTTP/1.1" 200 -
+[2025-07-13 05:26:49,294] INFO in logger: Request: OPTIONS /auth/session
+[2025-07-13 05:26:49,295] INFO in logger: Response: 200 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 05:26:49] "OPTIONS /auth/session HTTP/1.1" 200 -
+[2025-07-13 05:26:49,298] INFO in logger: Request: OPTIONS /api/connections/list
+[2025-07-13 05:26:49,298] INFO in logger: Response: 404 - 0.0009s
+127.0.0.1 - - [13/Jul/2025 05:26:49] "[33mOPTIONS /api/connections/list HTTP/1.1[0m" 404 -
+[2025-07-13 05:26:49,302] INFO in logger: Request: OPTIONS /api/connections/list
+[2025-07-13 05:26:49,302] INFO in logger: Response: 404 - 0.0003s
+127.0.0.1 - - [13/Jul/2025 05:26:49] "[33mOPTIONS /api/connections/list HTTP/1.1[0m" 404 -
+[2025-07-13 05:26:49,473] INFO in logger: Request: GET /auth/session
+[2025-07-13 05:26:49,473] INFO in logger: Response: 200 - 0.0003s
+127.0.0.1 - - [13/Jul/2025 05:26:49] "GET /auth/session HTTP/1.1" 200 -
+[2025-07-13 05:26:49,582] INFO in logger: Request: GET /auth/session
+[2025-07-13 05:26:49,583] INFO in logger: Response: 200 - 0.0005s
+127.0.0.1 - - [13/Jul/2025 05:26:49] "GET /auth/session HTTP/1.1" 200 -
+[2025-07-13 05:26:58,186] INFO in logger: Request: OPTIONS /api/auth/login
+[2025-07-13 05:26:58,187] INFO in logger: Response: 404 - 0.0008s
+127.0.0.1 - - [13/Jul/2025 05:26:58] "[33mOPTIONS /api/auth/login HTTP/1.1[0m" 404 -
+[2025-07-13 05:27:00,032] INFO in logger: Request: OPTIONS /api/auth/login
+[2025-07-13 05:27:00,035] INFO in logger: Response: 404 - 0.0031s
+127.0.0.1 - - [13/Jul/2025 05:27:00] "[33mOPTIONS /api/auth/login HTTP/1.1[0m" 404 -
+[2025-07-13 05:27:18,992] INFO in logger: Request: OPTIONS /api/auth/login
+[2025-07-13 05:27:18,993] INFO in logger: Response: 404 - 0.0005s
+127.0.0.1 - - [13/Jul/2025 05:27:18] "[33mOPTIONS /api/auth/login HTTP/1.1[0m" 404 -
+[2025-07-13 05:28:45,526] INFO in logger: Request: OPTIONS /api/auth/login
+[2025-07-13 05:28:45,527] INFO in logger: Response: 404 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 05:28:45] "[33mOPTIONS /api/auth/login HTTP/1.1[0m" 404 -
+[2025-07-13 05:28:46,202] INFO in logger: Request: OPTIONS /api/auth/login
+[2025-07-13 05:28:46,202] INFO in logger: Response: 404 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 05:28:46] "[33mOPTIONS /api/auth/login HTTP/1.1[0m" 404 -
+[2025-07-13 05:28:46,636] INFO in logger: Request: OPTIONS /api/auth/login
+[2025-07-13 05:28:46,636] INFO in logger: Response: 404 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 05:28:46] "[33mOPTIONS /api/auth/login HTTP/1.1[0m" 404 -
+[2025-07-13 05:28:47,717] INFO in logger: Request: OPTIONS /api/auth/login
+[2025-07-13 05:28:47,718] INFO in logger: Response: 404 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 05:28:47] "[33mOPTIONS /api/auth/login HTTP/1.1[0m" 404 -
+[2025-07-13 05:32:17,106] INFO in logger: Request: OPTIONS /api/auth/login
+[2025-07-13 05:32:17,106] INFO in logger: Response: 404 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 05:32:17] "[33mOPTIONS /api/auth/login HTTP/1.1[0m" 404 -
+[2025-07-13 05:32:18,950] INFO in logger: Request: OPTIONS /api/auth/login
+[2025-07-13 05:32:18,951] INFO in logger: Response: 404 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 05:32:18] "[33mOPTIONS /api/auth/login HTTP/1.1[0m" 404 -
+[2025-07-13 05:32:19,405] INFO in logger: Request: OPTIONS /api/auth/login
+[2025-07-13 05:32:19,406] INFO in logger: Response: 404 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 05:32:19] "[33mOPTIONS /api/auth/login HTTP/1.1[0m" 404 -
+[2025-07-13 05:32:19,631] INFO in logger: Request: OPTIONS /api/auth/login
+[2025-07-13 05:32:19,631] INFO in logger: Response: 404 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 05:32:19] "[33mOPTIONS /api/auth/login HTTP/1.1[0m" 404 -
+[2025-07-13 05:32:19,811] INFO in logger: Request: OPTIONS /api/auth/login
+[2025-07-13 05:32:19,811] INFO in logger: Response: 404 - 0.0008s
+127.0.0.1 - - [13/Jul/2025 05:32:19] "[33mOPTIONS /api/auth/login HTTP/1.1[0m" 404 -
+[2025-07-13 05:32:20,063] INFO in logger: Request: OPTIONS /api/auth/login
+[2025-07-13 05:32:20,063] INFO in logger: Response: 404 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 05:32:20] "[33mOPTIONS /api/auth/login HTTP/1.1[0m" 404 -
+[2025-07-13 05:32:20,311] INFO in logger: Request: OPTIONS /api/auth/login
+[2025-07-13 05:32:20,312] INFO in logger: Response: 404 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 05:32:20] "[33mOPTIONS /api/auth/login HTTP/1.1[0m" 404 -
+[2025-07-13 05:32:38,102] INFO in logger: Request: GET /api/mood/logs/recent
+[2025-07-13 05:32:38,514] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 05:32:38,519] INFO in couchdb_client: Connected to existing database 'patient'
+[2025-07-13 05:32:38,530] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 05:32:38,542] INFO in couchdb_client: Connected to existing database 'mood_logs'
+[2025-07-13 05:32:38,649] INFO in couchdb_client: Found 23 documents in mood_logs matching {'user_id': 'MOKSAY', 'type': 'mood_log'}
+[2025-07-13 05:32:38,649] INFO in logger: Response: 200 - 0.5467s
+127.0.0.1 - - [13/Jul/2025 05:32:38] "GET /api/mood/logs/recent?days=30 HTTP/1.1" 200 -
+[2025-07-13 05:32:39,496] INFO in logger: Request: GET /api/mood/logs
+[2025-07-13 05:32:39,500] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 05:32:39,507] INFO in couchdb_client: Connected to existing database 'patient'
+[2025-07-13 05:32:39,519] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 05:32:39,524] INFO in couchdb_client: Connected to existing database 'mood_logs'
+[2025-07-13 05:32:39,635] INFO in couchdb_client: Found 23 documents in mood_logs matching {'user_id': 'MOKSAY', 'type': 'mood_log'}
+[2025-07-13 05:32:39,636] INFO in logger: Response: 200 - 0.1396s
+127.0.0.1 - - [13/Jul/2025 05:32:39] "GET /api/mood/logs HTTP/1.1" 200 -
+[2025-07-13 05:32:41,047] INFO in logger: Request: GET /api/mood/logs/recent
+[2025-07-13 05:32:41,050] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 05:32:41,056] INFO in couchdb_client: Connected to existing database 'patient'
+[2025-07-13 05:32:41,067] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 05:32:41,073] INFO in couchdb_client: Connected to existing database 'mood_logs'
+[2025-07-13 05:32:41,188] INFO in couchdb_client: Found 23 documents in mood_logs matching {'user_id': 'MOKSAY', 'type': 'mood_log'}
+[2025-07-13 05:32:41,189] INFO in logger: Response: 200 - 0.1419s
+127.0.0.1 - - [13/Jul/2025 05:32:41] "GET /api/mood/logs/recent?days=7 HTTP/1.1" 200 -
+[2025-07-13 05:32:43,395] INFO in logger: Request: GET /api/mood/logs
+[2025-07-13 05:32:43,399] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 05:32:43,404] INFO in couchdb_client: Connected to existing database 'patient'
+[2025-07-13 05:32:43,415] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 05:32:43,420] INFO in couchdb_client: Connected to existing database 'mood_logs'
+[2025-07-13 05:32:43,541] INFO in couchdb_client: Found 23 documents in mood_logs matching {'user_id': 'MOKSAY', 'type': 'mood_log'}
+[2025-07-13 05:32:43,541] INFO in logger: Response: 200 - 0.1456s
+127.0.0.1 - - [13/Jul/2025 05:32:43] "GET /api/mood/logs HTTP/1.1" 200 -
+[2025-07-13 05:32:53,002] INFO in logger: Request: POST /api/auth/login
+[2025-07-13 05:32:53,002] INFO in logger: Response: 404 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 05:32:53] "[33mPOST /api/auth/login HTTP/1.1[0m" 404 -
+[2025-07-13 05:33:12,446] INFO in logger: Request: OPTIONS /api/auth/login
+[2025-07-13 05:33:12,446] INFO in logger: Response: 404 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 05:33:12] "[33mOPTIONS /api/auth/login HTTP/1.1[0m" 404 -
+[2025-07-13 05:33:13,060] INFO in logger: Request: OPTIONS /api/auth/login
+[2025-07-13 05:33:13,061] INFO in logger: Response: 404 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 05:33:13] "[33mOPTIONS /api/auth/login HTTP/1.1[0m" 404 -
+[2025-07-13 05:33:48,794] INFO in logger: Request: GET /api/auth/login"
+[2025-07-13 05:33:48,795] INFO in logger: Response: 404 - 0.0007s
+127.0.0.1 - - [13/Jul/2025 05:33:48] "[33mGET /api/auth/login" HTTP/1.1[0m" 404 -
+[2025-07-13 05:34:00,642] INFO in logger: Request: GET /auth/login"
+[2025-07-13 05:34:00,643] INFO in logger: Response: 404 - 0.0003s
+127.0.0.1 - - [13/Jul/2025 05:34:00] "[33mGET /auth/login" HTTP/1.1[0m" 404 -
+[2025-07-13 05:35:29,082] INFO in logger: Request: GET /auth/clinician/login"
+[2025-07-13 05:35:29,082] INFO in logger: Response: 404 - 0.0003s
+127.0.0.1 - - [13/Jul/2025 05:35:29] "[33mGET /auth/clinician/login" HTTP/1.1[0m" 404 -
+[2025-07-13 05:35:33,605] INFO in logger: Request: GET /api/auth/clinician/login"
+[2025-07-13 05:35:33,605] INFO in logger: Response: 404 - 0.0005s
+127.0.0.1 - - [13/Jul/2025 05:35:33] "[33mGET /api/auth/clinician/login" HTTP/1.1[0m" 404 -
+[2025-07-13 05:35:34,744] INFO in logger: Request: GET /api/auth/clinician/login"
+[2025-07-13 05:35:34,745] INFO in logger: Response: 404 - 0.0003s
+127.0.0.1 - - [13/Jul/2025 05:35:34] "[33mGET /api/auth/clinician/login" HTTP/1.1[0m" 404 -
+[2025-07-13 05:36:27,384] INFO in logger: Request: POST /api/auth/clinician/login"
+[2025-07-13 05:36:27,384] INFO in logger: Response: 404 - 0.0006s
+127.0.0.1 - - [13/Jul/2025 05:36:27] "[33mPOST /api/auth/clinician/login" HTTP/1.1[0m" 404 -
+[2025-07-13 05:36:35,583] INFO in logger: Request: POST /api/auth/clinician/login
+[2025-07-13 05:36:35,584] INFO in logger: Response: 404 - 0.0005s
+127.0.0.1 - - [13/Jul/2025 05:36:35] "[33mPOST /api/auth/clinician/login HTTP/1.1[0m" 404 -
+[2025-07-13 05:36:41,456] INFO in logger: Request: POST /auth/clinician/login
+[2025-07-13 05:36:41,456] INFO in logger: Response: 404 - 0.0003s
+127.0.0.1 - - [13/Jul/2025 05:36:41] "[33mPOST /auth/clinician/login HTTP/1.1[0m" 404 -
+[2025-07-13 05:36:49,985] INFO in logger: Request: POST /api/auth/clinician/login
+[2025-07-13 05:36:49,985] INFO in logger: Response: 404 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 05:36:49] "[33mPOST /api/auth/clinician/login HTTP/1.1[0m" 404 -
+[2025-07-13 05:38:08,134] INFO in logger: Request: OPTIONS /auth/clinician/request-password-reset
+[2025-07-13 05:38:08,134] INFO in logger: Response: 200 - 0.0003s
+127.0.0.1 - - [13/Jul/2025 05:38:08] "OPTIONS /auth/clinician/request-password-reset HTTP/1.1" 200 -
+[2025-07-13 05:38:08,227] INFO in logger: Request: POST /auth/clinician/request-password-reset
+[2025-07-13 05:38:08,231] INFO in couchdb_client: Connected to CouchDB at http://54.206.113.97:20002
+[2025-07-13 05:38:08,238] INFO in couchdb_client: Connected to existing database 'clinician'
+[2025-07-13 05:38:08,253] INFO in couchdb_client: Found 1 documents in clinician matching {'email': 'huang@rin.contact'}
+[2025-07-13 05:38:08,272] INFO in couchdb_client: Saved document to clinician: BYHC2E
+[2025-07-13 05:38:11,416] INFO in email_sender: Verification email sent successfully to huang@rin.contact
+[2025-07-13 05:38:11,416] INFO in auth_routes: Password reset code sent to clinician: huang@rin.contact
+[2025-07-13 05:38:11,420] INFO in logger: Response: 200 - 3.1924s
+127.0.0.1 - - [13/Jul/2025 05:38:11] "POST /auth/clinician/request-password-reset HTTP/1.1" 200 -
+[2025-07-13 05:39:13,770] INFO in logger: Request: POST /api/auth/clinician/login
+[2025-07-13 05:39:13,771] INFO in logger: Response: 404 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 05:39:13] "[33mPOST /api/auth/clinician/login HTTP/1.1[0m" 404 -
+[2025-07-13 06:30:32,052] INFO in logger: Request: POST /api/auth/clinician/login
+[2025-07-13 06:30:32,053] INFO in logger: Response: 404 - 0.0003s
+127.0.0.1 - - [13/Jul/2025 06:30:32] "[33mPOST /api/auth/clinician/login HTTP/1.1[0m" 404 -
+[2025-07-13 06:30:38,926] INFO in logger: Request: POST /api/auth/login
+[2025-07-13 06:30:38,926] INFO in logger: Response: 404 - 0.0003s
+127.0.0.1 - - [13/Jul/2025 06:30:38] "[33mPOST /api/auth/login HTTP/1.1[0m" 404 -
+[2025-07-13 07:04:07,270] INFO in logger: Request: OPTIONS /api/auth/login
+[2025-07-13 07:04:07,270] INFO in logger: Response: 404 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 07:04:07] "[33mOPTIONS /api/auth/login HTTP/1.1[0m" 404 -
+[2025-07-13 07:04:09,304] INFO in logger: Request: OPTIONS /api/auth/login
+[2025-07-13 07:04:09,305] INFO in logger: Response: 404 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 07:04:09] "[33mOPTIONS /api/auth/login HTTP/1.1[0m" 404 -
+[2025-07-13 07:04:10,048] INFO in logger: Request: OPTIONS /api/auth/login
+[2025-07-13 07:04:10,049] INFO in logger: Response: 404 - 0.0006s
+127.0.0.1 - - [13/Jul/2025 07:04:10] "[33mOPTIONS /api/auth/login HTTP/1.1[0m" 404 -
+[2025-07-13 07:04:17,342] INFO in logger: Request: POST /api/auth/clinician/login
+[2025-07-13 07:04:17,344] INFO in logger: Response: 404 - 0.0017s
+127.0.0.1 - - [13/Jul/2025 07:04:17] "[33mPOST /api/auth/clinician/login HTTP/1.1[0m" 404 -
+[2025-07-13 07:05:07,561] INFO in logger: Request: GET /api/auth/clinician/login
+[2025-07-13 07:05:07,562] INFO in logger: Response: 404 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 07:05:07] "[33mGET /api/auth/clinician/login HTTP/1.1[0m" 404 -
+[2025-07-13 07:07:15,525] INFO in logger: Request: POST /auth/clinician/login
+[2025-07-13 07:07:15,525] INFO in logger: Response: 404 - 0.0004s
+127.0.0.1 - - [13/Jul/2025 07:07:15] "[33mPOST /auth/clinician/login HTTP/1.1[0m" 404 -
+ * Detected change in '/home/ubuntu/Moodist-flask_server/src/routes/auth_routes.py', reloading
+Starting Moodist in DEVELOPMENT mode...
+Server: HTTPS://0.0.0.0:20001
+SSL Enabled: True
+Debug Mode: True
+Network accessible: Yes
+ * Restarting with stat
+[2025-07-13 07:07:16,026] INFO in ngrok: Ngrok skip browser warning header middleware configured
+Traceback (most recent call last):
+  File "/home/ubuntu/Moodist-flask_server/run.py", line 39, in <module>
+    main() 
+    ^^^^^^
+  File "/home/ubuntu/Moodist-flask_server/run.py", line 10, in main
+    app = create_app(app_config)
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/Moodist-flask_server/src/__init__.py", line 67, in create_app
+    from src.routes import api, index, system, couch_test, connection_test, auth_bp, mood_bp
+  File "/home/ubuntu/Moodist-flask_server/src/routes/__init__.py", line 14, in <module>
+    from src.routes.auth_routes import auth_bp
+  File "/home/ubuntu/Moodist-flask_server/src/routes/auth_routes.py", line 16, in <module>
+    import jwt
+ModuleNotFoundError: No module named 'jwt'
