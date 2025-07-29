@@ -56,14 +56,15 @@ def create_app(config_name='default'):
     login_manager.login_message_category = "info"
     
     # Setup middleware
-    from src.middleware import setup_cors, setup_error_handlers, setup_logger, setup_ssl
+    from src.middleware import setup_cors, setup_error_handlers, setup_logger, setup_ssl, setup_ngrok_header
     setup_ssl(app)  # SSL should be first to handle redirects
     setup_cors(app)
     setup_error_handlers(app)
     setup_logger(app)
+    setup_ngrok_header(app)  # Add ngrok header middleware
     
     # Register blueprints
-    from src.routes import api, index, system, couch_test, connection_test, auth_bp, mood_bp
+    from src.routes import api, index, system, couch_test, connection_test, auth_bp, mood_bp, connection_bp, patient_bp
     app.register_blueprint(api)
     app.register_blueprint(index)
     app.register_blueprint(system)
@@ -71,6 +72,8 @@ def create_app(config_name='default'):
     app.register_blueprint(connection_test)
     app.register_blueprint(auth_bp)
     app.register_blueprint(mood_bp)
+    app.register_blueprint(connection_bp)
+    app.register_blueprint(patient_bp)
     
     # Log application startup
     app.logger.info(f"Application {app.config.get('APP_NAME')} started in {config_name} mode")
