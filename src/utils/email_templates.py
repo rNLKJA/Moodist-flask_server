@@ -1,13 +1,14 @@
 """Email templates for verification emails with 7-day expiry support."""
 
+
 def get_verification_email_template(verification_code, verification_link=None):
     """
     Get HTML template for verification email with 7-day expiry.
-    
+
     Args:
         verification_code (str): 6-digit verification code
         verification_link (str, optional): Direct verification link
-        
+
     Returns:
         str: HTML email template
     """
@@ -30,7 +31,7 @@ def get_verification_email_template(verification_code, verification_link=None):
         verification_section = """
         <p>Please use the verification code below to complete your registration:</p>
         """
-    
+
     return f"""
     <!DOCTYPE html>
     <html>
@@ -217,18 +218,19 @@ def get_verification_email_template(verification_code, verification_link=None):
     </html>
     """
 
+
 def get_verification_success_template(user_name=None):
     """
     Get HTML template for successful verification email.
-    
+
     Args:
         user_name (str, optional): User's display name
-        
+
     Returns:
         str: HTML email template
     """
     greeting = f"Hello {user_name}!" if user_name else "Hello!"
-    
+
     return f"""
     <!DOCTYPE html>
     <html>
@@ -330,5 +332,6 @@ def get_verification_success_template(user_name=None):
     </html>
     """
 
+
 # Import datetime for template usage
-from datetime import datetime 
+from datetime import datetime

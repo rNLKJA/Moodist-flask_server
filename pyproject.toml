@@ -1,0 +1,19 @@
+[tool.black]
+line-length = 88
+target-version = ["py312"]
+extend-exclude = '''
+/(
+    flask_session
+  | logs
+  | certs
+  | _archive
+  | \.venv
+  | venv
+)/
+'''
+
+[tool.isort]
+profile = "black"
+line_length = 88
+skip = ["flask_session", "logs", "certs", "_archive", ".venv", "venv"]
+skip_glob = ["**/__pycache__/**"]

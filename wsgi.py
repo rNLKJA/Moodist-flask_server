@@ -3,7 +3,7 @@
 from src import create_app
 
 # Create the application with production config
-app = create_app('production')
+app = create_app("production")
 
 if __name__ == "__main__":
-    app.run() 
+    app.run()

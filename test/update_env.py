@@ -1,12 +1,13 @@
 #!/usr/bin/env python
 """Script to update the .env file with the correct configuration."""
 
-import os
 import logging
+import os
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
 
 def update_env_file():
     """Update the .env file with the correct configuration."""
@@ -47,9 +48,9 @@ EMAIL_HOST_PASSWORD="xhscirbuygrjndke"
 EMAIL_PORT=465
 EMAIL_USE_SSL=True
 """
-    
+
     try:
-        with open('.env', 'w') as f:
+        with open(".env", "w") as f:
             f.write(env_content)
         logger.info("Successfully updated .env file")
         return True
@@ -57,5 +58,6 @@ EMAIL_USE_SSL=True
         logger.error(f"Failed to update .env file: {str(e)}")
         return False
 
+
 if __name__ == "__main__":
-    update_env_file() 
+    update_env_file()
