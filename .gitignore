@@ -1,9 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
 venv/
-# .env
-.DS_Store
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+env/
 
-# certs/
+# Environment / secrets — NEVER commit real values
+.env
+.env.*
+!.env.example
+*.env.backup
+
+# TLS certificates and private keys
+certs/
+*.pem
+*.key
+*.csr
+*.srl
+
+# Flask session store
+flask_session/
+
+# Logs
+logs/
+*.log
+
+# OS
+.DS_Store

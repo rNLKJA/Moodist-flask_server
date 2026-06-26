@@ -37,6 +37,7 @@ Creates a clinician account with email and password only (same as patient accoun
 **Method**: `POST`
 
 **Request Body**:
+
 ```json
 {
   "email": "dr.smith@unimelb.edu.au",
@@ -45,10 +46,12 @@ Creates a clinician account with email and password only (same as patient accoun
 ```
 
 **Required Fields**:
+
 - `email`: Valid email address
 - `password`: Secure password
 
 **Success Response** (201 Created):
+
 ```json
 {
   "status": true,
@@ -60,8 +63,9 @@ Creates a clinician account with email and password only (same as patient accoun
 ```
 
 **Error Responses**:
+
 - **400 Bad Request**: Missing required fields
-- **200 OK** (Account exists): 
+- **200 OK** (Account exists):
   ```json
   {
     "status": false,
@@ -80,6 +84,7 @@ Alternative endpoint using the generic user creation system.
 **Method**: `POST`
 
 **Request Body**:
+
 ```json
 {
   "email": "doctor@example.com",
@@ -88,6 +93,7 @@ Alternative endpoint using the generic user creation system.
 ```
 
 **Success Response** (201 Created):
+
 ```json
 {
   "status": true,
@@ -107,6 +113,7 @@ Uses the standard login endpoint with `user_type` specified.
 **Method**: `POST`
 
 **Request Body**:
+
 ```json
 {
   "email": "dr.smith@unimelb.edu.au",
@@ -116,6 +123,7 @@ Uses the standard login endpoint with `user_type` specified.
 ```
 
 **Success Response** (200 OK):
+
 ```json
 {
   "status": true,
@@ -140,6 +148,7 @@ Request a password reset code for clinician accounts.
 **Method**: `POST`
 
 **Request Body**:
+
 ```json
 {
   "email": "dr.smith@unimelb.edu.au"
@@ -147,6 +156,7 @@ Request a password reset code for clinician accounts.
 ```
 
 **Success Response** (200 OK):
+
 ```json
 {
   "status": true,
@@ -156,6 +166,7 @@ Request a password reset code for clinician accounts.
 ```
 
 **Features**:
+
 - 15-minute expiration for enhanced security
 - Professional email template
 - Security audit trail
@@ -169,6 +180,7 @@ Reset password using the verification code.
 **Method**: `POST`
 
 **Request Body**:
+
 ```json
 {
   "email": "dr.smith@unimelb.edu.au",
@@ -178,6 +190,7 @@ Reset password using the verification code.
 ```
 
 **Success Response** (200 OK):
+
 ```json
 {
   "status": true,
@@ -218,31 +231,31 @@ Clinician accounts use the same email verification system as other users:
 ```javascript
 // Create clinician account
 const createClinician = async (clinicianData) => {
-  const response = await fetch('/auth/create-clinician', {
-    method: 'POST',
+  const response = await fetch("/auth/create-clinician", {
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify(clinicianData)
+    body: JSON.stringify(clinicianData),
   });
-  
+
   return await response.json();
 };
 
 // Login clinician
 const loginClinician = async (email, password) => {
-  const response = await fetch('/auth/login', {
-    method: 'POST',
+  const response = await fetch("/auth/login", {
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({
       email,
       password,
-      user_type: 'doctor'
-    })
+      user_type: "doctor",
+    }),
   });
-  
+
   return await response.json();
 };
 ```
@@ -271,6 +284,7 @@ curl -X POST https://your-domain.com/auth/clinician/request-password-reset \
 ### Verification Email
 
 The clinician verification email includes:
+
 - Professional medical platform branding
 - Clinician-specific messaging
 - Account details summary
@@ -280,6 +294,7 @@ The clinician verification email includes:
 ### Password Reset Email
 
 The password reset email includes:
+
 - Professional greeting with clinician name
 - Security timestamp and audit information
 - IT support contact information
@@ -324,23 +339,29 @@ Use the provided test script at `test/test_clinician_creation.py` to verify:
 ## Database Queries
 
 ### Find Clinician by Email
+
 ```javascript
 // Using CouchDB client
-const clinician = await client.find_documents('clinician', {
-  "email": "dr.smith@unimelb.edu.au"
-}, 1);
+const clinician = await client.find_documents(
+  "clinician",
+  {
+    email: "dr.smith@unimelb.edu.au",
+  },
+  1,
+);
 ```
 
 ### Update Clinician Profile
+
 ```javascript
 // Update clinician document
 const updateData = {
   department: "Child Psychiatry",
   position: "Department Head",
-  updated_at: new Date().toISOString()
+  updated_at: new Date().toISOString(),
 };
 
-await client.update_document(clinicianId, updateData, 'clinician');
+await client.update_document(clinicianId, updateData, "clinician");
 ```
 
-This comprehensive clinician authentication system provides enhanced features specifically designed for medical professionals while maintaining security and integration with the broader Moodist platform. 
+This comprehensive clinician authentication system provides enhanced features specifically designed for medical professionals while maintaining security and integration with the broader Moodist platform.

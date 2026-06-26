@@ -12,12 +12,13 @@ The authentication system has been simplified according to your requirements:
 ## 📋 **Document Structure**
 
 ### **Before Verification:**
+
 ```json
 {
   "_id": "patient:user@example.com",
   "_rev": "1-abc123...",
   "type": "patient",
-  "user_type": "patient", 
+  "user_type": "patient",
   "email": "user@example.com",
   "password": "$argon2id$...",
   "is_verified": false,
@@ -30,17 +31,18 @@ The authentication system has been simplified according to your requirements:
 ```
 
 ### **After Verification:**
+
 ```json
 {
   "_id": "patient:user@example.com",
   "_rev": "2-def456...",
   "type": "patient",
   "user_type": "patient",
-  "email": "user@example.com", 
+  "email": "user@example.com",
   "password": "$argon2id$...",
   "is_verified": true,
   "status": "verified",
-  "unique_id": "T8IPVN",  // ← 6-character secondary ID
+  "unique_id": "T8IPVN", // ← 6-character secondary ID
   "created_at": "2025-06-09T13:38:38.592345",
   "updated_at": "2025-06-09T13:38:47.610123",
   "verified_at": "2025-06-09T13:38:47.610123"
@@ -50,6 +52,7 @@ The authentication system has been simplified according to your requirements:
 ## 🔄 **Workflow Examples**
 
 ### **1. New User Registration**
+
 ```http
 POST /auth/create-user/patient
 {
@@ -68,6 +71,7 @@ Response (201):
 ```
 
 ### **2. Re-registration (Unverified User)**
+
 ```http
 POST /auth/create-user/patient
 {
@@ -86,6 +90,7 @@ Response (201):
 ```
 
 ### **3. Duplicate Registration (Verified User)**
+
 ```http
 POST /auth/create-user/patient
 {
@@ -102,6 +107,7 @@ Response (200):
 ```
 
 ### **4. Email Verification**
+
 ```http
 GET /auth/verify-link/{verification_token}
 
@@ -117,29 +123,33 @@ Response (200):
 
 ## 🗄️ **Database Routing**
 
-| User Type | Database   | Document ID Format        |
-|-----------|------------|--------------------------|
-| Patient   | `patient`  | `patient:[email]`        |
-| Doctor    | `clinician`| `doctor:[email]`         |
-| Admin     | `moodist`  | `admin:[email]`          |
+| User Type | Database    | Document ID Format |
+| --------- | ----------- | ------------------ |
+| Patient   | `patient`   | `patient:[email]`  |
+| Doctor    | `clinician` | `doctor:[email]`   |
+| Admin     | `moodist`   | `admin:[email]`    |
 
 ## ✅ **Key Features Implemented**
 
 ### **✅ Simplified ID Management**
+
 - **Primary ID**: `patient:[email]` (used for document lookup)
 - **Secondary ID**: 6-character ID (generated after verification)
 - **Direct lookups**: No more cross-database searching
 
 ### **✅ Smart Re-registration**
+
 - **Unverified users**: Resend verification, update document
 - **Verified users**: Return `status: false` for frontend redirect
 
 ### **✅ Email Verification**
+
 - **One-click verification**: Users click link in email
 - **7-day expiration**: Tokens expire after 7 days
 - **Gmail SMTP working**: Emails sent successfully
 
 ### **✅ Security Features**
+
 - **Argon2id password hashing**: Modern security standard
 - **Cryptographic tokens**: Secure verification links
 - **Token expiration**: 7-day automatic expiry
@@ -147,6 +157,7 @@ Response (200):
 ## 📧 **Email Configuration**
 
 **Status**: ✅ **Working perfectly**
+
 - **SMTP**: `smtp.gmail.com:465`
 - **Authentication**: Gmail App Password (16 characters, no spaces)
 - **Email delivery**: Confirmed working
@@ -154,6 +165,7 @@ Response (200):
 ## 🧪 **Test Results**
 
 **All tests passing:**
+
 ```
 📊 TEST RESULTS
 ============================================================
@@ -170,12 +182,14 @@ Database Structure: ✅ PASS
 ## 📝 **API Summary**
 
 ### **Endpoints:**
+
 - `POST /auth/create-user/{user_type}` - Create/re-register user
 - `GET /auth/verify-link/{token}` - Verify via email link
 
 ### **Responses:**
+
 - **New user**: `status: true` + verification email
-- **Re-registration**: `status: true` + new verification email  
+- **Re-registration**: `status: true` + new verification email
 - **Duplicate verified**: `status: false` + redirect message
 - **Verification success**: `status: true` + user IDs
 
@@ -190,4 +204,4 @@ The simplified authentication system is now fully implemented and tested:
 5. ✅ **Database Routing**: Patients → `patient` database
 6. ✅ **Duplicate Handling**: `status: false` for verified users
 
-**The system is production-ready and follows all your requirements!** 🚀 
+**The system is production-ready and follows all your requirements!** 🚀

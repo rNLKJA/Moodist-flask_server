@@ -29,16 +29,16 @@ Instead of storing connections within user documents, we use a dedicated `connec
 
 #### Fields
 
-| Field | Type | Description |
-|-------|------|-------------|
-| `_id` | String | Unique identifier for the connection, using format `conn:PATIENT_ID:CLINICIAN_ID` |
-| `patient_id` | String | The unique_id of the patient |
-| `clinician_id` | String | The unique_id of the clinician |
-| `status` | String | Connection status: `"pending"`, `"active"`, `"revoked"`, `"rejected"` |
-| `created_at` | ISO Date | When the connection was first created |
-| `updated_at` | ISO Date | When the connection was last updated |
-| `initiated_by` | String | Who initiated the connection: `"patient"` or `"clinician"` |
-| `notes` | String | Optional notes about the connection |
+| Field          | Type     | Description                                                                       |
+| -------------- | -------- | --------------------------------------------------------------------------------- |
+| `_id`          | String   | Unique identifier for the connection, using format `conn:PATIENT_ID:CLINICIAN_ID` |
+| `patient_id`   | String   | The unique_id of the patient                                                      |
+| `clinician_id` | String   | The unique_id of the clinician                                                    |
+| `status`       | String   | Connection status: `"pending"`, `"active"`, `"revoked"`, `"rejected"`             |
+| `created_at`   | ISO Date | When the connection was first created                                             |
+| `updated_at`   | ISO Date | When the connection was last updated                                              |
+| `initiated_by` | String   | Who initiated the connection: `"patient"` or `"clinician"`                        |
+| `notes`        | String   | Optional notes about the connection                                               |
 
 ### Indexes
 
@@ -106,6 +106,7 @@ When user changes unique_id from OLD_ID to NEW_ID:
 Common query patterns for the connections database:
 
 - **Get all clinicians for a patient**:
+
   ```
   Find all documents where:
     patient_id = "PATIENT_ID" AND status = "active"
@@ -113,6 +114,7 @@ Common query patterns for the connections database:
   ```
 
 - **Get all patients for a clinician**:
+
   ```
   Find all documents where:
     clinician_id = "CLINICIAN_ID" AND status = "active"
@@ -120,6 +122,7 @@ Common query patterns for the connections database:
   ```
 
 - **Check if connection exists**:
+
   ```
   Find document with _id = "conn:PATIENT_ID:CLINICIAN_ID"
   Check if status = "active"
@@ -161,4 +164,4 @@ Common query patterns for the connections database:
 2. **Temporary Connections**: Time-limited connections that expire automatically
 3. **Connection Groups**: Allow clinicians to organize patients into groups
 4. **Connection History**: View historical connections for continuity of care
-5. **Bulk Operations**: Tools for managing multiple connections at once 
+5. **Bulk Operations**: Tools for managing multiple connections at once

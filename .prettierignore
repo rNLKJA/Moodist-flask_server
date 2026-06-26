@@ -1,0 +1,7 @@
+_archive/
+flask_session/
+certs/
+logs/
+venv/
+.venv/
+node_modules/

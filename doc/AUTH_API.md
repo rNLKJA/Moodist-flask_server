@@ -31,19 +31,23 @@ Creates a temporary inactive user and sends a verification code to their email.
 **Method**: `POST`
 
 **URL Parameters**:
+
 - `user_type`: Type of user to create (patient, doctor, admin)
 
 **Request Body**:
+
 ```json
 {
   "email": "user@example.com",
-  "password": "securepassword123",
+  "password": "securepassword123"
 }
 ```
 
 **Success Response**:
+
 - **Code**: 201 Created
 - **Content**:
+
 ```json
 {
   "status": "success",
@@ -54,6 +58,7 @@ Creates a temporary inactive user and sends a verification code to their email.
 ```
 
 **Error Responses**:
+
 - **Code**: 400 Bad Request
   - Missing required fields
   - Invalid user type
@@ -74,17 +79,20 @@ Verifies a user with the verification code they received, activates the account,
 **Method**: `POST`
 
 **Request Body**:
+
 ```json
 {
   "token": "verification_token_here",
   "code": "123456",
-  "user_type": "patient"  // optional, can be used to update user type
+  "user_type": "patient" // optional, can be used to update user type
 }
 ```
 
 **Success Response**:
+
 - **Code**: 200 OK
 - **Content**:
+
 ```json
 {
   "status": "success",
@@ -94,6 +102,7 @@ Verifies a user with the verification code they received, activates the account,
 ```
 
 **Error Responses**:
+
 - **Code**: 400 Bad Request
   - Missing required fields
   - Invalid or expired verification code
@@ -117,6 +126,7 @@ Resends a verification code to the user's email.
 **Method**: `POST`
 
 **Request Body**:
+
 ```json
 {
   "token": "original_verification_token_here"
@@ -132,8 +142,10 @@ OR
 ```
 
 **Success Response**:
+
 - **Code**: 200 OK
 - **Content**:
+
 ```json
 {
   "status": "success",
@@ -144,6 +156,7 @@ OR
 ```
 
 **Error Responses**:
+
 - **Code**: 400 Bad Request
   - No data provided
   - Either token or email must be provided
@@ -272,4 +285,4 @@ curl -X POST http://localhost:5000/auth/resend-verification \
 curl -X POST http://localhost:5000/auth/resend-verification \
   -H "Content-Type: application/json" \
   -d '{"email":"test@example.com"}'
-``` 
+```

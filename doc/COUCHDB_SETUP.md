@@ -44,6 +44,7 @@ $env:COUCHDB_DB="moodist"
 To test the connection, use the following API endpoints:
 
 1. Check environment variables:
+
    ```
    GET http://localhost:5000/api/connection/env
    ```
@@ -53,4 +54,4 @@ To test the connection, use the following API endpoints:
    GET http://localhost:5000/api/connection/test
    ```
 
-These endpoints will provide detailed information about the connection status and any errors that may occur. 
+These endpoints will provide detailed information about the connection status and any errors that may occur.
